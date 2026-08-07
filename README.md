@@ -12,7 +12,7 @@ that loads Markdown skills can read. The craft guides they defer to live in
 | [`brevity-enforcer`](skills/brevity-enforcer/SKILL.md) | Cuts a durable doc (ADR, spec, plan, design doc, issue body) down to length without softening an RFC 2119 keyword or flipping the register. Ships `cutcheck.py` so the check is mechanical rather than eyeballed. |
 | [`pr-neighbors`](skills/pr-neighbors/SKILL.md) | Finds the open PRs that impact, or are impacted by, the one you're about to review or merge. |
 
-`pr-neighbors` was a team-mate's idea.
+`pr-neighbors` was Kristi's idea.
 
 Most of what follows is about the first one, because the review method is the part with
 the most written down.
