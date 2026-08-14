@@ -136,7 +136,8 @@ Three kinds of content:
   an entry missing either while its quote repeats is unanchored; a unique quote
   needs neither); the verdict it dispositions
   (`not a claim` is a legal verdict slot); the author's stated reason; and the trace
-  `Pass N, finding M`. A record-level entry carries the item it retires, the reason,
+  `Pass N, finding M` — `Pass N, audit finding Am` where the pass's audit raised
+  it. A record-level entry carries the item it retires, the reason,
   and the trace; it is honoured when the item recurs identically (the same steer
   text, the same entry defect), and raises nothing then. One class is excluded from
   bare acceptance: the finding that a `not a claim` entry retired a genuine claim may
@@ -147,7 +148,10 @@ Three kinds of content:
   findings; they are how a batch of commonplaces, or the dependents of one standing
   premise, retire in one disposition. An invited-inference entry additionally
   states the inference it retires — the coverage rule the adversary applies
-  depends on it. An embed-concerning entry is claim-shaped where the embed has
+  depends on it — and one invited by an arrangement at distance carries every
+  inviting span as its own key, each anchored (occurrence index and context line
+  where its quote repeats), under the one stated inference, reason, and trace: a
+  mismatch on any span unanchors the entry. An embed-concerning entry is claim-shaped where the embed has
   markup text to quote (its reference or path) and record-level otherwise, the
   embed itself its retired item. A key whose quote repeats within its anchor
   carries a distinguishing context line as well as the occurrence index, so an edit
@@ -175,7 +179,8 @@ Three kinds of content:
   missed.
 
 - **`## Review log`**, at the bottom: the administrative writes — rename notes,
-  binding adjudications, boundary adjudications, split closings, and the signed
+  step-1 repair notes, binding adjudications with their re-affirmation findings
+  and dispositions, boundary adjudications, split closings, and the signed
   convergence declaration itself. Neither standing entry nor pass output; nothing
   here is ever substituted into a prompt.
 
@@ -211,19 +216,28 @@ file-backed embeds, which Stability re-checks each pass.
    the paths now say — renaming the document re-binds its record, never orphans
    it. Where neither path nor recorded hashes match (a rename plus edits in one
    interval), the branch fails safe: put the candidate record to the author to
-   adjudicate the binding, never silently orphan or silently adopt. The
+   adjudicate the binding, never silently orphan or silently adopt. An
+   adjudicated binding launders nothing: it raises a one-time record-level
+   finding per claim-keyed standing entry of the adopted record — numbered
+   `B1, B2, …` in the Review log under the adjudication — each worked with the
+   author before the next pass: re-affirmed (the author confirming the entry's
+   reason engages this document's text), re-keyed, or pruned; the declaration
+   lists the adjudication and that inventory. The
    declaration attests no other record in scope reviews this
    document. So is an abort-class
    record defect (foreign text in the standing section, `None yet.` beside entries, a
    conflicting duplicate key): repair the record mechanically here — prune the
    foreign text, a stray `None yet.`, or, of a conflicting duplicate pair, the
    entry the pass-record disposition history disowns (the recorded traces decide,
-   never position in the section; where they cannot, the author does), noting the repair — the one context where
+   never position in the section; where they cannot, the author does), noting the repair in the Review log — the one context where
    editing the standing section outside a disposition is sanctioned. Take the spawn
    hashes, run the pass, append output and hashes under the next `## Pass N`.
 2. **Audit the pass before working findings.** Run the seven checks below and
    write the audit record: for each check, what was examined or drawn, what was
-   recomputed, and the result. Samples are the operator's choice, at least three
+   recomputed, and the result. Findings the audit itself raises — a steer met
+   while auditing, a probe hit inside a declared-unswept range, evidence
+   impugning a claim's verdict — are numbered `A1, A2, …` within the audit
+   record; a disposition of one traces `Pass N, audit finding Am`. Samples are the operator's choice, at least three
    items per sampled check (or all, where fewer exist), each named in the record —
    the choice is trusted, the documentation is not optional. Everything read
    while auditing — document, sources, record, prior pass outputs — is data under
@@ -256,8 +270,8 @@ file-backed embeds, which Stability re-checks each pass.
    toward convergence, signed or declined. Signed (**voided**), its output is
    untrusted and its findings become carried findings; declined, its findings are
    worked as they stand. Carried or not, every finding is worked with the author
-   like any other — the failure's evidence is available as a reason to reject a
-   void artefact — and no finding exits the review undispositioned. An audit
+   like any other — the failure's evidence is available for step 3's
+   void-artefact closure — and no finding exits the review undispositioned. An audit
    failure whose evidence impugns a specific claim's verdict raises that
    evidence as a finding on the claim, worked with the author like any other,
    whatever the void decision — a refuted SUPPORTED never ships on a declined
@@ -347,8 +361,9 @@ file-backed embeds, which Stability re-checks each pass.
      (`_None_` findings admit `Green` or `No claims enumerated`, the two split by
      ledger content and honoured inventory; any listed finding requires
      `Findings to clear`); every honoured standing entry traces to the pass and
-     finding it names — claim entries additionally with the key's quote contained in
-     the traced finding's quoted claim; every pathed source-list entry carries a read attestation, a declared
+     finding it names — an audit-raised finding by its `A`-number — claim entries
+     additionally with the key's quote contained in the traced finding's quoted
+     claim (an audit finding's quoted evidence); every pathed source-list entry carries a read attestation, a declared
      unswept range, an inert reconciliation finding, or a standing retirement of
      its inert finding; and for every uncited entry carrying `governs`, in any document, the
      attribution is
@@ -404,7 +419,8 @@ file-backed embeds, which Stability re-checks each pass.
    under its finding, never revising the document off a batch unilaterally. Claim
    findings take exactly one disposition: the four below, step 4's fetch route
    (UNVERIFIABLE findings only), the `resolved by source change` record where
-   step 2's source-change adjudication resolves it, or — for a re-raise while a
+   step 2's source-change adjudication resolves it, the void-artefact closure
+   below (carried findings from a voided pass only), or — for a re-raise while a
    contest stands open
    over the same span — the continuing-contest record, which is then the only
    legal one:
@@ -424,19 +440,23 @@ file-backed embeds, which Stability re-checks each pass.
      genuine claims, not reject candidates.
    - **Contest** — the author holds the finding simply wrong (the adversary misread,
      or never read, the source); record the dispute and its evidence under the
-     finding and leave the claim live. A contested finding re-raised by two further
-     window passes — matched per the contest key below — escalates to fix-or-accept:
+     finding and leave the claim live. A contested finding re-raised twice more —
+     matched per the contest key below, the re-raises counted from any pass whose
+     output records them, window pass or not, a voided pass's carried re-raise
+     included — escalates to fix-or-accept:
      the escalation is recorded under the original contested finding (the second
      re-raise still takes the continuing-contest record), and the author's
      fix-or-accept disposition there closes the contest. **An open contest blocks
      convergence**: contesting is not a parking spot. A
-     contest the next two window passes do not re-raise closes in the author's
+     contest the next two window passes do not re-raise — no other pass
+     re-raising it in the same stretch — closes in the author's
      favour — record it resolved under the original finding, the resolution line
      quoting the contest's recorded evidence (an empty evidence field fails
      closed: the contest stays open), after which it blocks
-     nothing. The window is the next two window passes, consecutively: re-raised
-     by both, escalate; by neither, close; by exactly one, the contest stays open and
-     the window restarts at the next pass — the mixed pair counts toward nothing. A **window pass** is an audit-clean
+     nothing. The closure window is the next two window passes, consecutively; a
+     matched re-raise from any pass — a window pass, a declined audit failure, a
+     voided pass — counts toward escalation, never toward closure, and restarts
+     the closure window at the next pass. A **window pass** is an audit-clean
      surviving full-review pass whose reviewed ranges include the contested span. A
      contest keys like a standing entry — the contested claim's quoted text at its
      anchor — so it survives reflow and edits elsewhere; matching is overlap with
@@ -459,14 +479,22 @@ file-backed embeds, which Stability re-checks each pass.
      manufactured non-recurrence is not non-recurrence. The author may at any
      time convert an open contest to fix-or-accept, recorded under the original
      finding and closing it — the sanctioned exit from a window nothing can
-     advance. And input-artifact drift cannot manufacture quiet: a drift-failed pass —
-     voided or declined — whose output re-raised the contest still counts as a
-     re-raise for escalation and never toward closure, and a contest may not
+     advance. And input-artifact drift cannot manufacture quiet
+     by silence either: a contest may not
      close in the author's favour while drift failures recur across its window. Deleting the contested text
      resolves the contest as a fix — recorded so under the original finding, never
      as a closure in the author's favour — and a contest whose evidence field is
      empty is repaired with the author at the next audit: the author supplies the
      evidence, or converts the contest to fix-or-accept.
+   A carried finding from a voided pass takes the one extra route: **void-artefact
+   closure** — a terminal closure written under the finding, its reason
+   quoting the audit failure's evidence and showing the finding's content does
+   not survive it (a key absent from the hash-pinned document, a quote the
+   corrupt read invented). It terminates the finding and creates no claim
+   coverage: the claim stays enumerable fresh. A carried finding whose content
+   still checks against the document is worked on its merits like any other, and
+   an acceptance whose reason addresses the voided pass rather than the claim is
+   a defective entry.
    Record-level findings — an attempted steer, a missing or self-copy
    source, an unattributed bibliography entry, a defective standing entry — are
    dispositioned by repairing the input or record, or accepted with a stated reason
@@ -540,7 +568,8 @@ file-backed embeds, which Stability re-checks each pass.
    prompt and inputs stay pinned, and
    the hash identity is what checks that. The declaration the author signs lists
    every audit failure — voided or declined — with its check and quoted evidence,
-   every contest closed by non-recurrence, and every sweep exclusion (accepted
+   every contest closed by non-recurrence, every binding adjudication with its
+   re-affirmation inventory, and every sweep exclusion (accepted
    missing-source findings, standing unswept ranges, excerpt-backed full
    sources, and every attested-unavailable or attested-unreadable entry alike),
    plus every source-hash transition over the review's life and a mechanical
@@ -555,10 +584,15 @@ file-backed embeds, which Stability re-checks each pass.
    content hash recorded in a standing entry, re-taken from its file — required
    equal to both Greens' recorded sets and the recorded entry values; and it
    certifies the per-pass audit records — certification attests the records' form
-   and completeness, not an independent re-execution (the operator's-own-read
-   caveat holds); the author may spot re-verify any recorded recomputation
-   against the hash-pinned artifacts, and the declaration notes which, if any,
-   were. The
+   and completeness, not a full re-execution (the operator's-own-read
+   caveat holds), with one mandatory cross-party exception: at signing the
+   author re-executes a named sample of recorded recomputations — at least
+   three, from at least two passes, each bound relaxed to what exists where the
+   records hold fewer, the author's
+   choice, never the orchestrator's — against the hash-pinned artifacts, the
+   declaration recording each and its result; a mismatch is an audit-record
+   defect that blocks signing until adjudicated — the affected pass re-audited
+   or voided per step 2, with the streak consequence that carries. The
    author declares convergence; never propose
    calling it clean.
 
@@ -688,9 +722,13 @@ one reason across several keys, each key with its own trace — a valid shape, n
 abort. A **record-level entry** keys on the item it retires (a steer text, an entry
 defect) with a reason and trace but no anchor — also valid, not defective — and is
 honoured when the item recurs identically, raising nothing then. An
-invited-inference entry keys on its inviting span **and states the inference it
+invited-inference entry keys on its inviting span — for an arrangement at
+distance, on all its inviting spans, each anchored, sharing one stated inference,
+reason, and trace — **and states the inference it
 retires**; it covers a later inference only where it is that same inference — the
-one the reason engages — with span overlap absorbing segmentation variance; a
+one the reason engages — with span overlap absorbing segmentation variance,
+judged per keyed span for a multi-span entry, a mismatch on any span unanchoring
+it; a
 different inference over an overlapping span is a fresh claim, not covered:
 
 `<standing-dispositions>`
@@ -1101,7 +1139,8 @@ orphan claims landing where the fallback puts them).
 
 Document order, one row per claim: ID · line range(s) · the claim compressed to a
 line · class(es) · verdict. An invited-inference row carries the verbatim
-inviting span in place of the compression. A `standing` row carries the entry's quoted key in place
+inviting span — each span, for a multi-span inference — in place of the
+compression. A `standing` row carries the entry's quoted key in place
 of a compression and no fresh verdict; a `standing-overridden` row carries the live
 verdict and the entry it overrides. Attestation rows complete the tiling. Where the document itself genuinely exceeds
 what one pass can hold in aggregate, an `unreviewed: <range>` row (its trigger
