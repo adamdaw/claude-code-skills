@@ -40,8 +40,10 @@ the operator's own read, not an independent one, and the author should know that
 2. **The source list** — one entry per citation the document makes, in one of the
    following forms:
    - `citation text → path` — a local file (never a directory).
-   - `citation text → cited, not available locally (author attests no local copy
-     and the work's bearing on its cited claims)`.
+   - `citation text → cited, not available locally (author attests no local copy,
+     and that the work bears only on its cited claims)` — "only" is load-bearing:
+     citing a hostile work for an innocuous claim while it contradicts another is
+     a false bearing attestation, the fabrication class.
    - `via <citation>: <onward citation> → path [trace: Pass N, finding M]` — a
      source fetched under loop step 4,
      admitted by the chain from a document citation, the trace naming the
@@ -62,7 +64,9 @@ the operator's own read, not an independent one, and the author should know that
    excerpt form itself attesting the full source too large to sweep, the full
    path and its stated size present so the audit can recompute the size and judge
    necessity on corpus arithmetic — the totals with and without the full source —
-   like any unswept plea. Its provenance
+   like any unswept plea. The excerpt file marks each contiguous block with its
+   line range in the full source; block boundaries are declared discontinuities,
+   and the audit recomputes each block at its stated offsets. Its provenance
    is `excerpt — author-selected`; claims whose cited support lies outside the
    excerpt cap at the UNVERIFIABLE rule, and every claim supported through it is a
    one-time dispositionable finding, since the author chose what the adversary
@@ -107,7 +111,8 @@ and no adversary's confident paraphrase substitutes for it.
 Keep the record beside the target document, created on the first append. Its name is
 `claims-review.md` while it is the directory's only record; once two documents in one
 directory are reviewed, every record takes the form
-`<document-basename>.claims-review.md` — the orchestrator starting the second review
+`<document-basename>.claims-review.md` (the basename keeps its extension:
+`a.md` → `a.md.claims-review.md`) — the orchestrator starting the second review
 renames the first accordingly and notes the rename in both records. Before creating or appending,
 check for the document-named form first; where present, it is that document's record.
 Two kinds of content:
@@ -132,7 +137,9 @@ Two kinds of content:
   findings; they are how a batch of commonplaces, or the dependents of one standing
   premise, retire in one disposition. An invited-inference entry additionally
   states the inference it retires — the coverage rule the adversary applies
-  depends on it. A key whose quote repeats within its anchor
+  depends on it. An embed-concerning entry is claim-shaped where the embed has
+  markup text to quote (its reference or path) and record-level otherwise, the
+  embed itself its retired item. A key whose quote repeats within its anchor
   carries a distinguishing context line as well as the occurrence index, so an edit
   that removes an earlier occurrence cannot silently migrate the coverage — a key
   whose context no longer matches is unanchored, a record-level finding. A reason
@@ -143,7 +150,8 @@ Two kinds of content:
   recorded pass; pre-seeding a disposition no pass has raised is not a disposition, it
   is the author reviewing their own document.
 - **`## Pass N`**, appended per pass, its header naming the document path (the
-  binding the rename rule depends on): the spawn-time hashes, the spawn
+  binding the rename rule depends on): the spawn-time hashes, the capacity
+  baseline (the harness's context size as known at spawn), the spawn
   configuration (agent type and tool list as invoked), the substituted prompt
   verbatim (fenced like the output — the declaration's re-substitution needs its
   bytes), the raw output (fenced
@@ -169,7 +177,8 @@ full source — the full source hashed, never read by the adversary, so the
 necessity audit cannot
 run against a silently changed file). That one set is recorded in the pass record, re-checked at
 pass end, and compared at convergence — there is no second enumeration to drift from
-it.
+it, the one adjunct being the content hashes standing entries record for
+file-backed embeds, which Stability re-checks each pass.
 
 ## The loop
 
@@ -213,8 +222,11 @@ it.
    A failure whose defect lies in the record rather than in the pass's own output
    (contest bookkeeping, a defective standing entry) is not a ground against the
    pass: it is a record repair, worked with the author like a finding, and it does
-   not dirty the pass — **audit-clean** means no check failed against the pass's
-   own output. A failure
+   not dirty the pass. A failure whose defect lies in an input artifact — the
+   hash identity drifting mid-pass, a defective excerpt — impugns the inputs:
+   the pass resets the streak like any audit failure, and the artifact is
+   repaired with the author before the next pass. **Audit-clean** means the
+   pass's only audit failures, if any, were record repairs. A failure
    that impugns the pass is put to the author with its quoted evidence, and
    either way the pass resets the streak — an audit-failed pass never counts
    toward convergence, signed or declined. Signed (**voided**), its output is
@@ -237,7 +249,8 @@ it.
    Coverage, Reconciliation, and Stability run exhaustively — every row, every
    invariant, an under-enumerated run being itself an audit defect; Attestations,
    Segmentation, Support, and Merits sample, except that Support verifies every
-   unswept, unreviewed, and excerpt declaration, and Merits' derivation-graph
+   unswept, unreviewed, and excerpt declaration, Merits recomputes every figure
+   a finding rests on, and Merits' derivation-graph
    confirmation (over the Support record) runs over every edge — a global
    invariant sampling
    cannot touch. Each sampled check's draw includes, where the population allows,
@@ -271,9 +284,11 @@ it.
      counts as capacity alongside input: a return the subagent cannot fit is as
      real a trigger as a source it cannot hold; for an excerpt, the full source's
      size is a `wc` away), the audit recomputes them, and a plea without
-     arithmetic fails — judged against a stated baseline: the harness's context
-     size, or the largest corpus a recorded pass of this review demonstrably
-     swept. For an excerpt entry, verify containment as well — and containment
+     arithmetic fails — judged against the baseline recorded in the pass record
+     at spawn (the harness's context size, or failing that the largest corpus a
+     recorded pass of this review demonstrably swept, the recorded figure
+     governing where both exist); a plea with no recorded baseline fails the
+     check, not the reviewer's workload. For an excerpt entry, verify containment as well — and containment
      binds order and contiguity, not just membership: the excerpt marks each
      contiguous block with its line range in the full source, the audit
      recomputes each block at its stated offsets, and block boundaries are
@@ -286,7 +301,8 @@ it.
      every Support-record entry marked `excerpt — author-selected` its excerpt-note
      or retirement; every non-text embed in the document its surfacing — a reliance
      finding, an embed-note, or a retirement; every SUPPORTED claim has a
-     Support-record entry; every `via` source-list entry traces to the UNVERIFIABLE
+     Support-record entry and every Support-record entry answers a SUPPORTED
+     ledger row; every `via` source-list entry traces to the UNVERIFIABLE
      finding that sanctioned it; contest-window accounting — re-raises recorded as continuing
      contests, window counts, post-contest coverage exclusions — reconciles against
      the record; every ledger verdict is drawn from the closed set (the five,
@@ -296,7 +312,8 @@ it.
      else a failure; the output contains only the enumerated sections — an
      unenumerated section, or disposition-recommendation or ship-verdict content
      anywhere, is a failure; the verdict line agrees with the findings section
-     (`Green` exactly where findings are `_None_`); every honoured standing entry traces to the pass and
+     (`_None_` findings admit `Green` or `No claims enumerated`, the two split by
+     ledger content; any listed finding requires `Findings to clear`); every honoured standing entry traces to the pass and
      finding it names — claim entries additionally with the key's quote contained in
      the traced finding's quoted claim; every pathed source-list entry carries a read attestation, a declared
      unswept range, an inert reconciliation finding, or a standing retirement of
@@ -317,7 +334,14 @@ it.
      variation), and confirm the substituted
      `## Standing dispositions` excerpt byte-matches the record's top section at
      spawn (where `None yet.` was substituted, the check passes by confirming the
-     section, or the record, did not exist at spawn).
+     section, or the record, did not exist at spawn). Re-check the content hash
+     recorded in every embed-concerning standing entry against its file — a
+     mismatch unanchors the entry. Compare each spawn hash with the previous
+     pass's recorded hashes: a changed document is the loop's normal cycle, but a
+     changed source is a surfaced event, adjudicated with the author before the
+     next pass — unanchoring standing entries and contest evidence whose reasons
+     depend on that source's content, recorded as `resolved by source change`
+     where it dispositions a finding.
    - *Merits.* Re-derive a sample of SUPPORTED **and** non-SUPPORTED verdicts on the
      merits — kind match, strength match (hedge stripped or strength-setting?),
      inference validity, and for a non-SUPPORTED verdict whether the cited source
@@ -344,7 +368,9 @@ it.
 3. **Work the findings one at a time with the author**, writing each disposition
    under its finding, never revising the document off a batch unilaterally. Claim
    findings take exactly one disposition: the four below, step 4's fetch route
-   (UNVERIFIABLE findings only), or — for a re-raise while a contest stands open
+   (UNVERIFIABLE findings only), the `resolved by source change` record where
+   step 2's source-change adjudication resolves it, or — for a re-raise while a
+   contest stands open
    over the same span — the continuing-contest record, which is then the only
    legal one:
    - **Fix** — revise the document, at disposition time or at step 5.
@@ -375,7 +401,7 @@ it.
      closed: the contest stays open), after which it blocks
      nothing. The window is the next two window passes, consecutively: re-raised
      by both, escalate; by neither, close; by exactly one, the contest stays open and
-     the window restarts at the next pass. A **window pass** is an audit-clean
+     the window restarts at the next pass — the mixed pair counts toward nothing. A **window pass** is an audit-clean
      surviving full-review pass whose reviewed ranges include the contested span. A
      contest keys like a standing entry — the contested claim's quoted text at its
      anchor — so it survives reflow and edits elsewhere; matching is overlap with
@@ -464,8 +490,12 @@ it.
    the hash identity is what checks that. The declaration the author signs lists
    every audit failure — voided or declined — with its check and quoted evidence,
    every contest closed by non-recurrence, and every sweep exclusion (accepted
-   missing-source findings, standing unswept ranges, and excerpt-backed full
-   sources alike); it carries
+   missing-source findings, standing unswept ranges, excerpt-backed full
+   sources, and every attested-unavailable or attested-unreadable entry alike),
+   plus every source-hash transition over the review's life and a mechanical
+   re-derivation, from the pass records alone, of every convergence predicate —
+   streak position with each reset event named, disposition count per pass, open-
+   contest count; it carries
    fresh hashes taken at signature time — the document and each listed source from
    disk, and the prompt rebuilt from the second Green's recorded prompt with the
    standing section re-substituted from the record as it stands — required equal
@@ -530,8 +560,8 @@ Document author and team: `<author-identity>`
 
 Sources — entry forms and their semantics:
 - `citation → path` — an ordinary local source.
-- `citation → cited, not available locally (author attests no local copy and the
-  work's bearing on its cited claims)` — the
+- `citation → cited, not available locally (author attests no local copy, and
+  that the work bears only on its cited claims)` — the
   UNVERIFIABLE route for its claims; it blocks only them, where an unreadable pathed
   file aborts, because attestation is the sanctioned way to be unavailable and a
   path is a promise. The bearing attestation is what stops a decorative citation
@@ -558,7 +588,11 @@ Sources — entry forms and their semantics:
   its content-authorship class, which is judged against the identity line like any
   source (an author-derived excerpt still takes the data-and-method bar); it is
   exempt from the
-  self-identification test (the author cut it, so front matter proves nothing). A
+  self-identification test (the author cut it, so front matter proves nothing).
+  The excerpt marks each contiguous block with its line range in the full source
+  — block boundaries are declared discontinuities: read anaphora across them
+  with suspicion, since continuity is exactly what a block boundary does not
+  promise. A
   claim whose cited support lies outside the excerpt caps at the UNVERIFIABLE rule
   (the remainder is unread by construction), and every claim SUPPORTED through the
   excerpt carries the mark plus a one-time **excerpt-note** finding on the
@@ -653,7 +687,12 @@ Two kinds of hedge: a **speaker-attitude** hedge ("I believe", "I suspect") is
 stripped, support judged against the embedded proposition; an **evidential-strength**
 operator ("suggests", "indicates", "early data point to", and the probability modals
 "probably", "likely", "almost certainly") sets the claim's stated strength, so
-suggestive evidence supports a claim of suggestion.
+suggestive evidence supports a claim of suggestion. The modals form a ladder each
+rung of which demands strictly more: "suggests"/"indicates" is carried by
+suggestive evidence; "probably"/"likely" by read evidence that makes the claim
+more likely than not — a stated preponderance, not a hint; "almost certainly" by
+evidence leaving only remote alternatives. The ladder is what a Merits
+re-derivation recomputes against.
 
 A stipulative definition is in scope only where it makes downstream claims easier to
 satisfy than their ordinary reading, or the document elsewhere trades on the ordinary
@@ -691,9 +730,11 @@ and asking whether it carries checkable content the review cannot examine; a
 standing entry retires it, its reason either transcribing the embed's data into
 the record or attesting the embed carries no data bearing on any claim — an
 attestation like any other, so a contradicting chart passes only on a
-fabrication-class lie. Where the embed is a file, the retiring entry records its
-content hash — written at disposition time and re-checked by the orchestrator's
-audit each pass, never by you — and a mismatch unanchors the entry: a swapped
+fabrication-class lie. Any standing entry whose claim or retired item concerns a
+file-backed embed — the accept-as-unverified route for a leaned-on chart as much
+as the embed-note route — records the embed's
+content hash, written at disposition time and re-checked by the orchestrator's
+audit each pass, never by you; a mismatch unanchors the entry: a swapped
 figure is re-adjudicated (a decorative image dispositions once; a load-bearing
 chart gets transcribed or owned).
 
@@ -859,7 +900,11 @@ Plausibility is not support, and neither is your own agreement.
      (lies within its tolerance); CONTRADICTED where range and tolerance are
      disjoint; otherwise the source supports only the range restated and the point
      is over-precision — OVERCLAIMED, the one numeric magnitude case OVERCLAIMED
-     decides. Beyond that case, OVERCLAIMED in numbers is reserved for a
+     decides. A document-side range takes the mirror rules: a source point inside it
+     supports it, outside contradicts it; a source interval within it supports
+     it, disjoint contradicts it, and partial overlap is the same over-precision
+     — the source supports only its own interval restated, OVERCLAIMED. Beyond
+     those cases, OVERCLAIMED in numbers is reserved for a
      non-absolute characterisation stronger than its figure ("dramatically faster"
      over 3%), and this rule owns every figure-against-figure mismatch.
 4. **Verdict** each claim, one of five. The Logic dimension's route-combination
@@ -870,8 +915,10 @@ Plausibility is not support, and neither is your own agreement.
    carries takes the highest-precedence outcome among its failures. Precedence: **CONTRADICTED > UNVERIFIABLE >
    OVERCLAIMED > UNSUPPORTED > SUPPORTED** — an unread source can hold anything, so
    only read counter-evidence outranks the obligation to fetch it, and an unfulfilled
-   fetch obligation outranks honest absence, so a decorative citation buys no
-   upgrade.
+   fetch obligation outranks honest absence — the cap is the obligation
+   surfacing, and what keeps it from being an upgrade is elsewhere: the bearing
+   attestation, and the accept-as-unverified entry naming the verdict the read
+   sources established.
    - `SUPPORTED` — evidence at the claim's stated strength, every cited source for
      the claim read, recorded in the Support record.
    - `UNSUPPORTED` — evidence needed and none holds: nothing offered, no source
@@ -909,8 +956,10 @@ Plausibility is not support, and neither is your own agreement.
   support stands even when you doubt it.
 - Do NOT redraft a claim or propose replacement wording. State what evidence would
   support the claim exactly as written, naming the **kind** of evidence — never an
-  external work the document has not itself identified, nor a kind qualified until
-  it identifies one, and never commentary on how likely the evidence is to exist.
+  external work the document has not itself identified, nor an evidence-kind
+  qualified so specifically that it points at one work (a kind carrying
+  quantities or thresholds is replacement wording), and never commentary on how
+  likely the evidence is to exist.
   For OVERCLAIMED, quote what the source does say and stop; the weaker sentence is
   the author's.
 
@@ -929,8 +978,9 @@ a document where nothing was claimed **or retired** — a ledger of only standin
 attestation rows returns `Green` with its annotation, since that review converged
 through dispositions rather than finding nothing; "retired" means claim text
 retired, so honoured record-level entries appear on either terminal's annotation
-and decide neither. Append to the verdict line — whatever the verdict — every standing entry
-honoured: claim-level, record-level, and `not a claim`
+and decide neither. Append to the verdict line — whatever the verdict, a `No review` return excepted
+— every standing entry
+honoured, referenced by key and trace: claim-level, record-level, and `not a claim`
 alike: a pass over accepted risk names the risk, all of it, and the honoured
 inventory is what reconciliation accounts against.
 
