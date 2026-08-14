@@ -41,9 +41,11 @@ the operator's own read, not an independent one, and the author should know that
    following forms:
    - `citation text → path` — a local file (never a directory).
    - `citation text → cited, not available locally (author attests no local copy,
-     and that the work bears only on its cited claims)` — "only" is load-bearing:
-     citing a hostile work for an innocuous claim while it contradicts another is
-     a false bearing attestation, the fabrication class.
+     that the work bears on and is relied on for its cited claims, and that it
+     bears on nothing else)` — both directions are load-bearing: a decoy citation
+     to a silent work fails the bears-on half, and citing a hostile work for an
+     innocuous claim while it contradicts another fails the nothing-else half;
+     either is a false bearing attestation, the fabrication class.
    - `via <citation>: <onward citation> → path [trace: Pass N, finding M]` — a
      source fetched under loop step 4,
      admitted by the chain from a document citation, the trace naming the
@@ -115,7 +117,7 @@ directory are reviewed, every record takes the form
 `a.md` → `a.md.claims-review.md`) — the orchestrator starting the second review
 renames the first accordingly and notes the rename in both records. Before creating or appending,
 check for the document-named form first; where present, it is that document's record.
-Two kinds of content:
+Three kinds of content:
 
 - **`## Standing dispositions`**, at the top. A claim entry carries: the exact quote of
   the document text it covers; its anchor (the section heading it sits under, with an
@@ -162,6 +164,11 @@ Two kinds of content:
   written as the loop works them — the disposition under every finding, fixes and
   contests included, so a fixed finding is distinguishable from one the next pass
   missed.
+
+- **`## Review log`**, at the bottom: the administrative writes — rename notes,
+  binding adjudications, boundary adjudications, split closings, and the signed
+  convergence declaration itself. Neither standing entry nor pass output; nothing
+  here is ever substituted into a prompt.
 
 The adversary never opens this file: prior passes are deliberation, and an adversary
 that has read pass N echoes or avoids it in pass N+1 instead of reading cold. Only the
@@ -225,8 +232,12 @@ file-backed embeds, which Stability re-checks each pass.
    not dirty the pass. A failure whose defect lies in an input artifact — the
    hash identity drifting mid-pass, a defective excerpt — impugns the inputs:
    the pass resets the streak like any audit failure, and the artifact is
-   repaired with the author before the next pass. **Audit-clean** means the
-   pass's only audit failures, if any, were record repairs. A failure
+   repaired with the author before the next pass. **Audit-clean** is affirmative,
+   not an absence: all seven checks recorded with their named samples and
+   recomputed figures, and no failure beyond record repairs — a pass whose audit
+   record cannot support that re-derivation is not audit-clean, and the
+   declaration re-derives audit-cleanliness per pass the same way it re-derives
+   the streak. A failure
    that impugns the pass is put to the author with its quoted evidence, and
    either way the pass resets the streak — an audit-failed pass never counts
    toward convergence, signed or declined. Signed (**voided**), its output is
@@ -268,7 +279,8 @@ file-backed embeds, which Stability re-checks each pass.
      genuinely claim-free; text retired by a `not a claim` standing entry counts as
      claim-free.
    - *Segmentation.* Read a sample of claim rows against the document for assertions
-     that rode through unsplit, and a sample of consecutive claim pairs and
+     that rode through unsplit, and a sample of consecutive claim pairs,
+     non-adjacent candidate pairs (parallel or echoing sections), and
      thesis/takeaway sentences for invited derivations that were never enumerated —
      an absent claim leaves no other trace.
    - *Support.* Spot-check Support-record entries: quotes appear at their locators,
@@ -354,7 +366,9 @@ file-backed embeds, which Stability re-checks each pass.
      dependency lines still match the
      document, the reason engages the checkable content it retires, and a
      counter-evidence probe of the swept corpus: a hit the reason does not address
-     should have surfaced as `standing-overridden`, and honour-everything is the
+     should have surfaced as `standing-overridden` for claim-verdict entries, or
+     as the unengaged-checkable-content record-level finding for `not a claim`
+     entries, and honour-everything is the
      laziness this sample exists to catch. Probe the sweep itself: search the
      sources for counter-evidence bearing on a sample of claims — a hit the pass
      engaged nowhere in its output is a named failure, since chunk-boundary attestations (the Source check's quoted
@@ -410,13 +424,16 @@ file-backed embeds, which Stability re-checks each pass.
      requires the same defect: an invited-inference contest covers only the same
      inference, like standing coverage, and a different defect class on
      overlapping text is an ordinary finding, dispositioned normally — the
-     continuing-contest record is only for the same dispute. Where the key text appears nowhere, the deletion rule owns it, and
+     continuing-contest record is only for the same dispute, and the dispute is
+     keyed in substance: an identical defect under a re-labelled verdict class is
+     the same dispute, a re-raise. Where the key text appears nowhere, the deletion rule owns it, and
      closure in the author's favour requires the key still present. A re-raise is recorded under
      the new
      finding as `continuing contest → Pass N, finding M`, which is its disposition
      for the convergence check — and while the contest stands open, that record is
-     the only legal disposition of a re-raise: any other disposition of overlapping
-     text is a record defect. A pass in which the contested text is covered by a
+     the only legal disposition of a matched re-raise: any other disposition of
+     the same dispute is a record defect (a different defect class on overlapping
+     text stays an ordinary finding, per the matching rule). A pass in which the contested text is covered by a
      standing entry created after the contest opened counts toward no window —
      manufactured non-recurrence is not non-recurrence. Deleting the contested text
      resolves the contest as a fix — recorded so under the original finding, never
@@ -437,7 +454,10 @@ file-backed embeds, which Stability re-checks each pass.
    revise the document until a pass holds it whole (a fix), or split it into
    separate documents, each reviewed independently under this skill with its own
    citations, source list, record, and convergence — the split terminates this
-   review without convergence, the record closing naming the successors;
+   review without convergence, the record closing naming the successors, and the
+   closing writes into each successor's initial record the predecessor's open
+   contests, carried findings, and the standing entries whose keys land in that
+   successor, which successor step 1 admits: a split launders nothing;
    accept-as-standing is not available for an unreviewed range. Re-keying and pruning standing entries is sanctioned
    in exactly two contexts — here, as a finding's disposition (including re-keying
    entries orphaned by a heading rename where the quote still matches uniquely),
@@ -478,7 +498,10 @@ file-backed embeds, which Stability re-checks each pass.
    appeared twice the document sits on the zero-claim boundary — record an
    adjudication and let the author pick the terminal, the picked terminal
    carrying the full declaration machinery, measured against the two most recent
-   audit-clean passes of the picked kind.
+   audit-clean passes of the picked kind — those two standing in for the
+   consecutive-pass predicates, intervening and trailing other-kind returns
+   adjudicated in the declaration rather than blocking, every other predicate
+   (dispositions complete, no open contest, hashes equal) holding unchanged.
    `No claims enumerated` ends the review as out of scope only after two consecutive
    audit-clean surviving invocations return it over identical hashes — an ending the author
    declares like convergence, carrying the same declaration machinery measured
@@ -486,7 +509,8 @@ file-backed embeds, which Stability re-checks each pass.
    entries; `No review — input invalid`
    sends you back to step 1. Two Greens are two samples, not a proof — vary the model
    or invocation settings between them where the harness allows, and where nothing can
-   vary, the fresh invocation is the variation; the prompt and inputs stay pinned, and
+   vary, the fresh invocation is the variation and the pass record says so; the
+   prompt and inputs stay pinned, and
    the hash identity is what checks that. The declaration the author signs lists
    every audit failure — voided or declined — with its check and quoted evidence,
    every contest closed by non-recurrence, and every sweep exclusion (accepted
@@ -494,12 +518,16 @@ file-backed embeds, which Stability re-checks each pass.
    sources, and every attested-unavailable or attested-unreadable entry alike),
    plus every source-hash transition over the review's life and a mechanical
    re-derivation, from the pass records alone, of every convergence predicate —
-   streak position with each reset event named, disposition count per pass, open-
-   contest count; it carries
+   streak position with each reset event named, audit-cleanliness per pass,
+   disposition count per pass, open-
+   contest count — and the attestation that no other record in scope (the
+   document's directory and the record's) reviews this document; it carries
    fresh hashes taken at signature time — the document and each listed source from
-   disk, and the prompt rebuilt from the second Green's recorded prompt with the
-   standing section re-substituted from the record as it stands — required equal
-   to both Greens' recorded sets; and it certifies the per-pass audit records. The
+   disk, the prompt rebuilt from the second Green's recorded prompt with the
+   standing section re-substituted from the record as it stands, and every embed
+   content hash recorded in a standing entry, re-taken from its file — required
+   equal to both Greens' recorded sets and the recorded entry values; and it
+   certifies the per-pass audit records. The
    author declares convergence; never propose
    calling it clean.
 
@@ -560,8 +588,9 @@ Document author and team: `<author-identity>`
 
 Sources — entry forms and their semantics:
 - `citation → path` — an ordinary local source.
-- `citation → cited, not available locally (author attests no local copy, and
-  that the work bears only on its cited claims)` — the
+- `citation → cited, not available locally (author attests no local copy, that
+  the work bears on and is relied on for its cited claims, and that it bears on
+  nothing else)` — the
   UNVERIFIABLE route for its claims; it blocks only them, where an unreadable pathed
   file aborts, because attestation is the sanctioned way to be unavailable and a
   path is a promise. The bearing attestation is what stops a decorative citation
@@ -689,7 +718,8 @@ operator ("suggests", "indicates", "early data point to", and the probability mo
 "probably", "likely", "almost certainly") sets the claim's stated strength, so
 suggestive evidence supports a claim of suggestion. The modals form a ladder each
 rung of which demands strictly more: "suggests"/"indicates" is carried by
-suggestive evidence; "probably"/"likely" by read evidence that makes the claim
+evidence that positively favours the claim — kind-matched, and more than bare
+consistency or topical mention; "probably"/"likely" by read evidence that makes the claim
 more likely than not — a stated preponderance, not a hint; "almost certainly" by
 evidence leaving only remote alternatives. The ladder is what a Merits
 re-derivation recomputes against.
@@ -728,9 +758,11 @@ transcribing its data into text), the finding naming the embed. An embed no text
 leans on still surfaces exactly once — a one-time **embed-note** finding naming it
 and asking whether it carries checkable content the review cannot examine; a
 standing entry retires it, its reason either transcribing the embed's data into
-the record or attesting the embed carries no data bearing on any claim — an
-attestation like any other, so a contradicting chart passes only on a
-fabrication-class lie. Any standing entry whose claim or retired item concerns a
+the record or attesting the embed carries no checkable assertive content at all —
+the attestation matches the question the note asks, so an embed making the
+document's argument on its own cannot exit on a technicality — an
+attestation like any other, so a contradicting or self-asserting chart passes
+only on a fabrication-class lie. Any standing entry whose claim or retired item concerns a
 file-backed embed — the accept-as-unverified route for a leaned-on chart as much
 as the embed-note route — records the embed's
 content hash, written at disposition time and re-checked by the orchestrator's
@@ -774,9 +806,12 @@ Plausibility is not support, and neither is your own agreement.
    derivation marker ("so", "therefore") yields the inference as its own claim
    beside its parts; an inference the document structurally invites without a marker
    — takeaway framing, a thesis sentence, consequential juxtaposition ("We shipped
-   the fix in May. Churn fell in June."), or an unasserted hypothetical or
+   the fix in May. Churn fell in June."), an unasserted hypothetical or
    vignette whose content the argument depends on, which invites the
-   corresponding capability claim — is enumerated too: when in doubt whether
+   corresponding capability claim, or an arrangement at distance (parallel
+   structure, an echoing coda — the May sentence in one section, the June
+   sentence three later), which keys to multiple non-adjacent inviting spans,
+   each block-bounded, padding judged per span — is enumerated too: when in doubt whether
    adjacency argues, enumerate it and let the author reject it. An unwritten claim's
    "as written" quote is **the full inviting span, verbatim** — in the ledger, in
    findings, and in any standing key — keying dispositions to document text rather
@@ -808,8 +843,10 @@ Plausibility is not support, and neither is your own agreement.
      Source check, its trigger stating the size arithmetic — what the pass held
      and what it declined, output counting as capacity alongside input — since
      the audit recomputes it and a plea without arithmetic fails; the declaration
-     is a one-time record-level finding on the flag-note model, the author owning
-     the sweep gap — and every claim citing
+     is a one-time record-level finding on the flag-note model, and the author's
+     acceptance of the gap attests the unswept remainder bears only on the
+     claims already capped by it — the unavailable entry's bearing attestation,
+     false in the same fabrication class — and every claim citing
      that source caps at the UNVERIFIABLE rule wherever its supporting line sits,
      the unswept remainder standing as a declared gap in the sweep. Read each quote
      against the source's own surrounding qualifications: a line the source bounds
@@ -856,7 +893,9 @@ Plausibility is not support, and neither is your own agreement.
      premise repairs — the verdict list's "invalid logic" means this rule. A
      derivation consumes its premises at their stated strength: a conclusion
      asserted stronger than its weakest strength-capped premise warrants does not
-     follow — the strength gap is the quotable defect — unless the inference
+     follow — the strength gap is the quotable defect, owned by the
+     missing-premise route (UNSUPPORTED, the bridging premise named; never
+     CONTRADICTED or OVERCLAIMED) — unless the inference
      itself supplies the difference. Support
      routes combine in a fixed order: read counter-evidence or contradiction
      anywhere sinks the claim; otherwise an unread identified source for the claim
@@ -925,7 +964,8 @@ Plausibility is not support, and neither is your own agreement.
      locatable, an identified-and-read source carrying no evidence, a missing
      premise, or author-derived narrative as the only support.
    - `OVERCLAIMED` — the cited source supports a statement of the same kind, weaker
-     or narrower. Where the gap is kind, not degree — the source is no evidence for
+     or narrower (a numeric magnitude difference is the Numbers rule's, never this
+     verdict's). Where the gap is kind, not degree — the source is no evidence for
      this claim at all — UNSUPPORTED instead. Quote what the source does say; the
      weakening is the author's to write.
    - `CONTRADICTED` — counter-evidence in the document or a cited source, an
