@@ -93,7 +93,11 @@ the operator's own read, not an independent one, and the author should know that
    identity fails closed (`provenance undeterminable`, the data-and-method bar),
    while a signal that plausibly matches no listed identity classes independent —
    so an omitted identity buys its sources unearned independence, which is why
-   completeness is the author's obligation, not their option. Provenance is then a comparison, not an inference from stray
+   completeness is the author's obligation, not their option. The line may also
+   carry a negative attestation — a named byline the author attests is not
+   theirs nor any listed individual's, fabrication-class if false — which
+   classes that byline's exact match independent: the homonym repair, the
+   surname-and-initial rule being terminal otherwise. Provenance is then a comparison, not an inference from stray
    metadata.
 4. **The `## Standing dispositions` section** of the record — its single top
    section, never a later heading match — verbatim: dispositioned
@@ -160,7 +164,14 @@ Three kinds of content:
   that relies on document text outside the quoted key — a scoping paragraph, a
   qualification elsewhere — quotes that text in the entry as a **dependency line**;
   a dependency no longer present in the document unanchors the entry the same way,
-  since the ground the acceptance stood on is gone. Every entry traces to a finding from a
+  since the ground the acceptance stood on is gone. Every claim-keyed entry also
+  records, at disposition time, a content hash of the block enclosing its key —
+  per key, for a grouped or multi-span entry — the prompt's citation-block
+  unit: the paragraph, list item, table cell, or
+  caption holding the quoted text; Stability re-checks it each pass like an
+  embed hash, and a mismatch, or a missing hash, unanchors the entry — the
+  acceptance was
+  adjudicated in that context, so an in-block edit re-opens it. Every entry traces to a finding from a
   recorded pass; pre-seeding a disposition no pass has raised is not a disposition, it
   is the author reviewing their own document.
 - **`## Pass N`**, appended per pass above the Review log, its header naming the document path (the
@@ -209,7 +220,8 @@ file-backed embeds, which Stability re-checks each pass.
    list, is a blocking input defect — repair it before running. So is a record
    that does not bind to this document: where a record exists, its pass headers
    must name the document under review before its standing section is substituted
-   — a mismatch means another document's record (resolve per the naming rule), and
+   — a mismatch means another document's record (resolve per the naming rule; a
+   pass-less record binds only by its predecessor link, per the split rule), and
    feeding it forward would retire this document's claims on that document's
    dispositions. Binding is by content, not name: an existing record whose
    recorded document hashes match the document under review binds to it whatever
@@ -357,11 +369,13 @@ file-backed embeds, which Stability re-checks each pass.
      else a failure; the output contains only the enumerated sections — an
      unenumerated section, or disposition-recommendation or ship-verdict content
      anywhere, is a failure; every accepted-unverified standing entry names the
-     read-source verdict it supersedes; the verdict line agrees with the findings section
+     read-source verdict it supersedes, or states no source was read where none
+     was; the verdict line agrees with the findings section
      (`_None_` findings admit `Green` or `No claims enumerated`, the two split by
      ledger content and honoured inventory; any listed finding requires
      `Findings to clear`); every honoured standing entry traces to the pass and
-     finding it names — an audit-raised finding by its `A`-number — claim entries
+     finding it names — an audit-raised finding by its `A`-number, an inherited
+     entry resolved through the predecessor link — claim entries
      additionally with the key's quote contained in the traced finding's quoted
      claim (an audit finding's quoted evidence); every pathed source-list entry carries a read attestation, a declared
      unswept range, an inert reconciliation finding, or a standing retirement of
@@ -383,7 +397,9 @@ file-backed embeds, which Stability re-checks each pass.
      `## Standing dispositions` excerpt byte-matches the record's top section at
      spawn (where `None yet.` was substituted, the check passes by confirming the
      section, or the record, did not exist at spawn). Re-check the content hash
-     recorded in every embed-concerning standing entry against its file — a
+     recorded in every embed-concerning standing entry against its file, and
+     every claim-keyed entry's enclosing-block hash against the block now
+     holding its key — a
      mismatch unanchors the entry. Compare each spawn hash with the previous
      pass's recorded hashes: a changed document is the loop's normal cycle, but a
      changed source is a surfaced event, adjudicated with the author before the
@@ -456,7 +472,9 @@ file-backed embeds, which Stability re-checks each pass.
      nothing. The closure window is the next two window passes, consecutively; a
      matched re-raise from any pass — a window pass, a declined audit failure, a
      voided pass — counts toward escalation, never toward closure, and restarts
-     the closure window at the next pass. A **window pass** is an audit-clean
+     the closure window at the next pass; a non-window pass recording no matched
+     re-raise is transparent to the window — consecutive counts window passes,
+     not passes of every kind. A **window pass** is an audit-clean
      surviving full-review pass whose reviewed ranges include the contested span. A
      contest keys like a standing entry — the contested claim's quoted text at its
      anchor — so it survives reflow and edits elsewhere; matching is overlap with
@@ -483,7 +501,10 @@ file-backed embeds, which Stability re-checks each pass.
      by silence either: a contest may not
      close in the author's favour while drift failures recur across its window. Deleting the contested text
      resolves the contest as a fix — recorded so under the original finding, never
-     as a closure in the author's favour — and a contest whose evidence field is
+     as a closure in the author's favour, the record naming the text that
+     replaced it or `removed outright`; a later finding raising the same dispute
+     over the recorded replacement re-raises this contest — re-opened, its
+     escalation count carrying, a paraphrase never resetting the ratchet — and a contest whose evidence field is
      empty is repaired with the author at the next audit: the author supplies the
      evidence, or converts the contest to fix-or-accept.
    A carried finding from a voided pass takes the one extra route: **void-artefact
@@ -512,7 +533,13 @@ file-backed embeds, which Stability re-checks each pass.
    review without convergence, the record closing naming the successors, and the
    closing writes into each successor's initial record the predecessor's open
    contests, carried findings, and the standing entries whose keys land in that
-   successor, which successor step 1 admits: a split launders nothing;
+   successor — the successor's initial record opening with a Review log
+   **predecessor link** naming the predecessor record's path, through which
+   inherited traces resolve against the predecessor's pass records, inherited
+   contests and carried findings entering the successor's convergence
+   predicates as its own — which successor step 1 admits, a pass-less initial
+   record binding by its predecessor link (the link's target closing must name
+   this document as a successor): a split launders nothing;
    accept-as-standing is not available for an unreviewed range. Re-keying and pruning standing entries is sanctioned
    in exactly two contexts — here, as a finding's disposition (including re-keying
    entries orphaned by a heading rename where the quote still matches uniquely),
@@ -527,7 +554,8 @@ file-backed embeds, which Stability re-checks each pass.
    next pass verdicts the claim against the now-local source. Failing that,
    accept as unverified with a stated reason, standing like any other — the entry
    naming the verdict the read sources established (the finding already reports
-   what each showed), so "pending fetch" never hides "overclaimed".
+   what each showed), or stating exactly that no source for the claim was read,
+   where none was — so "pending fetch" never hides "overclaimed".
 5. **Apply remaining accepted fixes**, then run the next pass cold.
 6. **Converged** when two consecutive audit-clean surviving passes from distinct
    cold invocations
@@ -568,12 +596,16 @@ file-backed embeds, which Stability re-checks each pass.
    prompt and inputs stay pinned, and
    the hash identity is what checks that. The declaration the author signs lists
    every audit failure — voided or declined — with its check and quoted evidence,
-   every contest closed by non-recurrence, every binding adjudication with its
-   re-affirmation inventory, and every sweep exclusion (accepted
+   every contest closed by non-recurrence, every deletion-resolved contest with
+   its dispute and recorded replacement, every binding adjudication with its
+   re-affirmation inventory, the full acceptance inventory — every standing
+   entry, with its key and reason, affirmed by the author item by item at
+   signing — and every sweep exclusion (accepted
    missing-source findings, standing unswept ranges, excerpt-backed full
    sources, and every attested-unavailable or attested-unreadable entry alike),
    plus every source-hash transition over the review's life and a mechanical
-   re-derivation, from the pass records alone, of every convergence predicate —
+   re-derivation, from the pass records alone (joined, in a successor review, by
+   the inherited items under its predecessor link), of every convergence predicate —
    streak position with each reset event named, audit-cleanliness per pass,
    disposition count per pass, open-
    contest count — and the attestation that no other record in scope (the
@@ -755,8 +787,8 @@ a mistaken rejection must not exit the review permanently. A defective entry —
 unanchored, reason-less, trace-less, `(no heading)` in a headed document, an
 invited-inference entry missing its stated inference, a reason that relies on
 document text outside its key without quoting it as a dependency line, or an
-accepted-unverified entry that does not name the verdict the read sources
-established — is a
+accepted-unverified entry that neither names the verdict the read sources
+established nor, where none was read, states that — is a
 record-level finding, not an abort. Unanchored covers more than a mismatched
 context or dependency line: an entry whose quoted key no longer appears at its
 anchor, a record-level entry whose retired item no longer occurs anywhere, and a
@@ -950,7 +982,9 @@ Plausibility is not support, and neither is your own agreement.
      one signed with a near-variant or ambiguous match to a listed identity:
      `independent` is reserved for a signal that plausibly matches no listed
      identity, and a byline matching a listed individual's surname and initial
-     counts as that individual, not as a near-variant. A file that does
+     counts as that individual, not as a near-variant — unless the identity line
+     carries a negative attestation for that byline, which classes it
+     independent. A file that does
      not self-identify as its citation's work cannot be confirmed as the cited source —
      and identification requires the citation metadata in **identifying position**
      (title, front matter, the file's own self-description), never mere occurrence in
@@ -1176,7 +1210,10 @@ that would support the claim as written (`n/a — internal contradiction` where 
 claim falls to the document's own qualifications and no evidence kind coherently
 applies); an UNVERIFIABLE finding names the citation
 to fetch **and reports what each read source for the claim did and did not show**,
-so the accept-as-unverified disposition is decided on the evidence in hand. If none,
+so the accept-as-unverified disposition is decided on the evidence in hand. A
+note-class finding — flag-note, excerpt-note, embed-note — quotes the claim it
+concerns (the embed reference, for an embed-note) beside its defined notice; the
+refutation and evidence-kind fields do not apply to it. If none,
 `_None_`.
 
 ### Observations
