@@ -119,7 +119,12 @@ renames the first accordingly and notes the rename in both records. Before creat
 check for the document-named form first; where present, it is that document's record.
 Three kinds of content:
 
-- **`## Standing dispositions`**, at the top. A claim entry carries: the exact quote of
+- **`## Standing dispositions`**, at the top. All quoted material inside an entry
+  — keys, context lines, dependency lines, reason text — is carried indented or
+  in code spans, so no line in the section starts a heading: a bare structural
+  line inside the section is exactly the contamination the abort rule names, and
+  the section's byte boundary is what the extraction, the abort check, and the
+  Stability byte-match all key to. A claim entry carries: the exact quote of
   the document text it covers; its anchor (the section heading it sits under, with an
   occurrence index where headings repeat, `(preamble)` for text before the first
   heading, or `(no heading)` in a heading-less document — that form is defective
@@ -151,10 +156,11 @@ Three kinds of content:
   since the ground the acceptance stood on is gone. Every entry traces to a finding from a
   recorded pass; pre-seeding a disposition no pass has raised is not a disposition, it
   is the author reviewing their own document.
-- **`## Pass N`**, appended per pass, its header naming the document path (the
+- **`## Pass N`**, appended per pass above the Review log, its header naming the document path (the
   binding the rename rule depends on): the spawn-time hashes, the capacity
   baseline (the harness's context size as known at spawn), the spawn
-  configuration (agent type and tool list as invoked), the substituted prompt
+  configuration (agent type and tool list as invoked, with the invocation
+  identity where the harness exposes one), the substituted prompt
   verbatim (fenced like the output — the declaration's re-substitution needs its
   bytes), the raw output (fenced
   verbatim with a delimiter longer than any backtick run in the output, so neither
@@ -297,16 +303,22 @@ file-backed embeds, which Stability re-checks each pass.
      real a trigger as a source it cannot hold; for an excerpt, the full source's
      size is a `wc` away), the audit recomputes them, and a plea without
      arithmetic fails — judged against the baseline recorded in the pass record
-     at spawn (the harness's context size, or failing that the largest corpus a
-     recorded pass of this review demonstrably swept, the recorded figure
-     governing where both exist); a plea with no recorded baseline fails the
-     check, not the reviewer's workload. For an excerpt entry, verify containment as well — and containment
+     at spawn: the harness's context size, or the orchestrator's stated estimate
+     marked as such where the harness exposes none, superseded by the largest
+     corpus any pass of this review has demonstrably swept (this pass included,
+     by audit time) when that is larger. A plea judged with no recorded baseline
+     is the orchestrator's own audit-record defect — record one and re-judge —
+     never the reviewer's failure. For an excerpt entry, verify containment as well — and containment
      binds order and contiguity, not just membership: the excerpt marks each
      contiguous block with its line range in the full source, the audit
      recomputes each block at its stated offsets, and block boundaries are
      visible to the adversary as declared discontinuities. A miss is a failed
      check — substituting, or splicing a new meaning out of genuine lines, is
-     attribution fraud the fence would otherwise never see.
+     attribution fraud the fence would otherwise never see. And since the
+     adversary's self-identification exemption removed the usual detector,
+     it relocates here: confirm the full file self-identifies as the cited work
+     in identifying position, its authorship signals consistent with the entry's
+     provenance class.
    - *Reconciliation.* Every non-standing claim verdicted other than SUPPORTED — and
      every `standing-overridden` row — has a finding; every ledger row noted
      `flagged by the document` has its one-time flag-note or a standing retirement;
@@ -325,7 +337,8 @@ file-backed embeds, which Stability re-checks each pass.
      unenumerated section, or disposition-recommendation or ship-verdict content
      anywhere, is a failure; the verdict line agrees with the findings section
      (`_None_` findings admit `Green` or `No claims enumerated`, the two split by
-     ledger content; any listed finding requires `Findings to clear`); every honoured standing entry traces to the pass and
+     ledger content and honoured inventory; any listed finding requires
+     `Findings to clear`); every honoured standing entry traces to the pass and
      finding it names — claim entries additionally with the key's quote contained in
      the traced finding's quoted claim; every pathed source-list entry carries a read attestation, a declared
      unswept range, an inert reconciliation finding, or a standing retirement of
@@ -435,7 +448,13 @@ file-backed embeds, which Stability re-checks each pass.
      the same dispute is a record defect (a different defect class on overlapping
      text stays an ordinary finding, per the matching rule). A pass in which the contested text is covered by a
      standing entry created after the contest opened counts toward no window —
-     manufactured non-recurrence is not non-recurrence. Deleting the contested text
+     manufactured non-recurrence is not non-recurrence. The author may at any
+     time convert an open contest to fix-or-accept, recorded under the original
+     finding and closing it — the sanctioned exit from a window nothing can
+     advance. And input-artifact drift cannot manufacture quiet: a pass annulled
+     by drift whose output re-raised the contest still counts as a re-raise for
+     escalation and never toward closure, and a contest may not close in the
+     author's favour while drift failures recur across its window. Deleting the contested text
      resolves the contest as a fix — recorded so under the original finding, never
      as a closure in the author's favour — and a contest whose evidence field is
      empty is repaired with the author at the next audit: the author supplies the
@@ -724,12 +743,12 @@ more likely than not — a stated preponderance, not a hint; "almost certainly" 
 evidence leaving only remote alternatives. The ladder is what a Merits
 re-derivation recomputes against.
 
-A stipulative definition is in scope only where it makes downstream claims easier to
-satisfy than their ordinary reading, or the document elsewhere trades on the ordinary
+A stipulative definition is in scope where it shifts any downstream verdict from
+its ordinary reading — easier or harder to satisfy alike — or the document
+elsewhere trades on the ordinary
 sense ("revenue means gross bookings" under a revenue-growth headline) — then
-downstream claims are judged at ordinary strength. The easier-to-satisfy test
-governs regardless of consistency: a definition that shifts any downstream verdict
-from its ordinary reading is in scope however uniformly it is used. An operational
+downstream claims are judged at ordinary strength. The verdict-shift test
+governs regardless of consistency, however uniformly the definition is used. An operational
 definition
 used consistently ("latency means time-to-first-byte" throughout) is out of scope and
 **transparent** only where it shifts no verdict: then it is semantics, not a premise,
@@ -774,7 +793,8 @@ Pure value judgements, aesthetic preferences, normative stances, and forward-loo
 pleasantries with no checkable content are out of scope; at most an observation. So
 is document self-description — byline, date, version line, author bio: it is author
 attestation like the identity line, not a claim the document must source — scoped to
-identity and affiliation metadata only: a checkable empirical assertion inside a bio
+identity, affiliation, and artifact-provenance metadata (the date and version
+lines) only: a checkable empirical assertion inside a bio
 ("cut defect rates 40% at three companies") is a claim like any other, since
 empirical content decides scope here too.
 
@@ -930,7 +950,11 @@ Plausibility is not support, and neither is your own agreement.
      comparative characterisation ("halved", "doubled" — change-verbs, not stated
      proportions) is judged at its own precision in
      both directions: "doubled" tolerates 1.9× or 2.2×, not 1.5× and not 10×. An
-     out-of-tolerance value under either rule is CONTRADICTED, misdescription rather than
+     out-of-tolerance value under either rule is CONTRADICTED — and an
+     evidential-strength operator never loosens this rule: the embedded figure
+     keeps its written tolerance, an out-of-tolerance source figure is read
+     counter-evidence whatever the hedge, since the hedge sets the bar support
+     must clear, not the bar refutation must — misdescription rather than
      modest support, and for a harm the understatement is the deception. A
      qualitative absolute — eliminated, never, all — is the figure zero or totality
      and this rule owns it; a hedged absolute ("virtually eliminated") is a
@@ -1017,7 +1041,9 @@ nothing else — no other section applies. `No claims enumerated` is for
 a document where nothing was claimed **or retired** — a ledger of only standing and
 attestation rows returns `Green` with its annotation, since that review converged
 through dispositions rather than finding nothing; "retired" means claim text
-retired, so honoured record-level entries appear on either terminal's annotation
+retired, `not a claim` retirements included — an attestation-only ledger splits
+by its honoured inventory, any claim-keyed honour meaning `Green` — while
+honoured record-level entries appear on either terminal's annotation
 and decide neither. Append to the verdict line — whatever the verdict, a `No review` return excepted
 — every standing entry
 honoured, referenced by key and trace: claim-level, record-level, and `not a claim`
