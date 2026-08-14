@@ -41,11 +41,14 @@ the operator's own read, not an independent one, and the author should know that
    following forms:
    - `citation text → path` — a local file (never a directory).
    - `citation text → cited, not available locally (author attests no local copy,
-     that the work bears on and is relied on for its cited claims, and that it
-     bears on nothing else)` — both directions are load-bearing: a decoy citation
-     to a silent work fails the bears-on half, and citing a hostile work for an
-     innocuous claim while it contradicts another fails the nothing-else half;
-     either is a false bearing attestation, the fabrication class.
+     good-faith belief that the work supports each claim it caps as written, and
+     no knowledge of counter-bearing content in it)` — per capped claim and
+     directional, which is what makes every laundering route a false attestation
+     in the fabrication class: a decoy to a silent or merely topical work fails
+     the supports-each-claim half, and citing a work known hostile — for its own
+     claim or any other — fails the no-counter-bearing half. The block-wide
+     upgrade a paragraph's stray citation would buy dies with the per-claim
+     scope.
    - `via <citation>: <onward citation> → path [trace: Pass N, finding M]` — a
      source fetched under loop step 4,
      admitted by the chain from a document citation, the trace naming the
@@ -230,14 +233,18 @@ file-backed embeds, which Stability re-checks each pass.
    source, an excerpt entry's `full:` path and any stray path are fence-breach
    evidence, the union of read ranges must cover the attested chunk ranges, and
    the prompt-as-sent and tool set are verified against the transcript rather
-   than only the orchestrator's own record. Fence-breach evidence — in the output
+   than only the orchestrator's own record — this transcript verification is the
+   Stability check's work, recorded like its other components and required for
+   audit-cleanliness wherever a transcript exists. Fence-breach evidence — in
+   the output
    or the transcript — counts as a failed check.
    A failure whose defect lies in the record rather than in the pass's own output
    (contest bookkeeping, a defective standing entry) is not a ground against the
    pass: it is a record repair, worked with the author like a finding, and it does
    not dirty the pass. A failure whose defect lies in an input artifact — the
    hash identity drifting mid-pass, a defective excerpt — impugns the inputs:
-   the pass resets the streak like any audit failure, and the artifact is
+   the pass resets the streak like any audit failure, it takes the same
+   sign-off machinery as a pass-impugning failure, and the artifact is
    repaired with the author before the next pass. **Audit-clean** is affirmative,
    not an absence: all seven checks recorded with their named samples and
    recomputed figures, and no failure beyond record repairs — a pass whose audit
@@ -335,7 +342,8 @@ file-backed embeds, which Stability re-checks each pass.
      the output — honoured, `standing-overridden`, or found unanchored, anything
      else a failure; the output contains only the enumerated sections — an
      unenumerated section, or disposition-recommendation or ship-verdict content
-     anywhere, is a failure; the verdict line agrees with the findings section
+     anywhere, is a failure; every accepted-unverified standing entry names the
+     read-source verdict it supersedes; the verdict line agrees with the findings section
      (`_None_` findings admit `Green` or `No claims enumerated`, the two split by
      ledger content and honoured inventory; any listed finding requires
      `Findings to clear`); every honoured standing entry traces to the pass and
@@ -451,10 +459,10 @@ file-backed embeds, which Stability re-checks each pass.
      manufactured non-recurrence is not non-recurrence. The author may at any
      time convert an open contest to fix-or-accept, recorded under the original
      finding and closing it — the sanctioned exit from a window nothing can
-     advance. And input-artifact drift cannot manufacture quiet: a pass annulled
-     by drift whose output re-raised the contest still counts as a re-raise for
-     escalation and never toward closure, and a contest may not close in the
-     author's favour while drift failures recur across its window. Deleting the contested text
+     advance. And input-artifact drift cannot manufacture quiet: a drift-failed pass —
+     voided or declined — whose output re-raised the contest still counts as a
+     re-raise for escalation and never toward closure, and a contest may not
+     close in the author's favour while drift failures recur across its window. Deleting the contested text
      resolves the contest as a fix — recorded so under the original finding, never
      as a closure in the author's favour — and a contest whose evidence field is
      empty is repaired with the author at the next audit: the author supplies the
@@ -546,7 +554,11 @@ file-backed embeds, which Stability re-checks each pass.
    standing section re-substituted from the record as it stands, and every embed
    content hash recorded in a standing entry, re-taken from its file — required
    equal to both Greens' recorded sets and the recorded entry values; and it
-   certifies the per-pass audit records. The
+   certifies the per-pass audit records — certification attests the records' form
+   and completeness, not an independent re-execution (the operator's-own-read
+   caveat holds); the author may spot re-verify any recorded recomputation
+   against the hash-pinned artifacts, and the declaration notes which, if any,
+   were. The
    author declares convergence; never propose
    calling it clean.
 
@@ -607,14 +619,16 @@ Document author and team: `<author-identity>`
 
 Sources — entry forms and their semantics:
 - `citation → path` — an ordinary local source.
-- `citation → cited, not available locally (author attests no local copy, that
-  the work bears on and is relied on for its cited claims, and that it bears on
-  nothing else)` — the
+- `citation → cited, not available locally (author attests no local copy,
+  good-faith belief that the work supports each claim it caps as written, and no
+  knowledge of counter-bearing content in it)` — the
   UNVERIFIABLE route for its claims; it blocks only them, where an unreadable pathed
   file aborts, because attestation is the sanctioned way to be unavailable and a
-  path is a promise. The bearing attestation is what stops a decorative citation
-  buying the UNSUPPORTED-to-UNVERIFIABLE upgrade — a false one is the fabrication
-  class, where that risk belongs.
+  path is a promise. The attestation is per capped claim and directional —
+  good-faith support for each, no known counter-bearing content — which is what
+  stops a decorative, topical, or knowingly hostile citation buying the
+  UNSUPPORTED-to-UNVERIFIABLE upgrade: any such use makes it false, the
+  fabrication class, where that risk belongs.
 - `citation → local copy unreadable (author attests no readable copy)` — same
   claim-capping semantics.
 - `via <citation>: <onward citation> → path [trace: Pass N, finding M]` — a
@@ -701,8 +715,10 @@ a live claim stays in that claim's range — but an entry whose quoted text plai
 carries checkable content its reason does not engage is a record-level finding, since
 a mistaken rejection must not exit the review permanently. A defective entry —
 unanchored, reason-less, trace-less, `(no heading)` in a headed document, an
-invited-inference entry missing its stated inference, or a reason that relies on
-document text outside its key without quoting it as a dependency line — is a
+invited-inference entry missing its stated inference, a reason that relies on
+document text outside its key without quoting it as a dependency line, or an
+accepted-unverified entry that does not name the verdict the read sources
+established — is a
 record-level finding, not an abort. Unanchored covers more than a mismatched
 context or dependency line: an entry whose quoted key no longer appears at its
 anchor, a record-level entry whose retired item no longer occurs anywhere, and a
@@ -841,7 +857,10 @@ Plausibility is not support, and neither is your own agreement.
    wider span is padding, an audit failure like any other. A conjunction takes
    the highest-precedence verdict among its conjuncts, by the claim-level
    precedence — the rule for a row a pass keeps whole; split conjuncts verdict
-   separately. `no claims` attestation rows cover
+   separately, and a row holding an UNVERIFIABLE-capped conjunct beside
+   independently checkable co-assertions may never be kept whole: the cap would
+   mask its neighbours, so that split is mandatory, and where such a row somehow
+   stands its finding reports each conjunct's read-source outcome severally. `no claims` attestation rows cover
    exactly the lines no claim row touches, so the ledger tiles the document: a
    skipped stretch of lines is mechanically visible. Tiling is the floor, not the
    guarantee — on soft-wrapped prose one line holds many assertions, and
