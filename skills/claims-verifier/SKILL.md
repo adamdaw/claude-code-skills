@@ -42,8 +42,9 @@ the operator's own read, not an independent one, and the author should know that
    - `citation text → path` — a local file (never a directory).
    - `citation text → cited, not available locally (author attests no local copy
      and the work's bearing on its cited claims)`.
-   - `via <citation>: <onward citation> → path` — a source fetched under loop step 4,
-     admitted by the chain from a document citation, carrying the trace of the
+   - `via <citation>: <onward citation> → path [trace: Pass N, finding M]` — a
+     source fetched under loop step 4,
+     admitted by the chain from a document citation, the trace naming the
      finding that sanctioned it.
    - `citation → local copy unreadable (author attests no readable copy)` — when the
      only extant copy is an unintelligible scan; same claim-capping semantics as
@@ -164,7 +165,8 @@ Everything verdict-relevant is pinned by hashing exactly three things at spawn t
 (`sha256sum`): the **document**; the **fully substituted prompt text**, which contains
 the source list, the identity line, the standing excerpt, and this skill's template;
 and each **listed source file** (an excerpt entry hashes both its excerpt and its
-full source — the full source hashed, never read, so the necessity audit cannot
+full source — the full source hashed, never read by the adversary, so the
+necessity audit cannot
 run against a silently changed file). That one set is recorded in the pass record, re-checked at
 pass end, and compared at convergence — there is no second enumeration to drift from
 it.
@@ -182,7 +184,10 @@ it.
    dispositions. Binding is by content, not name: an existing record whose
    recorded document hashes match the document under review binds to it whatever
    the paths now say — renaming the document re-binds its record, never orphans
-   it — and the declaration attests no other record in scope reviews this
+   it. Where neither path nor recorded hashes match (a rename plus edits in one
+   interval), the branch fails safe: put the candidate record to the author to
+   adjudicate the binding, never silently orphan or silently adopt. The
+   declaration attests no other record in scope reviews this
    document. So is an abort-class
    record defect (foreign text in the standing section, `None yet.` beside entries, a
    conflicting duplicate key): repair the record mechanically here — prune the
@@ -216,7 +221,11 @@ it.
    untrusted and its findings become carried findings; declined, its findings are
    worked as they stand. Carried or not, every finding is worked with the author
    like any other — the failure's evidence is available as a reason to reject a
-   void artefact — and no finding exits the review undispositioned. A `No review`
+   void artefact — and no finding exits the review undispositioned. An audit
+   failure whose evidence impugns a specific claim's verdict raises that
+   evidence as a finding on the claim, worked with the author like any other,
+   whatever the void decision — a refuted SUPPORTED never ships on a declined
+   void. A `No review`
    pass is checked only for its claimed input defect; checked out, it touches
    nothing — when it does not check out, record `void — false abort`, which
    resets the streak, no sign-off needed: the direction is safe, more passes,
@@ -234,7 +243,8 @@ it.
    cannot touch. Each sampled check's draw includes, where the population allows,
    at least one item not drawn by that check in the previous pass — habit is not
    coverage.
-   - *Coverage.* Claim ranges, `no claims` attestation rows, and declared
+   - *Coverage.* Claim ranges (`standing` rows included), `no claims`
+     attestation rows, and declared
      `unreviewed` ranges tile the document —
      every line in exactly one kind of row, attestations never overlapping claim
      rows — and **every line inside a claim range carries that claim's own text**;
@@ -261,10 +271,15 @@ it.
      counts as capacity alongside input: a return the subagent cannot fit is as
      real a trigger as a source it cannot hold; for an excerpt, the full source's
      size is a `wc` away), the audit recomputes them, and a plea without
-     arithmetic fails. For an excerpt entry, verify containment as well: every
-     excerpt line occurs in the hashed full source (`grep` suffices) — a miss is
-     a failed check, since substituting another work's text is attribution fraud
-     the fence would otherwise never see.
+     arithmetic fails — judged against a stated baseline: the harness's context
+     size, or the largest corpus a recorded pass of this review demonstrably
+     swept. For an excerpt entry, verify containment as well — and containment
+     binds order and contiguity, not just membership: the excerpt marks each
+     contiguous block with its line range in the full source, the audit
+     recomputes each block at its stated offsets, and block boundaries are
+     visible to the adversary as declared discontinuities. A miss is a failed
+     check — substituting, or splicing a new meaning out of genuine lines, is
+     attribution fraud the fence would otherwise never see.
    - *Reconciliation.* Every non-standing claim verdicted other than SUPPORTED — and
      every `standing-overridden` row — has a finding; every ledger row noted
      `flagged by the document` has its one-time flag-note or a standing retirement;
@@ -280,7 +295,8 @@ it.
      the output — honoured, `standing-overridden`, or found unanchored, anything
      else a failure; the output contains only the enumerated sections — an
      unenumerated section, or disposition-recommendation or ship-verdict content
-     anywhere, is a failure; every honoured standing entry traces to the pass and
+     anywhere, is a failure; the verdict line agrees with the findings section
+     (`Green` exactly where findings are `_None_`); every honoured standing entry traces to the pass and
      finding it names — claim entries additionally with the key's quote contained in
      the traced finding's quoted claim; every pathed source-list entry carries a read attestation, a declared
      unswept range, an inert reconciliation finding, or a standing retirement of
@@ -296,8 +312,9 @@ it.
      Check the substituted prompt against this skill file — the template portion
      must match verbatim, since the hash pins what was used, not that it was
      canonical — confirm the recorded spawn configuration is the sanctioned one
-     (a read-only reviewer agent type matching the first pass's recorded type;
-     `Read` and `Grep`, nothing more), and confirm the substituted
+     (a read-only reviewer agent type and the `Read`-and-`Grep` tool list are
+     the invariants; the model and invocation settings are step 6's sanctioned
+     variation), and confirm the substituted
      `## Standing dispositions` excerpt byte-matches the record's top section at
      spawn (where `None yet.` was substituted, the check passes by confirming the
      section, or the record, did not exist at spawn).
@@ -318,7 +335,8 @@ it.
      sources for counter-evidence bearing on a sample of claims — a hit the pass
      engaged nowhere in its output is a named failure, since chunk-boundary attestations (the Source check's quoted
      first and final lines) prove targeted reads and only an outcome probe touches
-     the sweep. Confirm the Support record's
+     the sweep; a probe hit inside a declared-unswept range is not a pass failure
+     but a named finding, attaching the gap to the claims it bears on. Confirm the Support record's
      derivation edges form a DAG grounded in source-backed entries — a cycle
      satisfies every per-entry check. A failed Merits sample is a failed check like any other,
      the quoted re-derivation being its evidence; a difference of judgement
@@ -346,7 +364,7 @@ it.
    - **Contest** — the author holds the finding simply wrong (the adversary misread,
      or never read, the source); record the dispute and its evidence under the
      finding and leave the claim live. A contested finding re-raised by two further
-     cold passes — matched per the contest key below — escalates to fix-or-accept:
+     window passes — matched per the contest key below — escalates to fix-or-accept:
      the escalation is recorded under the original contested finding (the second
      re-raise still takes the continuing-contest record), and the author's
      fix-or-accept disposition there closes the contest. **An open contest blocks
@@ -362,9 +380,11 @@ it.
      contest keys like a standing entry — the contested claim's quoted text at its
      anchor — so it survives reflow and edits elsewhere; matching is overlap with
      the key's quoted text wherever it now appears in the document — relocation
-     carries the contest with it, never recorded line numbers — and an
-     invited-inference contest covers only the same inference, like standing
-     coverage. Where the key text appears nowhere, the deletion rule owns it, and
+     carries the contest with it, never recorded line numbers — and matching
+     requires the same defect: an invited-inference contest covers only the same
+     inference, like standing coverage, and a different defect class on
+     overlapping text is an ordinary finding, dispositioned normally — the
+     continuing-contest record is only for the same dispute. Where the key text appears nowhere, the deletion rule owns it, and
      closure in the author's favour requires the key still present. A re-raise is recorded under
      the new
      finding as `continuing contest → Pass N, finding M`, which is its disposition
@@ -404,7 +424,9 @@ it.
    disposition written under the finding is the fetch itself — `resolved by fetch`,
    naming the new source-list entry — which satisfies the convergence check; the
    next pass verdicts the claim against the now-local source. Failing that,
-   accept as unverified with a stated reason, standing like any other.
+   accept as unverified with a stated reason, standing like any other — the entry
+   naming the verdict the read sources established (the finding already reports
+   what each showed), so "pending fetch" never hides "overclaimed".
 5. **Apply remaining accepted fixes**, then run the next pass cold.
 6. **Converged** when two consecutive audit-clean surviving passes from distinct
    cold invocations
@@ -432,7 +454,7 @@ it.
    carrying the full declaration machinery, measured against the two most recent
    audit-clean passes of the picked kind.
    `No claims enumerated` ends the review as out of scope only after two consecutive
-   surviving invocations return it over identical hashes — an ending the author
+   audit-clean surviving invocations return it over identical hashes — an ending the author
    declares like convergence, carrying the same declaration machinery measured
    against those two passes, their annotations required to reference the same
    entries; `No review — input invalid`
@@ -551,6 +573,8 @@ Sources — entry forms and their semantics:
   entries while `governs` covers the uncited rest. An uncited entry's `governs`
   must be grounded in document text you can verify; ungrounded, it fails closed
   to counter-evidence-only document-wide semantics, conferring no SUPPORTED.
+The line `No citations — empty source list.` is not an entry: it is the whole
+list, for a document citing nothing — reconciliation then only confirms that.
 Reconcile the list against the document's citations **before** the sweep (a
 bibliography-only mention is a citation for this purpose); a path
 answering no citation is reported inert and not swept — its evidence is inadmissible
@@ -668,7 +692,8 @@ standing entry retires it, its reason either transcribing the embed's data into
 the record or attesting the embed carries no data bearing on any claim — an
 attestation like any other, so a contradicting chart passes only on a
 fabrication-class lie. Where the embed is a file, the retiring entry records its
-content hash, and a mismatch with the file unanchors the entry — a swapped
+content hash — written at disposition time and re-checked by the orchestrator's
+audit each pass, never by you — and a mismatch unanchors the entry: a swapped
 figure is re-adjudicated (a decorative image dispositions once; a load-bearing
 chart gets transcribed or owned).
 
@@ -739,7 +764,9 @@ Plausibility is not support, and neither is your own agreement.
      anywhere in the cited corpus is admissible against any claim. Chunked reads are full reads; the
      Read tool's per-call limits are never a trigger. Only where a source genuinely
      exceeds what one pass can hold in aggregate, declare `unswept: <range>` in
-     Source check — the audit verifies necessity and extent, and the declaration
+     Source check, its trigger stating the size arithmetic — what the pass held
+     and what it declined, output counting as capacity alongside input — since
+     the audit recomputes it and a plea without arithmetic fails; the declaration
      is a one-time record-level finding on the flag-note model, the author owning
      the sweep gap — and every claim citing
      that source caps at the UNVERIFIABLE rule wherever its supporting line sits,
@@ -902,9 +929,10 @@ a document where nothing was claimed **or retired** — a ledger of only standin
 attestation rows returns `Green` with its annotation, since that review converged
 through dispositions rather than finding nothing; "retired" means claim text
 retired, so honoured record-level entries appear on either terminal's annotation
-and decide neither. On a `Green` or `No claims` line,
-append every standing entry honoured — claim-level, record-level, and `not a claim`
-alike: a clean pass over accepted risk names the risk, all of it.
+and decide neither. Append to the verdict line — whatever the verdict — every standing entry
+honoured: claim-level, record-level, and `not a claim`
+alike: a pass over accepted risk names the risk, all of it, and the honoured
+inventory is what reconciliation accounts against.
 
 ### Source check
 
@@ -930,8 +958,9 @@ claims with no attributed source — blocking means the entry confers no support
 claim carried by a derivation or the document-contents route is unaffected, and a
 source-route-only claim with no attributed source lands UNSUPPORTED, nothing
 attributed being nothing offered — do not excuse the defect, and an unavailable
-entry's attribution must be grounded in document text you can verify or it applies
-document-wide).
+entry's attribution must be grounded in document text you can verify — ungrounded,
+it confers nothing: no cap, no attachment, only the record-level finding, its
+orphan claims landing where the fallback puts them).
 
 ### Claim ledger
 
@@ -940,8 +969,9 @@ line · class(es) · verdict. An invited-inference row carries the verbatim
 inviting span in place of the compression. A `standing` row carries the entry's quoted key in place
 of a compression and no fresh verdict; a `standing-overridden` row carries the live
 verdict and the entry it overrides. Attestation rows complete the tiling. Where the document itself genuinely exceeds
-what one pass can hold in aggregate, an `unreviewed: <range>` row (with the trigger
-stated) is the honest ledger form — each such row is a record-level finding, forcing
+what one pass can hold in aggregate, an `unreviewed: <range>` row (its trigger
+stating the same size arithmetic an unswept plea carries) is the honest ledger
+form — each such row is a record-level finding, forcing
 `Findings to clear` — its resolution is the author's, outside this pass. The audit
 verifies the necessity like any unswept declaration.
 
