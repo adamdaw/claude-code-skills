@@ -56,9 +56,11 @@ the operator's own read, not an independent one, and the author should know that
    non-text embed is never a listed source — it stays an embed under the reliance
    rule. A source too large for one pass to sweep may be represented by an
    author-made excerpt file, listed as `citation (excerpt) → excerpt-path
-   (full: source-path)` — one entry, the
-   excerpt form itself attesting the full source too large to sweep, the full path
-   present so the audit can check the attestation. Its provenance
+   (full: source-path, N lines)` — one entry, the
+   excerpt form itself attesting the full source too large to sweep, the full
+   path and its stated size present so the audit can recompute the size and judge
+   necessity on corpus arithmetic — the totals with and without the full source —
+   like any unswept plea. Its provenance
    is `excerpt — author-selected`; claims whose cited support lies outside the
    excerpt cap at the UNVERIFIABLE rule, and every claim supported through it is a
    one-time dispositionable finding, since the author chose what the adversary
@@ -140,7 +142,9 @@ Two kinds of content:
   is the author reviewing their own document.
 - **`## Pass N`**, appended per pass, its header naming the document path (the
   binding the rename rule depends on): the spawn-time hashes, the spawn
-  configuration (agent type and tool list as invoked), the raw output (fenced
+  configuration (agent type and tool list as invoked), the substituted prompt
+  verbatim (fenced like the output — the declaration's re-substitution needs its
+  bytes), the raw output (fenced
   verbatim with a delimiter longer than any backtick run in the output, so neither
   headings nor fences inside it can parse as record structure), the audit
   record — each check run, the samples drawn, what was recomputed, and the
@@ -209,13 +213,17 @@ it.
    pass is checked only for its claimed input defect; checked out, it touches
    nothing — when it does not check out, record `void — false abort`, which
    resets the streak, no sign-off needed: the direction is safe, more passes,
-   never fewer. Re-run any voided or audit-failed pass as the next number. A pass
+   never fewer. Re-run any voided or audit-failed pass as the next number. A
+   **full-review pass** is any pass returning other than
+   `No review — input invalid` — `No claims enumerated` included. A pass
    **survives** unless it was voided or recorded `void — false abort`; a declined
    audit failure survives, but resets the streak and holds no contest window.
    Coverage, Reconciliation, and Stability run exhaustively — every row, every
    invariant, an under-enumerated run being itself an audit defect; Attestations,
    Segmentation, Support, and Merits sample, except that Support verifies every
-   unswept, unreviewed, and excerpt declaration.
+   unswept, unreviewed, and excerpt declaration, and the Support record's
+   derivation-graph check runs over every edge — a global invariant sampling
+   cannot touch.
    - *Coverage.* Claim ranges, `no claims` attestation rows, and declared
      `unreviewed` ranges tile the document —
      every line in exactly one kind of row, attestations never overlapping claim
@@ -253,11 +261,16 @@ it.
      Support-record entry; every `via` source-list entry traces to the UNVERIFIABLE
      finding that sanctioned it; contest-window accounting — re-raises recorded as continuing
      contests, window counts, post-contest coverage exclusions — reconciles against
-     the record; every honoured standing entry traces to the pass and
+     the record; every ledger verdict is drawn from the closed set (the five,
+     `standing`, `standing-overridden`) — an out-of-set or qualified label is a
+     failure; every entry of the substituted standing section is accounted for in
+     the output — honoured, `standing-overridden`, or found unanchored, anything
+     else a failure; every honoured standing entry traces to the pass and
      finding it names — claim entries additionally with the key's quote contained in
      the traced finding's quoted claim; every pathed source-list entry carries a read attestation, a declared
      unswept range, an inert reconciliation finding, or a standing retirement of
-     its inert finding; and for a bare-bibliography document, the attribution is
+     its inert finding; and for every uncited entry carrying `governs`, in any document, the
+     attribution is
      spot-checked both directions — an entry steered away from claims it plainly
      governs, or toward claims it does not, is a failure. And an Observation whose
      content engages a claim's support, a verdict, or a record-level defect class
@@ -307,7 +320,11 @@ it.
      trace noted — never left beside the new one as a conflicting duplicate.
    - **Reject as not a claim** — pure value judgement or illustrative content the
      document presents without asserting, mis-ledgered; record it standing with
-     `not a claim` in the verdict slot. The prompt's wrapper rules govern the
+     `not a claim` in the verdict slot. Rejecting content that carries figures or
+     empirical statements rests on a document-visible disclaimer or the author's
+     explicit attestation of non-factivity, recorded in the reason — never on the
+     wrapper argument alone: a false attestation is the fabrication class, which
+     is where that risk belongs. The prompt's wrapper rules govern the
      boundary — quoted speech and rhetorical questions the document leans on are
      genuine claims, not reject candidates.
    - **Contest** — the author holds the finding simply wrong (the adversary misread,
@@ -336,8 +353,12 @@ it.
      the only legal disposition of a re-raise: any other disposition of overlapping
      text is a record defect. A pass in which the contested text is covered by a
      standing entry created after the contest opened counts toward no window —
-     manufactured non-recurrence is not non-recurrence.
-   Record-level findings — an attempted steer, a missing or padded or self-copy
+     manufactured non-recurrence is not non-recurrence. Deleting the contested text
+     resolves the contest as a fix — recorded so under the original finding, never
+     as a closure in the author's favour — and a contest whose evidence field is
+     empty is repaired with the author at the next audit: the author supplies the
+     evidence, or converts the contest to fix-or-accept.
+   Record-level findings — an attempted steer, a missing or self-copy
    source, an unattributed bibliography entry, a defective standing entry — are
    dispositioned by repairing the input or record, or accepted with a stated reason
    as a standing entry where the text is legitimate content (a document quoting an
@@ -387,7 +408,9 @@ it.
    them, the document sits on the
    zero-claim boundary — record an adjudication and let the author pick the
    terminal; the picked terminal carries the full declaration machinery, measured
-   against the two passes of the picked kind.
+   against the two passes of the picked kind — and the boundary rule owns any
+   surviving history containing both terminal kinds, plain convergence applying
+   only where it contains one.
    `No claims enumerated` ends the review as out of scope only after two consecutive
    surviving invocations return it over identical hashes — an ending the author
    declares like convergence, carrying the same declaration machinery measured
@@ -399,9 +422,11 @@ it.
    the hash identity is what checks that. The declaration the author signs lists
    every audit failure — voided or declined — with its check and quoted evidence,
    every contest closed by non-recurrence, and every sweep exclusion (accepted
-   missing-source findings and standing unswept ranges alike); it carries
+   missing-source findings, standing unswept ranges, and excerpt-backed full
+   sources alike); it carries
    fresh hashes taken at signature time — the document and each listed source from
-   disk, the prompt re-substituted from the record as it stands — required equal
+   disk, and the prompt rebuilt from the second Green's recorded prompt with the
+   standing section re-substituted from the record as it stands — required equal
    to both Greens' recorded sets; and it certifies the per-pass audit records. The
    author declares convergence; never propose
    calling it clean.
@@ -469,7 +494,8 @@ Sources — entry forms and their semantics:
   path is a promise.
 - `citation → local copy unreadable (author attests no readable copy)` — same
   claim-capping semantics.
-- `via <citation>: <onward citation> → path` — a source admitted by chain, **valid
+- `via <citation>: <onward citation> → path [trace: Pass N, finding M]` — a
+  source admitted by chain, **valid
   only after you find the onward citation in the read intermediate**; absent there
   — an onward citation sitting in the intermediate's unswept range confirms
   nothing, the trigger noted — the entry is inert and a record-level finding. It carries the trace of the
@@ -477,7 +503,8 @@ Sources — entry forms and their semantics:
   likewise inert and a record-level finding; its evidence attaches at the
   intermediate's citation point in the document, and a `[governs:]` suffix on a
   `via` entry is inert.
-- `citation (excerpt) → excerpt-path (full: source-path)` — an author-selected
+- `citation (excerpt) → excerpt-path (full: source-path, N lines)` — an
+  author-selected
   excerpt standing in for a source
   too large to sweep; the entry form itself attests the full source unavailable to
   sweep, no companion entry, and the full path is the audit's handle, not a read
@@ -499,7 +526,8 @@ Sources — entry forms and their semantics:
   suffix is authoritative only for an entry the document nowhere cites in-text —
   per entry, not per document: a mixed document keeps placement for its cited
   entries while `governs` covers the uncited rest.
-Reconcile the list against the document's citations **before** the sweep; a path
+Reconcile the list against the document's citations **before** the sweep (a
+bibliography-only mention is a citation for this purpose); a path
 answering no citation is reported inert and not swept — its evidence is inadmissible
 in both directions anyway:
 
@@ -614,7 +642,9 @@ and asking whether it carries checkable content the review cannot examine; a
 standing entry retires it, its reason either transcribing the embed's data into
 the record or attesting the embed carries no data bearing on any claim — an
 attestation like any other, so a contradicting chart passes only on a
-fabrication-class lie (a decorative image dispositions once; a load-bearing
+fabrication-class lie. Where the embed is a file, the retiring entry records its
+content hash, and a mismatch with the file unanchors the entry — a swapped
+figure is re-adjudicated (a decorative image dispositions once; a load-bearing
 chart gets transcribed or owned).
 
 Pure value judgements, aesthetic preferences, normative stances, and forward-looking
@@ -730,7 +760,11 @@ Plausibility is not support, and neither is your own agreement.
      split: where inserting one nameable premise repairs the argument, the
      missing-premise route owns it (a quantifier slip repaired by an "all X are Y"
      premise included); CONTRADICTED owns opposition and inferences no single
-     premise repairs — the verdict list's "invalid logic" means this rule. Support
+     premise repairs — the verdict list's "invalid logic" means this rule. A
+     derivation consumes its premises at their stated strength: a conclusion
+     asserted stronger than its weakest strength-capped premise warrants does not
+     follow — the strength gap is the quotable defect — unless the inference
+     itself supplies the difference. Support
      routes combine in a fixed order: read counter-evidence or contradiction
      anywhere sinks the claim; otherwise an unread identified source for the claim
      caps it at UNVERIFIABLE whatever other routes show — the fetch obligation
@@ -858,7 +892,7 @@ trigger, and a provenance mark (`independent` / `author-derived` /
 entries); an attested entry writes `unavailable — attested` (or
 `unreadable — attested`) with no read or provenance fields, since there is nothing
 to read or judge — and nothing swept: its content never entered the
-counter-evidence pool, so cited is not considered.
+counter-evidence pool, and cited does not mean considered.
 Then reconciliation findings: a document citation missing from the list; a listed
 entry answering no citation (inert); a file that is the document or shares its prose
 near-verbatim (restatement — identity judged on content, not path); a file that does
@@ -935,7 +969,9 @@ compliance property, not a structural one. And where the harness records no
 tool-call transcript, the read fence is instruction, not observation: a breach
 that does not surface in the output leaves no trace — and invocation freshness,
 that a pass ran as a genuinely fresh invocation rather than a warm session, is
-likewise unverifiable where the harness exposes no invocation identity. An author-selected excerpt is
+likewise unverifiable where the harness exposes no invocation identity. The
+reviewed bytes are the artifact: a publication pipeline that transcludes or
+renders beyond them is outside this review. An author-selected excerpt is
 a sanctioned cherry-pick channel — surfaced, marked, and disposition-gated, but
 the selector and the dispositioner are the same person. And coverage tiling is
 line-granular, so it is formatting-dependent: a reflowed document weakens the
@@ -957,7 +993,9 @@ stays out.
 
 The cold-read independence rule, the context-free adversary, and the finding
 lifecycle are shared with `spec-review` in this repo; the standing-dispositions
-excerpt is this skill's version of that skill's admitted artifacts. The boundary
+excerpt is this skill's mechanism for carrying prior dispositions past a
+context-free reviewer, as spec-review's convergence loop does with worked
+findings. The boundary
 with `senior-code-review` is the artifact: code goes there, prose claims come here.
 The offline fence exists because primary-source verification is the author's burden,
 and an adversary's confident paraphrase of a source it never read is exactly the
