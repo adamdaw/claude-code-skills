@@ -42,7 +42,8 @@ the operator's own read, not an independent one, and the author should know that
    - `citation text → path` — a local file (never a directory).
    - `citation text → cited, not available locally (author attests no local copy)`.
    - `via <citation>: <onward citation> → path` — a source fetched under loop step 4,
-     admitted by the chain from a document citation.
+     admitted by the chain from a document citation, carrying the trace of the
+     finding that sanctioned it.
    - `citation → local copy unreadable (author attests no readable copy)` — when the
      only extant copy is an unintelligible scan; same claim-capping semantics as
      attested-unavailable.
@@ -53,8 +54,10 @@ the operator's own read, not an independent one, and the author should know that
    in-text attribution, which is where the bare-bibliography mandate lives. A
    non-text embed is never a listed source — it stays an embed under the reliance
    rule. A source too large for one pass to sweep may be represented by an
-   author-made excerpt file, listed as `citation (excerpt) → path` — one entry, the
-   excerpt form itself attesting the full source too large to sweep. Its provenance
+   author-made excerpt file, listed as `citation (excerpt) → excerpt-path
+   (full: source-path)` — one entry, the
+   excerpt form itself attesting the full source too large to sweep, the full path
+   present so the audit can check the attestation. Its provenance
    is `excerpt — author-selected`; claims whose cited support lies outside the
    excerpt cap at the UNVERIFIABLE rule, and every claim supported through it is a
    one-time dispositionable finding, since the author chose what the adversary
@@ -140,7 +143,8 @@ standing section travels, inside the prompt.
 Everything verdict-relevant is pinned by hashing exactly three things at spawn time
 (`sha256sum`): the **document**; the **fully substituted prompt text**, which contains
 the source list, the identity line, the standing excerpt, and this skill's template;
-and each **listed source file**. That one set is recorded in the pass record, re-checked at
+and each **listed source file** (an excerpt entry's listed source is the excerpt;
+its full-source path is the audit's handle, unhashed). That one set is recorded in the pass record, re-checked at
 pass end, and compared at convergence — there is no second enumeration to drift from
 it.
 
@@ -157,16 +161,21 @@ it.
    hashes, run the pass, append output and hashes under the next `## Pass N`.
 2. **Audit the pass before working findings.** Seven checks, each voiding on a named
    failure with the evidence quoted; fence-breach evidence in the output is an eighth
-   voidable ground, quoted in place of a check name. A void of a full-review pass is
-   proposed by the orchestrator and signed off by the author, recorded with the
-   quoted evidence — declined, the pass survives and its findings are worked (a
+   voidable ground, quoted in place of a check name — and where the harness records
+   the subagent's tool calls, check the transcript: every read and search must name
+   the document or a listed source, and a stray path is fence-breach evidence. A
+   void of a full-review pass is
+   proposed by the orchestrator and signed off by the author — the proposal
+   enumerating every finding the void would supersede, so nothing exits unseen —
+   and recorded with the quoted evidence; declined, the pass survives and its findings are worked (a
    declined Stability void still resets the streak: surviving is not converging
    over an edit); voiding is never a cheaper path than dispositioning. A voided full-review pass resets
    every streak and its findings are marked `superseded` — they need no dispositions,
    and the convergence check ignores them. A `No review` pass is checked only for its
    claimed input defect and never touches a streak; when the claimed defect does not
    check out, record `void — false abort`. Re-run any voided pass as the next number.
-   - *Coverage.* Claim ranges and `no claims` attestation rows tile the document —
+   - *Coverage.* Claim ranges, `no claims` attestation rows, and declared
+     `unreviewed` ranges tile the document —
      every line in exactly one kind of row, attestations never overlapping claim
      rows — and **every line inside a claim range carries that claim's own text**;
      separated parts of a relational claim take multiple ranges, mandatorily, so
@@ -183,17 +192,23 @@ it.
      verdicts claimed for them, and the read attestations match the files — chunk
      ranges tile the file, sampled per-chunk quoted lines sit at their stated
      offsets, and count and final line agree (their paged forms likewise) — with
-     the trailing-newline off-by-one against `wc -l` tolerated.
+     the trailing-newline off-by-one against `wc -l` tolerated. Verify every
+     `unswept` or `unreviewed` declaration and every excerpt entry's too-large
+     attestation the same way: necessity (the source or document genuinely exceeds
+     a pass's aggregate capacity — for an excerpt, the full source's size is a `wc`
+     away) and extent (the declared range no wider than the trigger warrants).
    - *Reconciliation.* Every non-standing claim verdicted other than SUPPORTED — and
      every `standing-overridden` row — has a finding; every ledger row noted
-     `flagged by the document`, every Support-record entry marked
-     `excerpt — author-selected`, and every non-text embed in the document has its
-     surfacing — a reliance finding, its one-time embed-note, or a standing
-     retirement; every SUPPORTED claim has a
-     Support-record entry; every honoured standing entry traces to the pass and
+     `flagged by the document` has its one-time flag-note or a standing retirement;
+     every Support-record entry marked `excerpt — author-selected` its excerpt-note
+     or retirement; every non-text embed in the document its surfacing — a reliance
+     finding, an embed-note, or a retirement; every SUPPORTED claim has a
+     Support-record entry; every `via` source-list entry traces to the UNVERIFIABLE
+     finding that sanctioned it; every honoured standing entry traces to the pass and
      finding it names — claim entries additionally with the key's quote contained in
      the traced finding's quoted claim; every pathed source-list entry carries a read attestation, a declared
-     unswept range, or an inert reconciliation finding; and for a bare-bibliography document, the attribution is
+     unswept range, an inert reconciliation finding, or a standing retirement of
+     its inert finding; and for a bare-bibliography document, the attribution is
      spot-checked both directions — an entry steered away from claims it plainly
      governs, or toward claims it does not, is a failure.
    - *Stability.* Re-hash the hash identity at pass end; a mismatch with spawn voids
@@ -213,7 +228,11 @@ it.
      document, the reason engages the checkable content it retires, and a
      counter-evidence probe of the swept corpus: a hit the reason does not address
      should have surfaced as `standing-overridden`, and honour-everything is the
-     laziness this sample exists to catch. Confirm the Support record's
+     laziness this sample exists to catch. Probe the sweep itself: search the
+     sources for counter-evidence bearing on a sample of claims — a hit the pass
+     engaged nowhere in its output is a named failure, since boundary-line
+     attestations prove targeted reads and only an outcome probe touches the
+     sweep. Confirm the Support record's
      derivation edges form a DAG grounded in source-backed entries — a cycle
      satisfies every per-entry check. A failed Merits sample voids like any other
      check, the quoted re-derivation being its evidence; a difference of judgement
@@ -252,7 +271,10 @@ it.
 4. **UNVERIFIABLE findings have one extra path**: the author fetches and verifies the
    source outside this skill. A verified source lands as a local file and joins the
    source list — an onward-identified one as a `via` entry, which is a cited source
-   by chain: it can support, contradict, or overclaim like any other. Failing that,
+   by chain: it can support, contradict, or overclaim like any other. The
+   disposition written under the finding is the fetch itself — `resolved by fetch`,
+   naming the new source-list entry — which satisfies the convergence check; the
+   next pass verdicts the claim against the now-local source. Failing that,
    accept as unverified with a stated reason, standing like any other.
 5. **Apply remaining accepted fixes**, then run the next pass cold.
 6. **Converged** when two consecutive surviving passes from distinct cold invocations
@@ -262,7 +284,9 @@ it.
    counts consecutive surviving Greens; the first Green after any surviving
    full-review non-Green is position one; a Green whose hashes differ from the
    previous Green's is position one; a voided full-review pass resets to zero;
-   `No review` passes touch nothing. An annotation mismatch between the two Greens is
+   `No review` passes touch nothing — except a
+   `void — false abort`, which resets the streak: a pass that wrongly called the
+   inputs invalid between two Greens is a stability signal, not nothing. An annotation mismatch between the two Greens is
    adjudicated and recorded: a borderline standing-coverage call leaves the streak
    standing, a real drift resets it. Surviving passes alternating `Green` /
    `No claims enumerated` over identical hashes mean the document sits on the
@@ -272,7 +296,9 @@ it.
    sends you back to step 1. Two Greens are two samples, not a proof — vary the model
    or invocation settings between them where the harness allows, and where nothing can
    vary, the fresh invocation is the variation; the prompt and inputs stay pinned, and
-   the hash identity is what checks that. The author declares convergence; never propose
+   the hash identity is what checks that. Convergence is declared over the void
+   history: every voided pass, its failed check, and its quoted evidence are listed
+   in the declaration the author signs. The author declares convergence; never propose
    calling it clean.
 
 ## Running a pass
@@ -336,10 +362,16 @@ Sources — entry forms and their semantics:
   claim-capping semantics.
 - `via <citation>: <onward citation> → path` — a source admitted by chain, **valid
   only after you find the onward citation in the read intermediate**; absent there,
-  the entry is inert and a record-level finding.
-- `citation (excerpt) → path` — an author-selected excerpt standing in for a source
+  the entry is inert and a record-level finding. It carries the trace of the
+  UNVERIFIABLE finding that sanctioned it (`Pass N, finding M`) — trace-less, it is
+  likewise inert and a record-level finding; its evidence attaches at the
+  intermediate's citation point in the document, and a `[governs:]` suffix on a
+  `via` entry is inert.
+- `citation (excerpt) → excerpt-path (full: source-path)` — an author-selected
+  excerpt standing in for a source
   too large to sweep; the entry form itself attests the full source unavailable to
-  sweep, no companion entry. Sweep the excerpt in full like any source. Its
+  sweep, no companion entry, and the full path is the audit's handle, not a read
+  target — the excerpt is what you sweep, in full like any source. Its
   provenance mark is `excerpt — author-selected`; it is exempt from the
   self-identification test (the author cut it, so front matter proves nothing). A
   claim whose cited support lies outside the excerpt caps at the UNVERIFIABLE rule
@@ -367,8 +399,10 @@ one reason across several keys, each key with its own trace — a valid shape, n
 abort. A **record-level entry** keys on the item it retires (a steer text, an entry
 defect) with a reason and trace but no anchor — also valid, not defective — and is
 honoured when the item recurs identically, raising nothing then. An
-invited-inference entry keys on its inviting span and covers any later inference
-whose span overlaps it, since span-drawing varies between passes:
+invited-inference entry keys on its inviting span **and states the inference it
+retires**; it covers a later inference only where it is that same inference — the
+one the reason engages — with span overlap absorbing segmentation variance; a
+different inference over an overlapping span is a fresh claim, not covered:
 
 `<standing-dispositions>`
 
@@ -490,7 +524,8 @@ Plausibility is not support, and neither is your own agreement.
    findings, and in any standing key — keying dispositions to document text rather
    than to any one pass's segmentation; the residual span variance is what the
    standing overlap rule absorbs. A conjunction earns
-   no verdict its weakest conjunct does not. `no claims` attestation rows cover
+   no verdict its weakest conjunct does not (weakest by the claim-level
+   precedence). `no claims` attestation rows cover
    exactly the lines no claim row touches, so the ledger tiles the document and a
    skipped stretch is structurally impossible.
 2. **Classify** each: empirical/statistical · causal · logical derivation ·
@@ -544,9 +579,14 @@ Plausibility is not support, and neither is your own agreement.
      (a "some" quietly becoming "all"). A conclusion needing an unstated load-bearing
      premise — one the argument cannot go through without — is UNSUPPORTED, the
      missing premise named; CONTRADICTED where stated premises oppose it. Support
-     routes are alternatives: a claim offering both a citation and a derivation is
-     SUPPORTED when either fully carries it — counter-evidence still outranks — and
-     inheritance governs only where no cited source carries the claim. The
+     routes combine in a fixed order: read counter-evidence or contradiction
+     anywhere sinks the claim; otherwise an unread identified source for the claim
+     caps it at UNVERIFIABLE whatever other routes show — the fetch obligation
+     attaches to the claim, not the route; otherwise the claim is SUPPORTED when
+     any offered route fully carries it — an offered derivation that fails is
+     findable through its own enumerated inference claim, never a sink for a
+     conclusion another route carries; otherwise the verdict is the
+     highest-precedence outcome among the failed routes. The
      document is not its own witness: a claim supported only by other claims
      inherits the **worst** premise verdict by evidential severity — CONTRADICTED >
      UNSUPPORTED > OVERCLAIMED > UNVERIFIABLE: refuted sinks it, unsupported leaves
@@ -649,7 +689,7 @@ tiling line 1 to the last, each range with its first line quoted — plus the to
 line count and final line quoted (pages and page-first lines for paged sources), or
 `unswept: <range>` with the
 trigger, and a provenance mark (`independent` / `author-derived` /
-`provenance undeterminable`); an attested entry writes `unavailable — attested` (or
+`provenance undeterminable` / `excerpt — author-selected`); an attested entry writes `unavailable — attested` (or
 `unreadable — attested`) with no read or provenance fields, since there is nothing to
 read or judge.
 Then reconciliation findings: a document citation missing from the list; a listed
@@ -680,7 +720,8 @@ verifies the necessity like any unswept declaration.
 
 One entry per SUPPORTED claim: **the claim quoted as written**, then the quoted
 source line and locator — several, where support is genuinely distributed across a
-table and its method — with `author-derived` or `provenance undeterminable` marked;
+table and its method — with `author-derived`, `provenance undeterminable`, or
+`excerpt — author-selected` marked;
 for derivation-backed support, the premise IDs and the inference stated in one line,
 and a multi-locator entry states its linking inference the same way, since the link
 between a table row and a method line is itself a step someone must be able to audit.
@@ -723,7 +764,9 @@ no further procedure closes that, so this skill does not pretend to. The trust r
 is the author's honesty, and primary-source verification stays the author's burden.
 The audits are sampled — probabilistic guards, not proofs. A dispositioned steer's
 text rides back into every later prompt as a standing key, declared inert — a
-compliance property, not a structural one. Verdict boundaries
+compliance property, not a structural one. And where the harness records no
+tool-call transcript, the read fence is instruction, not observation: a breach
+that does not surface in the output leaves no trace. Verdict boundaries
 involve judgement, so borderline calls vary between cold invocations; the
 disposition loop, not the taxonomy, absorbs that variance. And the hard line on
 unsourced claims makes narrative genres loud by design: this skill fits
