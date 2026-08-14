@@ -104,7 +104,7 @@ Keep the record beside the target document, created on the first append. Its nam
 `claims-review.md` while it is the directory's only record; once two documents in one
 directory are reviewed, every record takes the form
 `<document-basename>.claims-review.md` — the orchestrator starting the second review
-renames the first accordingly and notes the rename. Before creating or appending,
+renames the first accordingly and notes the rename in both records. Before creating or appending,
 check for the document-named form first; where present, it is that document's record.
 Two kinds of content:
 
@@ -113,7 +113,9 @@ Two kinds of content:
   occurrence index where headings repeat, `(preamble)` for text before the first
   heading, or `(no heading)` in a heading-less document — that form is defective
   anywhere else); an occurrence index over the quote where the same text repeats
-  within the anchor (absent, the entry covers the first); the verdict it dispositions
+  within the anchor (required, with the context line, whenever the quote repeats —
+  an entry missing either while its quote repeats is unanchored; a unique quote
+  needs neither); the verdict it dispositions
   (`not a claim` is a legal verdict slot); the author's stated reason; and the trace
   `Pass N, finding M`. A record-level entry carries the item it retires, the reason,
   and the trace; it is honoured when the item recurs identically (the same steer
@@ -198,7 +200,7 @@ it.
    (contest bookkeeping, a defective standing entry) is not a ground against the
    pass: it is a record repair, worked with the author like a finding. A failure
    that impugns the pass is put to the author with its quoted evidence, and
-   either way the pass earns no streak credit — an audit-failed pass never counts
+   either way the pass resets the streak — an audit-failed pass never counts
    toward convergence, signed or declined. Signed (**voided**), its output is
    untrusted and its findings become carried findings; declined, its findings are
    worked as they stand. Carried or not, every finding is worked with the author
@@ -207,7 +209,13 @@ it.
    pass is checked only for its claimed input defect; checked out, it touches
    nothing — when it does not check out, record `void — false abort`, which
    resets the streak, no sign-off needed: the direction is safe, more passes,
-   never fewer. Re-run any voided or audit-failed pass as the next number.
+   never fewer. Re-run any voided or audit-failed pass as the next number. A pass
+   **survives** unless it was voided or recorded `void — false abort`; a declined
+   audit failure survives, but resets the streak and holds no contest window.
+   Coverage, Reconciliation, and Stability run exhaustively — every row, every
+   invariant, an under-enumerated run being itself an audit defect; Attestations,
+   Segmentation, Support, and Merits sample, except that Support verifies every
+   unswept, unreviewed, and excerpt declaration.
    - *Coverage.* Claim ranges, `no claims` attestation rows, and declared
      `unreviewed` ranges tile the document —
      every line in exactly one kind of row, attestations never overlapping claim
@@ -305,15 +313,22 @@ it.
    - **Contest** — the author holds the finding simply wrong (the adversary misread,
      or never read, the source); record the dispute and its evidence under the
      finding and leave the claim live. A contested finding re-raised by two further
-     cold passes — matched on overlapping claim text — escalates to fix-or-accept,
-     and **an open contest blocks convergence**: contesting is not a parking spot. A
-     contest the next two surviving passes do not re-raise closes in the author's
-     favour — record it resolved under the original finding, after which it blocks
-     nothing. The window is the next two surviving passes, consecutively: re-raised
+     cold passes — matched per the contest key below — escalates to fix-or-accept:
+     the escalation is recorded under the original contested finding (the second
+     re-raise still takes the continuing-contest record), and the author's
+     fix-or-accept disposition there closes the contest. **An open contest blocks
+     convergence**: contesting is not a parking spot. A
+     contest the next two window passes do not re-raise closes in the author's
+     favour — record it resolved under the original finding, the resolution line
+     quoting the contest's recorded evidence (an empty evidence field fails
+     closed: the contest stays open), after which it blocks
+     nothing. The window is the next two window passes, consecutively: re-raised
      by both, escalate; by neither, close; by exactly one, the contest stays open and
-     the window restarts at the next pass. The window counts only surviving
-     full-review passes whose reviewed ranges include the contested span, and
-     re-raise matching is document-span overlap, never string overlap — a reworded
+     the window restarts at the next pass. A **window pass** is an audit-clean
+     surviving full-review pass whose reviewed ranges include the contested span. A
+     contest keys like a standing entry — the contested claim's quoted text at its
+     anchor — so it survives reflow and edits elsewhere; matching is overlap with
+     that key in the current document, never recorded line numbers, and a reworded
      sentence at the same spot is the same contest. A re-raise is recorded under
      the new
      finding as `continuing contest → Pass N, finding M`, which is its disposition
@@ -332,7 +347,12 @@ it.
    One acceptance carries extra weight: accepting a missing-source finding — the
    author holding the mention no citation — has attestation-equivalent semantics,
    the file staying off the list and out of the sweep, and the declaration lists
-   it as a sweep exclusion. Re-keying and pruning standing entries is sanctioned
+   it as a sweep exclusion. An `unreviewed` range takes one of two dispositions:
+   revise the document until a pass holds it whole (a fix), or split it into
+   separate documents, each reviewed independently under this skill with its own
+   citations, source list, record, and convergence — the split terminates this
+   review without convergence, the record closing naming the successors;
+   accept-as-standing is not available for an unreviewed range. Re-keying and pruning standing entries is sanctioned
    in exactly two contexts — here, as a finding's disposition (including re-keying
    entries orphaned by a heading rename where the quote still matches uniquely),
    and step 1's abort-class repair; adding one outside a finding disposition
@@ -369,13 +389,17 @@ it.
    terminal; the picked terminal carries the full declaration machinery, measured
    against the two passes of the picked kind.
    `No claims enumerated` ends the review as out of scope only after two consecutive
-   surviving invocations return it over identical hashes; `No review — input invalid`
+   surviving invocations return it over identical hashes — an ending the author
+   declares like convergence, carrying the same declaration machinery measured
+   against those two passes, their annotations required to reference the same
+   entries; `No review — input invalid`
    sends you back to step 1. Two Greens are two samples, not a proof — vary the model
    or invocation settings between them where the harness allows, and where nothing can
    vary, the fresh invocation is the variation; the prompt and inputs stay pinned, and
    the hash identity is what checks that. The declaration the author signs lists
    every audit failure — voided or declined — with its check and quoted evidence,
-   every contest closed by non-recurrence, and every sweep exclusion; it carries
+   every contest closed by non-recurrence, and every sweep exclusion (accepted
+   missing-source findings and standing unswept ranges alike); it carries
    fresh hashes taken at signature time — the document and each listed source from
    disk, the prompt re-substituted from the record as it stands — required equal
    to both Greens' recorded sets; and it certifies the per-pass audit records. The
@@ -483,7 +507,8 @@ in both directions anyway:
 
 Standing dispositions — findings the author has already dispositioned. Claim entries
 key on quote-plus-anchor, with an occurrence index and a distinguishing context line
-where the quote repeats (no index means the first occurrence), and a **dependency
+where the quote repeats (both required there — missing either, the entry is
+unanchored; a unique quote needs neither), and a **dependency
 line** — quoted document text outside the key that the reason relies on — where the
 disposition leaned on such text; grouped entries share
 one reason across several keys, each key with its own trace — a valid shape, not an
@@ -522,8 +547,8 @@ document text outside its key without quoting it as a dependency line — is a
 record-level finding, not an abort. Unanchored covers more than a mismatched
 context or dependency line: an entry whose quoted key no longer appears at its
 anchor, a record-level entry whose retired item no longer occurs anywhere, and a
-key whose quote now repeats within its anchor while the entry carries no
-occurrence index and context line are all unanchored — coverage never migrates to text the disposition
+key whose quote repeats within its anchor while the entry lacks its occurrence
+index or context line are all unanchored — coverage never migrates to text the disposition
 never adjudicated, and a dead entry is pruned through its finding rather than
 haunting the declaration.
 
@@ -586,7 +611,10 @@ UNVERIFIABLE (the fetch route is
 transcribing its data into text), the finding naming the embed. An embed no text
 leans on still surfaces exactly once — a one-time **embed-note** finding naming it
 and asking whether it carries checkable content the review cannot examine; a
-standing entry retires it (a decorative image dispositions once; a load-bearing
+standing entry retires it, its reason either transcribing the embed's data into
+the record or attesting the embed carries no data bearing on any claim — an
+attestation like any other, so a contradicting chart passes only on a
+fabrication-class lie (a decorative image dispositions once; a load-bearing
 chart gets transcribed or owned).
 
 Pure value judgements, aesthetic preferences, normative stances, and forward-looking
@@ -625,7 +653,9 @@ Plausibility is not support, and neither is your own agreement.
    derivation marker ("so", "therefore") yields the inference as its own claim
    beside its parts; an inference the document structurally invites without a marker
    — takeaway framing, a thesis sentence, consequential juxtaposition ("We shipped
-   the fix in May. Churn fell in June.") — is enumerated too: when in doubt whether
+   the fix in May. Churn fell in June."), or an unasserted hypothetical or
+   vignette whose content the argument depends on, which invites the
+   corresponding capability claim — is enumerated too: when in doubt whether
    adjacency argues, enumerate it and let the author reject it. An unwritten claim's
    "as written" quote is **the full inviting span, verbatim** — in the ledger, in
    findings, and in any standing key — keying dispositions to document text rather
@@ -654,7 +684,9 @@ Plausibility is not support, and neither is your own agreement.
      anywhere in the cited corpus is admissible against any claim. Chunked reads are full reads; the
      Read tool's per-call limits are never a trigger. Only where a source genuinely
      exceeds what one pass can hold in aggregate, declare `unswept: <range>` in
-     Source check — the audit verifies necessity and extent — and every claim citing
+     Source check — the audit verifies necessity and extent, and the declaration
+     is a one-time record-level finding on the flag-note model, the author owning
+     the sweep gap — and every claim citing
      that source caps at the UNVERIFIABLE rule wherever its supporting line sits,
      the unswept remainder standing as a declared gap in the sweep. Read each quote
      against the source's own surrounding qualifications: a line the source bounds
@@ -846,12 +878,7 @@ of a compression and no fresh verdict; a `standing-overridden` row carries the l
 verdict and the entry it overrides. Attestation rows complete the tiling. Where the document itself genuinely exceeds
 what one pass can hold in aggregate, an `unreviewed: <range>` row (with the trigger
 stated) is the honest ledger form — each such row is a record-level finding, forcing
-`Findings to clear` — and the resolution lives with the author outside this review:
-split the piece into separate documents, each reviewed independently under this
-skill with its own citations, source list, record, and convergence. The split
-decision is the finding's disposition and terminates this review without
-convergence — the record closes naming the successor documents; accept-as-standing
-is not available for an unreviewed range. The audit
+`Findings to clear` — its resolution is the author's, outside this pass. The audit
 verifies the necessity like any unswept declaration.
 
 ### Support record
@@ -889,7 +916,8 @@ so the accept-as-unverified disposition is decided on the evidence in hand. If n
 Non-blocking, same form — a pure value judgement worth the author's eye, a
 structural note. Never a prior about a claim's truth. If none, `_None_`.
 
-Findings get dispositioned by the author, not waived by you. Do not offer a verdict
+Findings get dispositioned by the author, not waived by you, and never arrive
+with a recommended disposition. Do not offer a verdict
 on whether the document should ship — that decision is the author's.
 
 ---
@@ -912,7 +940,7 @@ a sanctioned cherry-pick channel — surfaced, marked, and disposition-gated, bu
 the selector and the dispositioner are the same person. And coverage tiling is
 line-granular, so it is formatting-dependent: a reflowed document weakens the
 floor to paragraph granularity, and assertion-level completeness rests on the
-Segmentation audit's seeded sample, not on the tiling. Above all: the guards in
+Segmentation audit's sample, not on the tiling. Above all: the guards in
 this file catch carelessness, laziness, and drift. A motivated author and
 orchestrator colluding — aiming samples, shopping voids, softening the template in
 their own copy — sit inside the trust root with the other floors, because every
