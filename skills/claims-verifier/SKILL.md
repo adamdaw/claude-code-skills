@@ -55,7 +55,15 @@ orchestrator's own read.
      admitted by the chain from a document citation, the trace naming the
      finding that sanctioned it (`resolved by fetch` is judged against that
      finding's full named onward set: every member fetched or the claim
-     stays capped).
+     stays capped). It confers support like any source, so it carries the
+     ordinary pathed entry's completeness guard set in full: the author's
+     directional attestation that the file is the complete onward work with
+     no counter-bearing content omitted (fabrication-class if false), a
+     knowingly-partial copy of the onward work routing through the excerpt
+     form and its guards instead — supplying a partial as a bare `via` path
+     is the fabrication class, the cherry-pick the excerpt channel exists to
+     surface — and the variant pin, its dated-form cap reaching a present-tense
+     current-behaviour claim exactly as on a pathed entry.
    - `citation → local copy unreadable (author attests no readable copy)` — when the
      only extant copy is an unintelligible scan; same claim-capping semantics as
      attested-unavailable.
@@ -1587,7 +1595,14 @@ show bare citations for legibility:
   UNVERIFIABLE finding that sanctioned it (`Pass N, finding M`) — trace-less, it is
   likewise inert and a record-level finding; its evidence attaches at the
   intermediate's citation point in the document, and a `[governs:]` suffix on a
-  `via` entry is inert.
+  `via` entry is inert. Once valid it carries the ordinary pathed entry's
+  completeness attestation — the file is the complete onward work, no
+  counter-bearing content omitted, a knowingly-partial copy belonging in the
+  excerpt form and a partial supplied as a bare `via` path the fabrication
+  class — and its variant pin, so a present-tense current-behaviour claim over
+  a `dated`-pinned `via` source is OVERCLAIMED as written; a `via` entry is
+  never the cherry-pick channel the excerpt form's guards would otherwise
+  catch.
 - `citation (excerpt) → excerpt-path (full: source-path, N lines)` — an
   author-selected
   excerpt standing in for a source
