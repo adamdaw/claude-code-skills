@@ -391,10 +391,12 @@ auditor's return hash, each recorded per pass by their own rules.
 2. **Audit the pass before working findings.** The audit is not the
    orchestrator's own read: spawn a second fresh subagent — the **auditor**
    — per pass, cold like the adversary, on a read-only agent type carrying
-   `Read`, `Grep`, and `Bash` and no `Write` or `Edit` (the sanctioned-shape
-   rule under Stability governs the full shape, including how a network-scope
-   tool the type carries is presence-void without a transcript to catch its
-   use); its `Bash` is
+   `Read`, `Grep`, and `Bash` and no `Write` or `Edit`, its `Bash` confined
+   to a **sandbox** whose filesystem view is the sanctioned read set and with
+   no network egress (the sanctioned-shape rule under Stability governs the
+   full shape — the Bash sandbox, and how a network-scope extra tool the type
+   carries is presence-void without a per-tool fenceable transcript); its
+   `Bash` is
    recomputation only — a write to snapshots or the record surfaces as an
    integrity defect at the next spawn, and the hash identity surfaces any
    live-file write, though it cannot attribute one. The auditor works
@@ -708,29 +710,28 @@ auditor's return hash, each recorded per pass by their own rules.
        tool that writes through a dedicated tool call (an edit must be
        structurally impossible, and the hash re-check only catches a *disk*
        write). `Bash` is the one required tool that is itself mutation- and
-       network-capable, so it is fenced by **content**, the single place
-       existence does not suffice — a recomputation call and a network or
-       mutating call are both legitimately-shaped `Bash` invocations, so the
-       walk cannot tell them apart without reading the command string. The
-       auditor's `Bash` is bounded to local, read-only, deterministic
-       recomputation over its sanctioned read set — hashing, `wc`, arithmetic,
-       `grep`/`cat`/`sort`/`head`/`tail` and the like. Where a transcript
-       exists, the walk parses **every** `Bash` invocation's command string,
-       and a call invoking a network binary (`curl`, `wget`, `nc`, `ssh`, …),
-       a writing redirection or any mutating command, or any binary outside
-       the local-recomputation set is a **fence breach by content** — a
-       defective audit record. The binary check does not replace the path
-       fence, it rides on top of it: **every path operand** an in-set binary
-       reads must resolve inside the auditor's sanctioned read set (the
-       resolution-map snapshot and live paths, the record, this skill file,
-       the transcripts, the snapshot store), a path outside it a fence breach
-       exactly as the same path is in a `Read` or `Grep` call — else an
-       allow-listed reader (`cat ../sibling-draft`, `grep foo /elsewhere`)
-       would launder the very out-of-set read the tool-call walk forbids.
-       Where the harness records **no** transcript,
-       the auditor's `Bash` must be harness-guaranteed network-incapable (no
-       egress), its only residual power a disk write the hash re-check
-       surfaces; a harness that cannot guarantee that cannot run the auditor
+       network-capable, and — unlike the read-only tools the transcript walk
+       fences — it is fenced **structurally, by the environment it runs in**,
+       never by policing its command strings: a command-string parse is
+       unwinnable against reading redirection, pipes, command and process
+       substitution, and symlink or `..` escape, so the skill applies its own
+       doctrine — the dangerous capability is made *impossible*, as no write
+       tool makes an edit impossible. The auditor's `Bash` runs in a
+       **filesystem sandbox whose canonical view is exactly the sanctioned
+       read set** — the skill file, the record, the snapshot store, the
+       transcripts, and the resolution-map live document and source paths,
+       symlinks followed and `..` collapsed so nothing resolves outside it —
+       **with no network egress**. An out-of-set read and a network call are
+       then structurally impossible whatever the command string does; the only
+       residual power is a disk write inside the view, which the hash re-check
+       surfaces. Its recomputation is what it always was — hashing, `wc`,
+       arithmetic, `grep`/`cat`/`sort` over that view. Where a transcript
+       exists the walk still reads each `Bash` command string as **defense in
+       depth** — a recorded attempt at a network binary or a mutating command
+       is noted — but the guarantee is the sandbox, not the parse, so no
+       shell-construct enumeration is load-bearing. A harness that can neither
+       confine the auditor's `Bash` to the sanctioned view nor deny it egress
+       cannot run the auditor
        (the honest limitation the network-scope tier also names). Any further
        tool the type carries must be read-only, sanctioned by its blast-radius
        tier — the tiers differ precisely in whether fenceability is required:
@@ -775,16 +776,16 @@ auditor's return hash, each recorded per pass by their own rules.
        network fetch, or any call naming a path or URL outside the listed set
        — the call's presence is the breach, its return never needing to be
        reconstructed (this is what makes an extra fenceable tool caught by
-       existence, per the sanctioned-shape rule above). The **one** call type
-       existence cannot judge is the auditor's `Bash`, whose recomputation
-       presence is legitimate: each `Bash` invocation is instead checked **by
-       content** — its command string parsed against the local-recomputation
-       set per the sanctioned-shape rule, a network binary, mutating command,
-       writing redirection, or any out-of-set binary a fence breach, **and
-       every path operand still checked against the auditor's sanctioned read
-       set** as a `Read`/`Grep` path is (the binary check adds to the path
-       fence, never replaces it) — so a `Bash` call is never waved through on
-       existence, and never flagged for existence alone. The union of
+       existence, per the sanctioned-shape rule above). The auditor's `Bash`
+       is the exception existence does not judge, and neither does the walk
+       fence it: its recomputation presence is legitimate, and its reads and
+       network are bounded **structurally by the sandbox** (the sanctioned-view
+       filesystem, no egress) per the sanctioned-shape rule, not by this walk.
+       The walk still reads each `Bash` command string as defense in depth —
+       noting a recorded attempt at a network binary or a mutating command —
+       but a `Bash` call is neither waved through on existence nor flagged for
+       existence alone; the sandbox is what makes its out-of-set read
+       impossible. The union of
        read ranges covers the attested chunk ranges; the prompt-as-sent and
        tool set match the transcript, not merely the orchestrator's own
        record; and where tool outputs are recorded, read content is consistent
