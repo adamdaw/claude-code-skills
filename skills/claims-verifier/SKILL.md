@@ -753,7 +753,10 @@ auditor's return hash, each recorded per pass by their own rules.
        unchanged
        locus is the defective-disposition finding the Fix rule names.
    - *Merits.* Re-derive a sample of SUPPORTED **and** non-SUPPORTED verdicts
-     on the merits — its sample target scaled: the greater of three and a
+     on the merits — two populations, the SUPPORTED rows and the non-SUPPORTED
+     rows, each document-ordered and drawn one-per-round in turn so the sample
+     always reaches both the lazy-supporter and the lazy-refuser directions
+     (never one list, whose draw could land all on one side) — its sample target scaled: the greater of three and a
      tenth of the ledger's **enumerated-claim count** (rounded up), so audit
      coverage density does not collapse as the document grows, the bare
      SUPPORTED verdict no longer the one dangerous thing sampled at a fixed
@@ -819,6 +822,14 @@ auditor's return hash, each recorded per pass by their own rules.
        its leaning backstop is exhaustive like the fix re-derivation, not left
        to the draw; a retirement of pure value-judgement content, nothing
        leaning on it, clears trivially.
+     - Every honoured accept-with-reason `standing` entry is checked
+       **exhaustively** the same way for reason over-reach: the reason must
+       engage only the checkable content its key retires, and any assertion
+       inside the key the reason never engaged is a live finding — accepting a
+       claim standing removes it from re-verdicting exactly as `not a claim`
+       does, so the reason-engagement backstop is exhaustive, not the sampled
+       draw above (which still owns this entry's reading-shift and
+       counter-evidence checks, both turning on developments outside the entry).
      - Probe the sweep itself: search the sources for counter-evidence bearing
        on a sample of claims — the same scaled target as the Merits verdict
        sample (the greater of three and a tenth of the enumerated-claim count). The queries per sampled claim are mandated,
@@ -1291,20 +1302,25 @@ auditor's return hash, each recorded per pass by their own rules.
    certification attests the records' form and completeness, not a full
    re-execution (the audit was the auditor's execution; certification is
    over its recorded output), with one
-   mandatory cross-party exception — at signing the author picks a named
-   sample from the review's whole obligation space — any ledger row, standing
-   entry, source-list entry, recorded recomputation, or convergence
+   mandatory cross-party exception — at signing a named sample is **drawn**,
+   never chosen, from the review's whole obligation space — any ledger row,
+   standing entry, source-list entry, recorded recomputation, or convergence
    predicate (streak position, audit-cleanliness per pass, contest and
-   disposition counts), at least three items
-   from at least two passes and always at least one predicate re-derived in
+   disposition counts) — by the certification seed's own draw machinery,
+   the populations structured as each pass's obligations plus a predicates
+   population and drawn round-robin so the sample spans at least three items
+   from at least two passes and always at least one predicate, re-derived in
    front of the author, each bound relaxed to what exists where the
-   review holds fewer, the author's choice, never the orchestrator's — and
+   review holds fewer; the author's role is to **witness** the re-run in
+   person, never to select its targets — drawn, never chosen, as everywhere
+   else in this file, so the party the control checks cannot steer it past
+   the very entries they alone know to be weak — and
    the applicable invariants are re-run in front of the author against the
    hash-pinned artifacts: a recomputation re-executed, a ledger row's verdict
    re-derived, a standing entry's key and hashes re-checked, a source-list
    entry's attestation or read record re-verified. The sample space is the
    obligations, not the orchestrator's records — what the orchestrator
-   elected to write down cannot bound what the author may check. The
+   elected to write down cannot bound what is drawn. The
    declaration records each item and its result. A mismatch is an
    audit-record defect that blocks signing until adjudicated — the affected
    pass re-audited or voided per step 2, with the streak consequence that
@@ -1664,7 +1680,10 @@ is document self-description — byline, date, version line, author bio: it is a
 attestation like the identity line, not a claim the document must source — scoped to
 identity, affiliation, and artifact-provenance metadata (the date and version
 lines) only: a checkable empirical assertion inside a bio
-("cut defect rates 40% at three companies") is a claim like any other, since
+("cut defect rates 40% at three companies") — or riding on a version or
+changelog line ("v2.1 — rebuilt on the new engine, 3× faster"), where only the
+version identifier and date are the exempt provenance metadata — is a claim
+like any other, since
 empirical content decides scope here too, and a span readable both as
 affiliation metadata and as an empirical assertion (a tenure figure, an
 achievement count) is a claim — ties fail closed here as everywhere. The
