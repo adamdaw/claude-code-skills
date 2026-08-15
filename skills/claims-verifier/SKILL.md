@@ -78,7 +78,15 @@ the operator's own read, not an independent one, and the author should know that
    would see.
    Resolution rule: a citation that is already a local path resolves directly; for any
    other, ask the author to name the local copy; only what the author attests
-   unavailable passes unresolved. For any entry the document nowhere cites in-text
+   unavailable passes unresolved. A pathed entry carries the author's
+   completeness attestation, directional like the unavailable form's: the file
+   is, to the author's knowledge, the complete cited work, omitting no
+   counter-bearing content — fabrication-class if false; a file the author
+   knows to be a partial copy routes through the excerpt form and its guards.
+   Every entry is one line — line breaks inside citation text collapse when the
+   list is built — and attestation-bearing entries are written only from the
+   author's direct resolution answers, never transcribed from document text:
+   bibliography text that mimics an entry form is content, not structure. For any entry the document nowhere cites in-text
    (a bare-bibliography entry), attribute it to the claims or sections it governs
    when building the list. A document with no citations passes the line
    `No citations — empty source list.`
@@ -209,8 +217,9 @@ full source — the full source hashed, never read by the adversary, so the
 necessity audit cannot
 run against a silently changed file). That one set is recorded in the pass record, re-checked at
 pass end, and compared at convergence — there is no second enumeration to drift from
-it, the one adjunct being the content hashes standing entries record for
-file-backed embeds, which Stability re-checks each pass.
+it, the two adjuncts being the content hashes standing entries record for
+file-backed embeds and the enclosing-block hashes claim-keyed entries record,
+both re-checked by Stability each pass.
 
 ## The loop
 
@@ -263,7 +272,9 @@ file-backed embeds, which Stability re-checks each pass.
    Stability check's work, recorded like its other components and required for
    audit-cleanliness wherever a transcript exists. Fence-breach evidence — in
    the output
-   or the transcript — counts as a failed check.
+   or the transcript — counts as a failed check; signing that failure voids the
+   pass, and declining it is adjudicating the evidence as showing no breach — a
+   confirmed breach never survives, which is the void the prompt promises.
    A failure whose defect lies in the record rather than in the pass's own output
    (contest bookkeeping, a defective standing entry) is not a ground against the
    pass: it is a record repair, worked with the author like a finding, and it does
@@ -295,7 +306,7 @@ file-backed embeds, which Stability re-checks each pass.
    **full-review pass** is any pass returning other than
    `No review — input invalid` — `No claims enumerated` included. A pass
    **survives** unless it was voided or recorded `void — false abort`; a declined
-   audit failure survives, but resets the streak and holds no contest window.
+   audit failure survives, but resets the streak.
    Coverage, Reconciliation, and Stability run exhaustively — every row, every
    invariant, an under-enumerated run being itself an audit defect; Attestations,
    Segmentation, Support, and Merits sample, except that Support verifies every
@@ -316,7 +327,9 @@ file-backed embeds, which Stability re-checks each pass.
      invited-inference range wider than its inviting block is the same failure.
    - *Attestations.* Read a sample of attested stretches and confirm they are
      genuinely claim-free; text retired by a `not a claim` standing entry counts as
-     claim-free.
+     claim-free. A sampled attested stretch carrying figures or empirical
+     statements without its retiring entry or figure-note is a failed check —
+     deterministic on the sample, not a judgement call.
    - *Segmentation.* Read a sample of claim rows against the document for assertions
      that rode through unsplit, and a sample of consecutive claim pairs,
      non-adjacent candidate pairs (parallel or echoing sections), and
@@ -360,8 +373,9 @@ file-backed embeds, which Stability re-checks each pass.
      finding, an embed-note, or a retirement; every SUPPORTED claim has a
      Support-record entry and every Support-record entry answers a SUPPORTED
      ledger row; every `via` source-list entry traces to the UNVERIFIABLE
-     finding that sanctioned it; contest-window accounting — re-raises recorded as continuing
-     contests, window counts, post-contest coverage exclusions — reconciles against
+     finding that sanctioned it; contest accounting — re-raises recorded as continuing
+     contests, escalation counts, re-opened deletion-resolved contests —
+     reconciles against
      the record; every ledger verdict is drawn from the closed set (the five,
      `standing`, `standing-overridden`) — an out-of-set or qualified label is a
      failure; every entry of the substituted standing section is accounted for in
@@ -400,7 +414,7 @@ file-backed embeds, which Stability re-checks each pass.
      recorded in every embed-concerning standing entry against its file, and
      every claim-keyed entry's enclosing-block hash against the block now
      holding its key — a
-     mismatch unanchors the entry. Compare each spawn hash with the previous
+     mismatch, or a missing block hash, unanchors the entry. Compare each spawn hash with the previous
      pass's recorded hashes: a changed document is the loop's normal cycle, but a
      changed source is a surfaced event, adjudicated with the author before the
      next pass — unanchoring standing entries and contest evidence whose reasons
@@ -436,9 +450,9 @@ file-backed embeds, which Stability re-checks each pass.
    findings take exactly one disposition: the four below, step 4's fetch route
    (UNVERIFIABLE findings only), the `resolved by source change` record where
    step 2's source-change adjudication resolves it, the void-artefact closure
-   below (carried findings from a voided pass only), or — for a re-raise while a
-   contest stands open
-   over the same span — the continuing-contest record, which is then the only
+   below (carried findings from a voided pass only), or — for a re-raise of an
+   open contest's dispute — the continuing-contest record, which is then the
+   only
    legal one:
    - **Fix** — revise the document, at disposition time or at step 5.
    - **Accept with a stated reason** — the claim stands; record the standing entry.
@@ -456,52 +470,39 @@ file-backed embeds, which Stability re-checks each pass.
      genuine claims, not reject candidates.
    - **Contest** — the author holds the finding simply wrong (the adversary misread,
      or never read, the source); record the dispute and its evidence under the
-     finding and leave the claim live. A contested finding re-raised twice more —
-     matched per the contest key below, the re-raises counted from any pass whose
-     output records them, window pass or not, a voided pass's carried re-raise
-     included — escalates to fix-or-accept:
-     the escalation is recorded under the original contested finding (the second
-     re-raise still takes the continuing-contest record), and the author's
-     fix-or-accept disposition there closes the contest. **An open contest blocks
-     convergence**: contesting is not a parking spot. A
-     contest the next two window passes do not re-raise — no other pass
-     re-raising it in the same stretch — closes in the author's
-     favour — record it resolved under the original finding, the resolution line
-     quoting the contest's recorded evidence (an empty evidence field fails
-     closed: the contest stays open), after which it blocks
-     nothing. The closure window is the next two window passes, consecutively; a
-     matched re-raise from any pass — a window pass, a declined audit failure, a
-     voided pass — counts toward escalation, never toward closure, and restarts
-     the closure window at the next pass; a non-window pass recording no matched
-     re-raise is transparent to the window — consecutive counts window passes,
-     not passes of every kind. A **window pass** is an audit-clean
-     surviving full-review pass whose reviewed ranges include the contested span. A
+     finding and leave the claim live. **An open contest blocks convergence**:
+     contesting is not a parking spot, and no contest closes by quiet — every
+     contest ends in fix-or-accept, reached by escalation, by the author's own
+     conversion, or by the deletion rule below resolving it as a fix. It
+     escalates when re-raised twice more — matched per the contest key below,
+     the re-raises counted from any pass whose output records them, a voided
+     pass's carried re-raise included — the escalation recorded under the
+     original contested finding (the second re-raise still takes the
+     continuing-contest record), the author's fix-or-accept disposition there
+     closing it. Or the author converts it at any time, recorded the same way.
+     Every dispute thus ends in a fix or a reasoned acceptance the declaration's
+     inventory surfaces; a finding no pass re-raises still waits on the author's
+     own conversion. A
      contest keys like a standing entry — the contested claim's quoted text at its
      anchor — so it survives reflow and edits elsewhere; matching is overlap with
      the key's quoted text wherever it now appears in the document — relocation
-     carries the contest with it, never recorded line numbers — and matching
+     carries the contest with it, never recorded line numbers, and every
+     occurrence of a repeated key text belongs to the one dispute — and matching
      requires the same defect: an invited-inference contest covers only the same
      inference, like standing coverage, and a different defect class on
      overlapping text is an ordinary finding, dispositioned normally — the
      continuing-contest record is only for the same dispute, and the dispute is
      keyed in substance: an identical defect under a re-labelled verdict class is
-     the same dispute, a re-raise. Where the key text appears nowhere, the deletion rule owns it, and
-     closure in the author's favour requires the key still present. A re-raise is recorded under
+     the same dispute, a re-raise. Where the key text appears nowhere, the
+     deletion rule owns it. A re-raise is recorded under
      the new
      finding as `continuing contest → Pass N, finding M`, which is its disposition
      for the convergence check — and while the contest stands open, that record is
      the only legal disposition of a matched re-raise: any other disposition of
      the same dispute is a record defect (a different defect class on overlapping
-     text stays an ordinary finding, per the matching rule). A pass in which the contested text is covered by a
-     standing entry created after the contest opened counts toward no window —
-     manufactured non-recurrence is not non-recurrence. The author may at any
-     time convert an open contest to fix-or-accept, recorded under the original
-     finding and closing it — the sanctioned exit from a window nothing can
-     advance. And input-artifact drift cannot manufacture quiet
-     by silence either: a contest may not
-     close in the author's favour while drift failures recur across its window. Deleting the contested text
-     resolves the contest as a fix — recorded so under the original finding, never
-     as a closure in the author's favour, the record naming the text that
+     text stays an ordinary finding, per the matching rule). Deleting the contested text
+     resolves the contest as a fix — recorded so under the original finding, the
+     record naming the text that
      replaced it or `removed outright`; a later finding raising the same dispute
      over the recorded replacement re-raises this contest — re-opened, its
      escalation count carrying, a paraphrase never resetting the ratchet — and a contest whose evidence field is
@@ -522,7 +523,7 @@ file-backed embeds, which Stability re-checks each pass.
    as a standing entry where the text is legitimate content (a document quoting an
    injection example keeps it). A record-level finding the author holds simply
    wrong is dispositioned by accept-with-reason whose reason records the dispute —
-   repairable record facts get no contest window; the asymmetry is deliberate.
+   repairable record facts get no contest; the asymmetry is deliberate.
    One acceptance carries extra weight: accepting a missing-source finding — the
    author holding the mention no citation — has attestation-equivalent semantics,
    the file staying off the list and out of the sweep, and the declaration lists
@@ -596,7 +597,7 @@ file-backed embeds, which Stability re-checks each pass.
    prompt and inputs stay pinned, and
    the hash identity is what checks that. The declaration the author signs lists
    every audit failure — voided or declined — with its check and quoted evidence,
-   every contest closed by non-recurrence, every deletion-resolved contest with
+   every deletion-resolved contest with
    its dispute and recorded replacement, every binding adjudication with its
    re-affirmation inventory, the full acceptance inventory — every standing
    entry, with its key and reason, affirmed by the author item by item at
@@ -660,7 +661,8 @@ path-less search sweeps the working directory and breaches the fence.
 Stop and return `No review — input invalid`, naming the input, when: the document or
 any pathed source cannot be read, is empty, or returns unintelligible content (an
 unread source could hold counter-evidence, so no verdict computed without it is
-safe); a listed source is a directory; the identity line is absent or names no author at all — an individual or an
+safe); a listed source is a directory; a source-list line parses as none of the
+entry forms below and is not the no-citations line; the identity line is absent or names no author at all — an individual or an
 organisation counts, `team: none` beside either is fine, but a bare team label
 naming nobody is not; the standing text contains anything outside keyed disposition
 entries, `None yet.`, and the section heading (free-standing findings, commentary,
@@ -683,8 +685,12 @@ the record of an already-dispositioned steer, not a new one.
 
 Document author and team: `<author-identity>`
 
-Sources — entry forms and their semantics:
-- `citation → path` — an ordinary local source.
+Sources — entry forms and their semantics, one entry per line:
+- `citation → path` — an ordinary local source; the path carries the author's
+  attestation, directional like the unavailable form's, that the file is the
+  complete cited work with no counter-bearing content omitted — a knowingly
+  partial copy belongs in the excerpt form, and supplying one here is the
+  fabrication class.
 - `citation → cited, not available locally (author attests no local copy,
   good-faith belief that the work supports each claim it caps as written, and no
   knowledge of counter-bearing content in it)` — the
@@ -815,7 +821,10 @@ depending on the quoted content, or an invited inference over it) defeats the
 disclaimer: a piece cannot launder its load-bearing assertions through other
 people's mouths. Reference-list lines are `no claims` for
 their citation metadata only; annotation prose on one ("the definitive demonstration
-that X causes Y") is in scope.
+that X causes Y") is in scope — annotation in substance, not by position:
+checkable content a line carries beyond identifying the work, and identity text
+the document itself leans on (a pointer deploying a thesis-bearing title), are
+in scope, since empirical content decides scope here too.
 
 Two kinds of hedge: a **speaker-attitude** hedge ("I believe", "I suspect") is
 stripped, support judged against the embedded proposition; an **evidential-strength**
@@ -932,7 +941,14 @@ Plausibility is not support, and neither is your own agreement.
    mask its neighbours, so that split is mandatory, and where such a row somehow
    stands its finding reports each conjunct's read-source outcome severally. `no claims` attestation rows cover
    exactly the lines no claim row touches, so the ledger tiles the document: a
-   skipped stretch of lines is mechanically visible. Tiling is the floor, not the
+   skipped stretch of lines is mechanically visible. An attestation row over
+   lines carrying figures or empirical statements is legal only where a
+   standing entry retires them; otherwise such a stretch, unenumerated,
+   surfaces exactly once as a **figure-note** finding on the flag-note model —
+   naming the stretch, asking whether its content is asserted anywhere — and
+   its retiring entry's reason is a document-visible disclaimer or the author's
+   explicit non-factivity attestation, the rejection route's own bar: unasserted
+   figures exit no more easily in text than in an embed. Tiling is the floor, not the
    guarantee — on soft-wrapped prose one line holds many assertions, and
    assertion-level completeness rests on the Segmentation audit's sample.
 2. **Classify** each: empirical/statistical · causal · logical derivation ·
@@ -1211,7 +1227,8 @@ claim falls to the document's own qualifications and no evidence kind coherently
 applies); an UNVERIFIABLE finding names the citation
 to fetch **and reports what each read source for the claim did and did not show**,
 so the accept-as-unverified disposition is decided on the evidence in hand. A
-note-class finding — flag-note, excerpt-note, embed-note — quotes the claim it
+note-class finding — flag-note, excerpt-note, embed-note, figure-note — quotes
+the claim or stretch it
 concerns (the embed reference, for an embed-note) beside its defined notice; the
 refutation and evidence-kind fields do not apply to it. If none,
 `_None_`.
