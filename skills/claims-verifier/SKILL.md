@@ -186,10 +186,15 @@ Three kinds of content:
   bare acceptance: the finding that a `not a claim` entry retired a genuine claim may
   only be dispositioned by re-keying, pruning, converting the rejection into a
   real disposition, or — where the author holds the finding itself mistaken — a
-  dispute record under it, which retires the finding but never honour-exempts
-  the entry: the unengaged-content finding stays raisable by any later pass.
-  Accepting it as standing would let a mistaken rejection exit the
-  review permanently through its own repair mechanism; this class takes these
+  dispute record under it, which takes the contest lifecycle (step 3's key,
+  matching, escalation, and vindication rules, the entry's quoted key the
+  contest key): escalation's fix-or-accept forces convert, re-key, or
+  prune; vindication — the Merits re-derivation carrying that the entry's
+  reason engages the checkable content it retires — honours the entry
+  thereafter, a mistaken rejection exiting only through that positive
+  re-adjudication, never through silence or bare acceptance; and an
+  unvindicated dispute leaves the unengaged-content finding raisable by any
+  later pass. This class takes these
   routes, not step 3's general record-level acceptance. Grouped entries — one reason over several keys of the same defect
   class — are fine, carrying a trace per key since the keys came from separate
   findings; they are how a batch of commonplaces, or the dependents of one standing
@@ -223,7 +228,8 @@ Three kinds of content:
   is the author reviewing their own document.
 - **`## Pass N`**, appended per pass above the Review log, its header naming the document path (the
   binding the rename rule depends on): the spawn-time hashes, the capacity
-  baseline (the harness's context size as known at spawn), the spawn
+  baseline (the harness's context size as known at spawn), the resolution
+  map — each listed entry's live path beside its snapshot path — the spawn
   configuration (agent type and tool list as invoked, with the invocation
   identity where the harness exposes one), the substituted prompt
   verbatim (fenced like the output — the declaration's re-substitution needs its
@@ -325,11 +331,13 @@ both re-checked by Stability each pass.
 2. **Audit the pass before working findings.** The audit is not the
    orchestrator's own read: spawn a second fresh subagent — the **auditor**
    — per pass, cold like the adversary, with `Read`, `Grep`, and `Bash`
-   (recomputation only; any write it made would surface as a
-   snapshot-integrity defect at the next spawn). It receives this skill
+   (recomputation only — a write to snapshots or the record surfaces as an
+   integrity defect at the next spawn, and the hash identity surfaces any
+   live-file write, though it cannot attribute one). It receives this skill
    file's path — the seven checks and every rule they reference read from
    it — the record path, the snapshot directory, and the previous spawn's
-   record snapshot; it executes the checks and returns the
+   record snapshot, and the transcript path where the harness records one;
+   it executes the checks and returns the
    audit record — for each check, what was examined or drawn, what was
    recomputed, and the result, every recomputation stating its inputs
    beside its result (file, offsets, figures — re-execution a command, not
@@ -352,17 +360,26 @@ both re-checked by Stability each pass.
    every unswept, unreviewed, and excerpt declaration, and Merits recomputes
    every figure a finding rests on and runs its derivation-graph confirmation
    over every edge, a global invariant sampling cannot touch — and Merits
-   re-derives every undischarged fix. Samples are drawn, never chosen: for
-   each sampled check, order the population as the record and ledger
-   present it and take items at indices derived from
-   `sha256(document-hash ∥ pass number)` — leading bytes, each modulo the
-   population size, repeats skipped — until at least three items are drawn
-   (or all, where fewer exist), the seed, populations, and draws named in
-   the audit record so any reader can re-derive that the mandated draw was
-   the draw taken. A drawn sample cannot be aimed — not by the auditor, the
-   orchestrator, or the author short of editing the document, which resets
-   the streak and re-seeds the draw — and the pass number in the seed keeps
-   consecutive draws distinct over unchanged bytes: habit is not coverage.
+   re-derives every undischarged fix. Samples are drawn, never chosen. The
+   seed is `sha256` over the ASCII concatenation, colon-separated, of the
+   lower-case hex document hash, the decimal pass number, and the
+   lower-case hex hash of the pass's raw output — that last committed to
+   the record before any draw, and computable by no one until the cold
+   pass has run, which is what makes the draw unaimable: the author can
+   grind document wording, but never the adversary's bytes. Read the
+   digest as consecutive 4-byte big-endian integers, each modulo the
+   population size, repeats skipped; when the digest runs out, re-hash it
+   and continue. For each sampled check, order the population as the
+   record and ledger present it — a population the auditor must construct
+   (candidate pairs, thesis sentences) is enumerated into the audit record
+   first, the draw then taken from that recorded enumeration — and consume
+   the integer stream across a check's populations in the order the check
+   lists them, one item to each in turn, until at least three items per
+   check are drawn (or every population is exhausted), the seed,
+   populations, and draws named in the audit record so any reader can
+   re-derive that the mandated draw was the draw taken. The pass number in
+   the seed keeps consecutive draws distinct over unchanged bytes: habit
+   is not coverage.
    - *Coverage.* Claim ranges (`standing` rows included), `no claims`
      attestation rows, and declared `unreviewed` ranges tile the document —
      every line in exactly one kind of row, attestations never overlapping
@@ -483,9 +500,10 @@ both re-checked by Stability each pass.
        recorded in the pass record — what was used is pinned; that it was
        canonical is the author's signing-time template attestation,
        checkable out-of-band against the published distribution.
-     - Confirm the recorded spawn configuration is the sanctioned one: a
-       read-only reviewer agent type and the `Read`-and-`Grep` tool list are
-       the invariants; the model and invocation settings are step 6's
+     - Confirm both recorded spawn configurations are sanctioned: the
+       adversary's — a read-only reviewer agent type with the
+       `Read`-and-`Grep` tool list; the auditor's — `Read`, `Grep`, and
+       `Bash`; the model and invocation settings are step 6's
        sanctioned variation.
      - Where the harness records a transcript, run the transcript
        verification, required for audit-cleanliness there: every read and
@@ -568,15 +586,19 @@ both re-checked by Stability each pass.
      - For **every** fix-dispositioned finding not yet discharged —
        whichever pass dispositioned it, undischarged fixes carrying across
        intervening voided, audit-failed, or `No review` passes —
-       affirmatively re-derive that its named defect is absent from the
-       revised locus — exhaustive, never sampled; the fix discharge is this
+       affirmatively re-derive the finding at the defect's site: re-verdict
+       the finding's quoted claim against the revised document — the named
+       locus guides the byte-diff, never the re-derivation, so a displaced
+       locus cannot move scrutiny off the defect — exhaustive, never
+       sampled; the fix discharge is this
        check's work, recorded among its components, and a defect found
        present is a same-defect finding under the Fix rule. And where the
        vindication gate's window (step 3) completes at this pass — this
        pass the second consecutive surviving non-re-raising pass since the
        dispute's last re-raise, the first of the two audit-clean —
        re-derive the contested claim
-       against the disputed source, its
+       against the disputed source (for a `not a claim` dispute, the
+       re-derivation is the engagement question its class defines), its
        outcome recorded here either way: step 3's predicate is the one
        rule, this duty its executor.
      - Recompute with `wc` and arithmetic every figure a finding rests on and
@@ -598,7 +620,11 @@ both re-checked by Stability each pass.
        attaching the gap to the claims it bears on.
      - Confirm the Support record's derivation edges form a DAG grounded in
        source-backed entries — a cycle satisfies every per-entry check.
-     - A failed Merits sample is a failed check like any other, the quoted
+     - Passing judgement work carries the same evidence as failing: every
+       re-derivation, probe, and engagement check records what it consulted
+       — lines, queries, bars applied — beside its outcome, and a result
+       line with nothing consulted is an under-enumerated run, not a pass.
+       A failed Merits sample is a failed check like any other, the quoted
        re-derivation its evidence; a difference of judgement with nothing
        quotable is not a failure.
 
@@ -635,12 +661,20 @@ both re-checked by Stability each pass.
    Definitions. A **full-review pass** is any pass returning other than
    `No review — input invalid` — `No claims enumerated` included. A pass
    **survives** unless it was voided or recorded `void — false abort`; a
-   declined audit failure survives but resets the streak. **Audit-clean** is
+   declined audit failure survives but resets the streak, and so does a
+   surviving pass whose audit record cannot support the audit-clean
+   re-derivation. A defective audit record, discovered at any point, takes
+   a **re-audit**: a fresh auditor re-runs this step over the same pass,
+   its record appended as the pass's superseding audit — the defective
+   record stays, marked superseded, the record being append-only — and the
+   pass's audit-cleanliness is judged on the superseding record.
+   **Audit-clean** is
    affirmative, not an absence: all seven checks recorded with their named
    samples and recomputed figures, and no failure beyond record repairs. A
    pass whose audit record cannot support that re-derivation is not
    audit-clean — the auditor's spawn recorded, every check's draw
-   re-derivable from its seed, every recomputation carrying its inputs —
+   re-derivable from its seed, every recomputation carrying its inputs,
+   every judgement line its consulted evidence —
    and the declaration re-derives audit-cleanliness per pass the
    same way it re-derives the streak.
 
@@ -675,7 +709,8 @@ both re-checked by Stability each pass.
      necessary, never sufficient: a fix **discharges** only when the next
      audit-clean surviving pass raises no same-defect finding over the
      revision and its Merits check affirmatively re-derives the named defect
-     absent from the revised locus — silence closes a fix no more than it
+     absent — the finding's quoted claim re-verdicted against the revised
+     document, wherever the named locus sat — silence closes a fix no more than it
      closes a contest, and a cosmetic edit fails the re-derivation, not just
      the next cold read. A re-derivation finding the defect present is a
      same-defect finding like any other — matched per the contest key rules,
@@ -841,7 +876,7 @@ both re-checked by Stability each pass.
    stating exactly that no source for the claim was read, where none was — so
    "pending fetch" never hides "overclaimed".
 
-5. **Apply remaining accepted fixes**, then run the next pass cold.
+5. **Apply remaining fix dispositions**, then run the next pass cold.
 
 6. **Converged** when every one of these predicates holds:
    - two consecutive audit-clean surviving passes from distinct cold
@@ -856,7 +891,8 @@ both re-checked by Stability each pass.
    The streak arithmetic: count consecutive audit-clean surviving Greens. The
    first Green after any surviving full-review non-Green is position one; a
    Green whose hashes differ from the previous Green's is position one; a
-   voided pass, an audit-failed pass, and a `void — false abort` reset to
+   voided pass, a surviving pass that is not audit-clean — audit-failed or
+   audit-defective — and a `void — false abort` reset to
    zero; a checked-out `No review` pass touches nothing. An annotation
    mismatch between the two Greens is adjudicated by the author at signing,
    the adjudication quoting the mismatch: an entry honoured in one Green and
@@ -928,7 +964,13 @@ both re-checked by Stability each pass.
    recorded prompt with the standing section re-substituted from the record
    as it stands, and every embed content hash recorded in a standing entry
    re-taken from its file — required equal to both Greens' recorded sets and
-   the recorded entry values. An inequality aborts the signing: the
+   the recorded entry values. Each pass's audit close also pins the record —
+   snapshotted and hashed into the store as the audit record is appended,
+   the hash recorded with it; at signing the live record is diffed against
+   the second Green's audit-close pin, the only sanctioned delta after that
+   pin being the declaration itself — anything else is the blocking
+   record-integrity defect the append-only rule names — and the predicate
+   re-derivation runs against the pinned bytes. An inequality aborts the signing: the
    post-Green change is a new hash identity, the streak returns to zero, and
    the loop resumes at the next pass — a changed source additionally taking
    the source-change adjudication first. And it certifies the per-pass audit records:
@@ -953,7 +995,8 @@ both re-checked by Stability each pass.
 
 ## Running a pass
 
-Spawn one subagent with `run_in_background: false`, restricted to `Read` and `Grep` —
+Spawn one subagent — a read-only reviewer agent type — with
+`run_in_background: false`, restricted to `Read` and `Grep` —
 no `Glob` (the fence leaves it no legitimate use), no `Bash`, no `Write`, no `Edit`,
 no network. With no write tool an edit is structurally impossible rather than merely
 forbidden; with no network tool the offline fence holds itself. `Bash`, `Edit`, and
@@ -1091,7 +1134,10 @@ show bare citations for legibility:
   is grounded only where a verifiable document-text span ties the work to the
   governed claims or sections — quote the span; a topical match or the bare
   bibliography listing grounds nothing; ungrounded, it fails closed
-  to counter-evidence-only document-wide semantics, conferring no SUPPORTED.
+  to counter-evidence-only document-wide semantics, conferring no SUPPORTED
+  — itself a record-level finding, reported among the Source check's
+  reconciliation findings with the failed grounding named; a grounded
+  entry's quoted span is reported there too.
 The line `No citations — empty source list.` is not an entry: it is the whole
 list, for a document citing nothing — reconciliation then only confirms that.
 Reconcile the list against the document's citations **before** the sweep (a
@@ -1355,7 +1401,12 @@ Plausibility is not support, and neither is your own agreement.
      or retracts elsewhere supports only the bounded form. The source must itself
      **report** — evidence, a derivation, or a first-hand account, and a first-hand
      account supports only claims about the accounter's own experience; bare
-     assertion without data or method supports nothing, whoever wrote it. A source
+     assertion without data or method supports nothing, whoever wrote it. A
+     source-side derivation carries only the kind its premises carry:
+     arithmetic over stated assumptions is logical evidence, not empirical —
+     for an empirical claim it supports nothing unless its load-bearing
+     premises are themselves reported measurements in the read corpus; the
+     kind rule applies to sources as to the document. A source
      that merely restates the claim or only cites onward supports nothing — the
      onward chase is obligatory exactly there, where the source's support *is* its
      onward citation, and nowhere else. Restatement is directional: a supporting line
