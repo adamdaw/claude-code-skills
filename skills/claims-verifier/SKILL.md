@@ -53,7 +53,9 @@ orchestrator's own read.
    - `via <citation>: <onward citation> → path [trace: Pass N, finding M]` — a
      source fetched under loop step 4,
      admitted by the chain from a document citation, the trace naming the
-     finding that sanctioned it.
+     finding that sanctioned it (`resolved by fetch` is judged against that
+     finding's full named onward set: every member fetched or the claim
+     stays capped).
    - `citation → local copy unreadable (author attests no readable copy)` — when the
      only extant copy is an unintelligible scan; same claim-capping semantics as
      attested-unavailable.
@@ -110,10 +112,18 @@ orchestrator's own read.
    resolved to the friendlier of two genuine copies; and where the citation
    names a version identifier, the file's self-identification must match it.
    Resolution also pins the variant: the author names the copy's version,
-   edition, or date, recorded in the entry, and attests it the citation's
+   edition, or date, recorded as a bracketed entry suffix —
+   `[variant: <version-or-date>, current]` or
+   `[variant: <version-or-date>, dated]`, the trace-suffix grammar — and
+   attests it the citation's
    canonical or current variant for the claims it supports — a diligence
    attestation, which motivated non-inquiry fails where mere ignorance
-   would have passed a knowledge-scoped one. A present-tense claim about
+   would have passed a knowledge-scoped one — and that diligence standard
+   governs every knowledge-scoped attestation in these forms alike: the
+   disclosure duty, the unavailable form's good-faith halves, and the
+   unswept-gap bearing attestation all read "known" as including
+   unexamined suspicion, so not-reading cannot manufacture attestable
+   ignorance. A present-tense claim about
    current behaviour supported by an entry pinned to a dated variant not
    attested current is supported only in the dated form — OVERCLAIMED as
    written unless the claim itself is dated.
@@ -130,8 +140,10 @@ orchestrator's own read.
    (a bare-bibliography entry), attribute it to the claims or sections it governs
    when building the list — the attribution from the author's resolution
    answer, like an attestation, never the orchestrator's inference. A document with
-   no citations, an empty ratchet pool, and no disclosures passes the line
-   `No citations — empty source list.`; where pool or disclosure entries
+   no citations, an empty ratchet pool, no disclosures, and no uncited
+   governed sources passes the line
+   `No citations — empty source list.`; where pool, disclosure, or
+   `[governs:]` entries
    exist, they are the whole list — the line covers only a review with
    nothing to sweep.
 3. **The author-identity line**, supplied by the author, enumerating the individuals
@@ -411,7 +423,9 @@ auditor's return hash, each recorded per pass by their own rules.
    prompt as sent is recorded in the pass record and template-checked like
    the adversary's; any text beyond the substitutions is a defective audit
    record, since framing the auditor is the one place a careless
-   orchestrator could still steer its own check. The pass
+   orchestrator could still steer its own check. `none (first pass)` and
+   `none (no transcripts)` are the defined null substitutions for a
+   missing pin or transcript path, compliant under the template check. The pass
    record carries the auditor's spawn configuration — agent type, tool
    list, invocation identity where the harness exposes one — symmetrically
    with the adversary's. Where the corpus exceeds one invocation's
@@ -447,8 +461,14 @@ auditor's return hash, each recorded per pass by their own rules.
    record and ledger present it — a population the auditor must construct
    is enumerated into the audit record first by this file's canonical
    rules, verbatim mandates, never examples: candidate pairs — every
-   non-adjacent block pair sharing at least one stemmed content word,
-   stop-words excluded; thesis/takeaway sentences — every section-initial
+   non-adjacent block pair sharing at least one stemmed content word
+   (stemming is naive suffix-stripping of `s`, `es`, `ed`, `ing`; the
+   stop-word list is exactly: the, a, an, of, to, in, on, for, and, or,
+   is, are, was, were, it, this, that, with, as, by; a content word is any
+   token not on the list and longer than three characters — crude on
+   purpose: determinism outranks linguistics here, and the same rule
+   defines "distinctive content token" wherever the audit uses it);
+   thesis/takeaway sentences — every section-initial
    and section-final sentence plus any sentence opening with a consequence
    marker ("so", "therefore", "in short", "the upshot"). Two auditors over
    the same bytes construct the same population; a different rule, or an
@@ -640,7 +660,12 @@ auditor's return hash, each recorded per pass by their own rules.
        record first, a missing or altered prior copy blocking per the
        snapshot re-hash rule: the
        adjudication unanchors standing entries and contest evidence whose
-       reasons depend on that source's content; it is recorded as
+       reasons depend on that source's content. A changed prompt hash whose
+       delta lies in the identity line or an attestation is the same kind
+       of surfaced event, adjudicated the same way: standing entries whose
+       reasons leaned on the prior provenance classing are unanchored by
+       the adjudication, and the declaration lists every identity-line and
+       attestation transition beside the source-hash ones; it is recorded as
        `resolved by source change` where it dispositions a finding; where that
        finding was counter-evidence-backed it carries the decite obligations
        (step 3), and the prior copy's snapshot stays sweepable in the pool —
@@ -732,8 +757,11 @@ auditor's return hash, each recorded per pass by their own rules.
        recomputations against the retained snapshots — the same draw
        machinery, the population its recomputation lines — and re-derive a
        seeded sample of its judgement lines the same way, the named item
-       re-judged against the snapshots and the outcomes compared; a
-       mismatch on either is a
+       re-judged against the snapshots and the outcomes compared; an
+       arithmetic mismatch, or a judgement mismatch the re-derivation can
+       quote (what the prior line got wrong, at its cited bytes — a
+       difference of judgement with nothing quotable is not a mismatch,
+       here as everywhere), is a
        defective audit record, taking the re-audit and its streak
        consequence: an audit's arithmetic and judgement are checked by the
        next pass's
@@ -1070,6 +1098,9 @@ auditor's return hash, each recorded per pass by their own rules.
      recorded hash every pass carries is the canonical distribution,
      unmodified — fabrication-class if false;
    - the fix inventory: every fix-dispositioned finding with its keyed claim;
+   - the observation inventory: every Observation across all passes,
+     acknowledged by the author at signing — nothing worth the author's eye
+     dies unseen in the record;
    - every sweep exclusion — accepted missing-source findings, standing
      unswept ranges, excerpt-backed full
      sources, pathless disclosed counter-bearing entries, and every
@@ -1111,12 +1142,20 @@ auditor's return hash, each recorded per pass by their own rules.
    this skill file, and the recorded transcript paths; its seed `sha256`
    over the ASCII concatenation, colon-separated, of the second Green's
    lower-case hex document hash, prompt hash, and audit-close record-pin
-   hash; the same 4-byte draw machinery. It re-executes a mandated sample
-   of the last two audits'
-   recomputations and judgement lines against the retained snapshots (the
+   hash; the same 4-byte draw machinery over four populations in this
+   order — first Green's recomputations, first Green's judgement lines,
+   second Green's recomputations, second Green's judgement lines; its
+   prompt the auditor template verbatim with "certification invocation"
+   in place of "audit invocation", recorded and template-checked the same
+   way. It re-executes the mandated sample against the retained snapshots
+   (the
    terminal analogue of the cross-pass duty, whose successor those audits
-   never get) and verifies the final auditor's transcript where the harness
-   records one; its record is appended to the Review log, and a mismatch is
+   never get), verifies the final auditor's transcript where the harness
+   records one, and re-derives every convergence predicate from the pinned
+   record — streak with each reset event, audit-cleanliness per pass,
+   contest and disposition counts — its re-derivation required to match
+   the declaration's, a divergence blocking the signing; a sample mismatch
+   is
    a defective audit record, re-audited per step 2 with the streak
    consequence that carries. An audit finding or record
    repair on the final Green therefore forces the loop onward, by design:
@@ -1219,9 +1258,11 @@ show bare citations for legibility:
   fabrication class — and that no known variant of the work (version,
   edition, erratum) counter-bears on the claims it supports; a version
   identifier in the citation must match the file's self-identification. The
-  entry carries the author's variant pin (version, edition, or date,
-  attested canonical or current): where the pin is dated and not attested
-  current, a present-tense claim about current behaviour is supported only
+  entry carries the author's variant pin — a bracketed suffix,
+  `[variant: <version-or-date>, current]` or
+  `[variant: <version-or-date>, dated]`, parsing like a `trace` suffix:
+  where the pin is `dated`, a present-tense claim about current behaviour
+  is supported only
   in the dated form — OVERCLAIMED as written unless the claim itself is
   dated.
 - `citation → cited, not available locally (author attests no local copy,
@@ -1600,7 +1641,10 @@ Plausibility is not support, and neither is your own agreement.
      kind rule applies to sources as to the document. A source
      that merely restates the claim or only cites onward supports nothing — the
      onward chase is obligatory exactly there, where the source's support *is* its
-     onward citation, and nowhere else. The mirror rule is single-valued: a
+     onward citation, and nowhere else — and it is defined over the full
+     onward set: where the support is a joint citation ("see A and B for
+     the evaluations"), the UNVERIFIABLE finding names every member, and
+     the claim stays capped while any member is unread. The mirror rule is single-valued: a
      read source's onward citation of counter-bearing work ("Miller 2021
      reports the opposite effect") is itself a bearing — never silent, never
      ridden past to SUPPORTED: the claims it bears against cap at the
@@ -1686,11 +1730,15 @@ Plausibility is not support, and neither is your own agreement.
      42% or 52%). A figure is pinned to its last written digit — "50%" tolerates
      49.5–50.4 — and a cardinal count is exact: "20 engineers" means 20.
      Approximation comes only by explicit marker, and a marked figure ("about 50%",
-     "~2×") stays a figure, loosened: judged at the looseness the marker confers,
-     in both directions — "about 50%" tolerates 47% or 53%, not 30% and not 75%. A
+     "~2×") stays a figure, loosened by a defined amount: a bare
+     approximation marker confers ±10% of the stated value, in both
+     directions — "about 50%" tolerates 45–55, not 30 and not 75; wider
+     looseness must be written as a range. A
      comparative characterisation ("halved", "doubled" — change-verbs, not stated
-     proportions) is judged at its own precision in
-     both directions: "doubled" tolerates 1.9× or 2.2×, not 1.5× and not 10×. An
+     proportions) confers the same ±10% on its ratio, in
+     both directions: "doubled" tolerates 1.8×–2.2×, not 1.5× and not 10× —
+     no interval is left where SUPPORTED and CONTRADICTED are both
+     defensible. An
      out-of-tolerance value under either rule is CONTRADICTED — and an
      evidential-strength operator never loosens this rule: the embedded figure
      keeps its written tolerance, an out-of-tolerance source figure is read
@@ -1883,7 +1931,9 @@ refutation and evidence-kind fields do not apply to it. If none,
 ### Observations
 
 Non-blocking, same form — a pure value judgement worth the author's eye, a
-structural note. Never a prior about a claim's truth. If none, `_None_`.
+structural note. Never a prior about a claim's truth, and never a parking
+spot: content that engages a claim's support belongs in Findings, and an
+Observation carrying it is the misfiled-finding failure. If none, `_None_`.
 
 Findings get dispositioned by the author, not waived by you, and never arrive
 with a recommended disposition. Do not offer a verdict
@@ -1904,7 +1954,9 @@ compliance property, not a structural one. And where the harness records no
 tool-call transcript, the read fence is instruction, not observation: a breach
 that does not surface in the output leaves no trace — and invocation freshness,
 that a pass ran as a genuinely fresh invocation rather than a warm session, is
-likewise unverifiable where the harness exposes no invocation identity. The
+likewise unverifiable where the harness exposes no invocation identity — nor,
+there, that a subagent was spawned at all rather than its record written by
+the orchestrator's own hand. The
 reviewed bytes are the artifact: a publication pipeline that transcludes or
 renders beyond them is outside this review. An author-selected excerpt is
 a sanctioned cherry-pick channel — surfaced, marked, and disposition-gated, but
