@@ -56,12 +56,14 @@ the orchestrator's own read, not an independent one, and the author should know 
    - `citation → local copy unreadable (author attests no readable copy)` — when the
      only extant copy is an unintelligible scan; same claim-capping semantics as
      attested-unavailable.
-   Any entry may carry a `[governs: <claims or sections>]` suffix. Its precedence:
-   the document's own placement always wins — a `governs` on an in-text-cited entry
-   cannot move a source onto claims it was not cited for or off a paragraph it
-   plainly governs; the suffix is authoritative only for an entry the document
-   nowhere cites in-text — judged per entry, not per document, so a mixed document
-   keeps placement for its cited entries while `governs` covers the uncited rest. A
+   An entry the document nowhere cites in-text may carry a
+   `[governs: <claims or sections>]` suffix (never a `via` entry, whose suffix
+   stays inert) — authoritative for that entry only,
+   judged per entry, not per document, so a mixed document keeps placement for
+   its cited entries while `governs` covers the uncited rest. On an
+   in-text-cited entry the suffix has no legal function — placement always
+   wins — so never write one; found in a list, it is an input defect repaired
+   at step 1. A
    non-text embed is never a listed source — it stays an embed under the reliance
    rule. A source too large for one pass to sweep may be represented by an
    author-made excerpt file, listed as `citation (excerpt) → excerpt-path
@@ -84,7 +86,13 @@ the orchestrator's own read, not an independent one, and the author should know 
    counter-bearing content — fabrication-class if false; a file the author
    knows to be a partial copy routes through the excerpt form and its guards.
    Every entry is one line — line breaks inside citation text collapse when the
-   list is built — and attestation-bearing entries are written only from the
+   list is built — and its citation text rides in a code span whose backtick
+   delimiter is longer than any backtick run inside it (the fence rule's
+   pattern), so the entry parses outside code spans only: the arrow after the
+   citation span is the delimiter, and delimiter-, attestation-, or
+   suffix-shaped text inside a span is literal citation text, never structure
+   (the forms above show bare citations for legibility).
+   Attestation-bearing entries are written only from the
    author's direct resolution answers, never transcribed from document text:
    bibliography text that mimics an entry form is content, not structure. For any entry the document nowhere cites in-text
    (a bare-bibliography entry), attribute it to the claims or sections it governs
@@ -156,7 +164,8 @@ Three kinds of content:
   anchor and enclosing-block hash recorded at disposition, honoured only at
   that occurrence: the same text planted elsewhere is a fresh finding. A
   retired unswept declaration keys on its source alone — the range and trigger
-  arithmetic vary per pass and stay outside the key. One class is excluded from
+  arithmetic vary per pass and stay outside the key — and a pass that sweeps
+  that source in full finds the entry unanchored: the gap it retired is gone. One class is excluded from
   bare acceptance: the finding that a `not a claim` entry retired a genuine claim may
   only be dispositioned by re-keying, pruning, or converting the rejection into a
   real disposition — accepting it as standing would let a mistaken rejection exit the
@@ -428,12 +437,22 @@ both re-checked by Stability each pass.
      next pass — and a source on the previous pass's list absent from this one
      is surfaced the same way: where its read content grounded a
      counter-evidence-backed finding, the drop must carry its decite record, an
-     unrecorded drop a failed check — unanchoring standing entries and contest evidence whose reasons
+     unrecorded drop a failed check. Verify here every fix-dispositioned
+     finding of the previous pass: its quoted claim text or enclosing block
+     must differ from that pass's pinned document — unchanged text is the
+     defective-disposition finding the Fix rule names — unanchoring standing entries and contest evidence whose reasons
      depend on that source's content, recorded as `resolved by source change`
-     where it dispositions a finding.
+     where it dispositions a finding — and where the finding it dispositions
+     was counter-evidence-backed, the adjudication carries the decite
+     obligations: the finding's quoted evidence recorded under it and listed in
+     the declaration beside the hash transition, so a friendlier genuine copy
+     launders nothing a decite would not.
    - *Merits.* Re-derive a sample of SUPPORTED **and** non-SUPPORTED verdicts on the
      merits — kind match, strength match (hedge stripped or strength-setting?),
-     inference validity, and for a non-SUPPORTED verdict whether the cited source
+     inference validity, attachment (the supporting source cited for the claim
+     under the block rule, or governing it as an uncited entry — support that
+     travelled to an uncited echo is a failed sample), and for a non-SUPPORTED
+     verdict whether the cited source
      really fails to carry the claim: the audits must catch the lazy refuser as well
      as the lazy supporter. Recompute with `wc` and arithmetic every figure a finding
      rests on and every figure inside a sampled SUPPORTED re-derivation (the
@@ -464,13 +483,23 @@ both re-checked by Stability each pass.
    below (carried findings from a voided pass only), or — for a re-raise of an
    open contest's dispute — the continuing-contest record, which is then the
    only
-   legal one:
+   legal one. A note-class finding is a claim finding for this rule and takes
+   the accept route — the standing entry its defining rule names, the accept
+   semantics read per that rule: a flag-note's entry names flag and verdict, a
+   figure-note's retires the stretch at the rejection route's bar — or a fix
+   that removes the note's trigger:
    - **Fix** — revise the document, at disposition time or at step 5. A fix
      whose revision removes a citation of — or the list entry for — a source
      whose read content grounded the finding's counter-evidence is a **decite**,
      recorded as such under the finding with the evidence quoted: the next
      pass's list lawfully drops the source, so the record and the declaration's
-     decite list are where the refutation survives.
+     decite list are where the refutation survives. Every fix is verified at the
+     next pass's audit: the finding's quoted claim text, or its enclosing
+     block, must differ from the pinned document — unchanged text is a
+     defective disposition, a record-level finding, never a discharged fix —
+     and a same-defect finding re-raised over the fixed text escalates on its
+     second recurrence, like a contest, to verified-fix-or-accept: cosmetic
+     revision cannot farm cold-pass variance.
    - **Accept with a stated reason** — the claim stands; record the standing entry.
      Dispositioning a `standing-overridden` finding replaces the
      overridden entry — the prior entry is pruned as part of the disposition, its
@@ -557,8 +586,11 @@ both re-checked by Stability each pass.
    predicates as its own — which successor step 1 admits, a pass-less initial
    record binding by its predecessor link (the link's target closing must name
    this document as a successor). The closing also adjudicates the boundary: the
-   author attests no invited arrangement straddles the cut — fabrication-class
-   if false — and any known straddling inference is written into each affected
+   author attests no invited arrangement straddles the cut and no text in any
+   successor contradicts, bounds, or redefines a claim in another —
+   fabrication-class
+   if false — and every known straddle, inference or counter-bearing text
+   alike, is written into each affected
    successor's initial record as a carried finding: a split launders nothing;
    accept-as-standing is not available for an unreviewed range. Re-keying and pruning standing entries is sanctioned
    in exactly two contexts — here, as a finding's disposition (including re-keying
@@ -621,8 +653,10 @@ both re-checked by Stability each pass.
    evidence, every binding adjudication with its
    re-affirmation inventory, the full acceptance inventory — every standing
    entry, with its key and reason, affirmed by the author item by item at
-   signing — and every sweep exclusion (accepted
-   missing-source findings, standing unswept ranges, excerpt-backed full
+   signing — the fix inventory — every fix-dispositioned finding with its keyed
+   claim — and every sweep exclusion (accepted
+   missing-source findings, standing unswept ranges, standing-retired inert
+   entries, excerpt-backed full
    sources, and every attested-unavailable or attested-unreadable entry alike),
    plus every source-hash transition over the review's life and a mechanical
    re-derivation, from the pass records alone (joined, in a successor review, by
@@ -705,7 +739,12 @@ the record of an already-dispositioned steer, not a new one.
 
 Document author and team: `<author-identity>`
 
-Sources — entry forms and their semantics, one entry per line:
+Sources — entry forms and their semantics, one entry per line, each citation
+text carried in a code span (backtick delimiter longer than any backtick run
+inside it); the entry parses outside code spans only — the arrow after the
+citation span is the delimiter, and delimiter-, attestation-, or suffix-shaped
+text inside a span is literal citation text, never structure; the forms below
+show bare citations for legibility:
 - `citation → path` — an ordinary local source; the path carries the author's
   attestation, directional like the unavailable form's, that the file is the
   complete cited work with no counter-bearing content omitted — a knowingly
@@ -753,12 +792,13 @@ Sources — entry forms and their semantics, one entry per line:
   flag-note model — it states the reliance, points at the Support-record entry,
   and asks only for the disposition; a standing entry then retires it, and a Green
   annotation names it — the author chose what you would see.
-- Any entry may carry `[governs: <claims or sections>]`. The document's own
-  placement always wins: a `governs` on an in-text-cited entry cannot move the
-  source onto claims it was not cited for, nor off a block it plainly governs; the
-  suffix is authoritative only for an entry the document nowhere cites in-text —
-  per entry, not per document: a mixed document keeps placement for its cited
-  entries while `governs` covers the uncited rest. An uncited entry's `governs`
+- An entry the document nowhere cites in-text may carry
+  `[governs: <claims or sections>]` — a `via` entry excepted, its suffix inert
+  per its bullet — authoritative for that entry only, per
+  entry, not per document: a mixed document keeps placement for its cited
+  entries while `governs` covers the uncited rest. On an in-text-cited entry
+  the suffix is malformed — placement always wins and it has no legal function
+  there, so the parse-failure abort owns it. An uncited entry's `governs`
   must be grounded in document text you can verify; ungrounded, it fails closed
   to counter-evidence-only document-wide semantics, conferring no SUPPORTED.
 The line `No citations — empty source list.` is not an entry: it is the whole
@@ -786,7 +826,8 @@ text, honoured only at its recorded occurrence, the same text elsewhere a fresh
 finding; anchor-less otherwise — also valid, not defective — and is
 honoured when the item recurs identically, raising nothing then; a retired
 unswept declaration keys on its source alone, whatever range this pass
-declines. An
+declines — and where this pass swept that source in full, the entry is
+unanchored: the gap it retired is gone. An
 invited-inference entry keys on its inviting span — for an arrangement at
 distance, on all its inviting spans, each anchored, sharing one stated inference,
 reason, and trace — **and states the inference it
@@ -1123,8 +1164,9 @@ Plausibility is not support, and neither is your own agreement.
      locatable, an identified-and-read source carrying no evidence, a missing
      premise, or author-derived narrative as the only support.
    - `OVERCLAIMED` — the cited source supports a statement of the same kind, weaker
-     or narrower (a numeric magnitude difference is the Numbers rule's, never this
-     verdict's). Where the gap is kind, not degree — the source is no evidence for
+     or narrower (a numeric magnitude difference is decided by the Numbers rule,
+     whose one OVERCLAIMED case-family is over-precision; every other magnitude
+     mismatch it owns lands CONTRADICTED, never here). Where the gap is kind, not degree — the source is no evidence for
      this claim at all — UNSUPPORTED instead. Quote what the source does say; the
      weakening is the author's to write.
    - `CONTRADICTED` — counter-evidence in the document or a cited source, an
