@@ -513,8 +513,13 @@ auditor's return hash, each recorded per pass by their own rules.
      mandatorily, so interior padding is a mechanical failure, not a sampling
      gamble — and an invited-inference range wider than its inviting block is
      the same failure. And scan every `no claims` attestation range exhaustively
-     for numeric tokens: a digit, currency, or per-cent token in an attestation
+     for quantitative tokens: a digit, currency, or per-cent token, a
+     Numbers-rule change-verb (halved, doubled, tripled and their kin), or a
+     fraction or proportion word used quantitatively (two-thirds, four fifths,
+     a quarter of) in an attestation
      range without its retiring standing entry or figure-note is a failed check —
+     the token list is deterministic and errs wide, a benign hit clearing through
+     a one-time figure-note; spelled-out bare cardinals stay Attestations' sampled work, being too common in prose to scan without drowning the check —
      figures are mechanically visible, so their identification over attestation
      rows is the tiling's exhaustive companion, not the Attestations sample's
      gamble (figureless empirical prose stays Attestations' sampled work).
@@ -1187,7 +1192,9 @@ auditor's return hash, each recorded per pass by their own rules.
    this skill file, and the recorded transcript paths; its seed `sha256`
    over the ASCII concatenation, colon-separated, of the second Green's
    lower-case hex document hash, prompt hash, and audit-close record-pin
-   hash; the same 4-byte draw machinery over four populations in this
+   hash — first and second Green throughout this block being the two
+   consecutive Greens that satisfy the convergence predicate, never an
+   earlier reset-and-superseded Green; the same 4-byte draw machinery over four populations in this
    order — first Green's recomputations, first Green's judgement lines,
    second Green's recomputations, second Green's judgement lines; its
    inputs the auditor's list (pin included); its spawn configuration the
@@ -1612,7 +1619,10 @@ itself, since that claim is about the artifact, not the world — an exception t
 enumerative and structural only (counts, orderings, the presence of sections): a
 factive or success-verb self-description ("this document demonstrates that X causes
 Y") asserts its embedded world-claim, enumerated separately and judged on its own
-evidence. A citation attaches to the claims
+evidence, and an empirical qualifier on the counted noun ("seven **independent**
+measurements", "twelve **verified** cases") is likewise its own claim, enumerated
+and judged on external evidence — the contents route carries the bare count, order,
+or presence, never a provenance or achievement adjective riding on it. A citation attaches to the claims
 at its point of citation — **the block containing it**: the paragraph, or for a
 footnote or endnote the block containing its *marker* (a list item, table cell, or
 caption is its own block; the note body is the citation's text, not its location) —
@@ -1803,7 +1813,12 @@ Plausibility is not support, and neither is your own agreement.
      proportions) confers the same ±10% on its ratio, in
      both directions: "doubled" tolerates 1.8×–2.2×, not 1.5× and not 10× —
      no interval is left where SUPPORTED and CONTRADICTED are both
-     defensible. An
+     defensible. A change-verb's ±10% ratio band is the whole tolerance for
+     that comparative: an approximation marker or hedge on the same comparative
+     ("roughly doubled", "nearly halved") is absorbed by it, never compounded
+     into a second ±10%, and a hedged comparative stays a ratio — never a
+     hedged absolute, the ninety-per-cent band being the qualitative
+     absolutes' alone. An
      out-of-tolerance value under either rule is CONTRADICTED — and an
      evidential-strength operator never loosens this rule: the embedded figure
      keeps its written tolerance, an out-of-tolerance source figure is read
