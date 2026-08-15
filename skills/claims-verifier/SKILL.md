@@ -464,8 +464,10 @@ auditor's return hash, each recorded per pass by their own rules.
    an uncovered check or population range is a defective audit record, the
    audit not clean, since capacity never excuses omission. The pass
    record carries the auditor's spawn configuration — agent type, tool
-   list, invocation identity where the harness exposes one — symmetrically
-   with the adversary's. Where the corpus exceeds one invocation's
+   list, invocation identity where the harness exposes one, and the `Bash`
+   sandbox descriptor (view roots and egress state) where the harness
+   exposes one — symmetrically with the adversary's, the sandbox field the
+   auditor's own since only its `Bash` is fenced by it. Where the corpus exceeds one invocation's
    capacity, the audit partitions: several fresh auditor invocations, each
    spawned cold with the same inputs and a named portion of the seven
    checks (a single check too large partitions by population), their
@@ -729,9 +731,20 @@ auditor's return hash, each recorded per pass by their own rules.
        exists the walk still reads each `Bash` command string as **defense in
        depth** — a recorded attempt at a network binary or a mutating command
        is noted — but the guarantee is the sandbox, not the parse, so no
-       shell-construct enumeration is load-bearing. A harness that can neither
+       shell-construct enumeration is load-bearing. Because the sandbox now
+       carries the fence, its **presence is verified like the tool set, not
+       assumed**: where the harness exposes a sandbox descriptor (the `Bash`
+       view's roots and its egress state), it is recorded in the spawn
+       configuration and this check confirms the canonical view equals the
+       sanctioned read set and egress is denied — an absent or mismatched
+       descriptor unsanctions the config exactly as an absent read-only tool
+       set does. Where the harness exposes no descriptor, sandbox presence is
+       **claimed, not shown** — the freshness rule's structure — and carried
+       to the author's signing attestation (the declaration's sandbox
+       attestation, fabrication-class if false), the one place a
+       human closes what no artifact recorded; a harness that can neither
        confine the auditor's `Bash` to the sanctioned view nor deny it egress
-       cannot run the auditor
+       (nor let the author truthfully attest it did) cannot run the auditor
        (the honest limitation the network-scope tier also names). Any further
        tool the type carries must be read-only, sanctioned by its blast-radius
        tier — the tiers differ precisely in whether fenceability is required:
@@ -1314,10 +1327,16 @@ auditor's return hash, each recorded per pass by their own rules.
      recorded hash every pass carries is the canonical distribution,
      unmodified — fabrication-class if false;
    - the certification affirmation: the certification invocation's recorded
-     spawn configuration matches the sanctioned auditor shape and its recorded
+     spawn configuration matches the sanctioned auditor shape — the `Bash`
+     sandbox included where its descriptor is exposed — and its recorded
      prompt matches the template verbatim — affirmed by the author at signing,
      the terminal invocation having no successor auditor to run Stability over
      it;
+   - the sandbox attestation: for every auditor and certification invocation
+     whose harness exposed no sandbox descriptor for Stability to verify, the
+     author attests its `Bash` ran confined to the sanctioned read set with no
+     network egress — fabrication-class if false — the human gate closing the
+     structural fence no artifact recorded, item by item at signing;
    - the fix inventory: every fix-dispositioned finding with its keyed claim;
    - the observation inventory: every Observation across all passes,
      acknowledged by the author at signing — nothing worth the author's eye
