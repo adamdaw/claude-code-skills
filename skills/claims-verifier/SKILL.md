@@ -56,6 +56,10 @@ the orchestrator's own read, not an independent one, and the author should know 
    - `citation → local copy unreadable (author attests no readable copy)` — when the
      only extant copy is an unintelligible scan; same claim-capping semantics as
      attested-unavailable.
+   - `citation (decited) → path` — a source dropped from the document's
+     citations after a pass swept it, retained by the sweep ratchet:
+     counter-evidence-only for the remainder of the review, its path the
+     snapshot copy's.
    An entry the document nowhere cites in-text may carry a
    `[governs: <claims or sections>]` suffix (never a `via` entry, whose suffix
    stays inert) — authoritative for that entry only,
@@ -228,7 +232,14 @@ standing section travels, inside the prompt.
 
 ## One hash identity
 
-Everything verdict-relevant is pinned by hashing exactly three things at spawn time
+Everything verdict-relevant is pinned at spawn. The orchestrator first
+**snapshots** the document and every listed source file into a snapshot
+directory beside the record, named in the pass record and retained for the
+review's life; the prompt's substituted paths are the snapshot's, so the
+adversary reads bytes the author cannot mutate mid-pass — a swap-and-restore
+between spawn and pass-end re-hash touches nothing the pass read — and a
+decited or changed source's prior bytes stay sweepable. From the snapshot,
+hash exactly three things
 (`sha256sum`): the **document**; the **fully substituted prompt text**, which contains
 the source list, the identity line, the standing excerpt, and this skill's template;
 and each **listed source file** (an excerpt entry hashes both its excerpt and its
@@ -271,8 +282,10 @@ both re-checked by Stability each pass.
    foreign text, a stray `None yet.`, or, of a conflicting duplicate pair, the
    entry the pass-record disposition history disowns (the recorded traces decide,
    never position in the section; where they cannot, the author does), noting the repair in the Review log — the one context where
-   editing the standing section outside a disposition is sanctioned. Take the spawn
-   hashes, run the pass, append output and hashes under the next `## Pass N`.
+   editing the standing section outside a disposition is sanctioned. Snapshot
+   the inputs, take the spawn
+   hashes from the snapshot, run the pass, append output and hashes under the
+   next `## Pass N`.
 2. **Audit the pass before working findings.** Run the seven checks below and
    write the audit record: for each check, what was examined or drawn, what was
    recomputed, and the result. Findings the audit itself raises — a steer met
@@ -286,9 +299,11 @@ both re-checked by Stability each pass.
    finding. Where the harness records the subagent's tool calls, check the
    transcript too: every read and search must name the document or a listed
    source, an excerpt entry's `full:` path and any stray path are fence-breach
-   evidence, the union of read ranges must cover the attested chunk ranges, and
-   the prompt-as-sent and tool set are verified against the transcript rather
-   than only the orchestrator's own record — this transcript verification is the
+   evidence, the union of read ranges must cover the attested chunk ranges, the
+   prompt-as-sent and tool set are verified against the transcript rather
+   than only the orchestrator's own record, and where the harness records tool
+   outputs, read content is checked for consistency against the spawn-hashed
+   snapshot — this transcript verification is the
    Stability check's work, recorded like its other components and required for
    audit-cleanliness wherever a transcript exists. Fence-breach evidence — in
    the output
@@ -421,7 +436,9 @@ both re-checked by Stability each pass.
      governs, or toward claims it does not, is a failure. And an Observation whose
      content engages a claim's support, a verdict, or a record-level defect class
      is a misfiled finding — a deterministic failure, not a sampled catch.
-   - *Stability.* Re-hash the hash identity at pass end; a mismatch with spawn is
+   - *Stability.* Re-hash the hash identity at pass end — the live files
+     against the snapshot's spawn hashes, since the snapshot itself cannot
+     drift; a mismatch is
      a failed check — an edit during the final Green would otherwise slip
      convergence.
      Check the substituted prompt against this skill file — the template portion
@@ -449,13 +466,19 @@ both re-checked by Stability each pass.
      the finding it dispositions was counter-evidence-backed — carries the
      decite obligations, the finding's quoted evidence recorded under it and
      listed in the declaration beside the hash transition, so a friendlier
-     genuine copy launders nothing a decite would not. A source on the previous
-     pass's list absent from this one is surfaced the same way: where its read
-     content grounded a counter-evidence-backed finding, the drop must carry
-     its decite record, an unrecorded drop a failed check. And verify here
-     every fix-dispositioned finding of the previous pass: its quoted claim
-     text or enclosing block must differ from that pass's pinned document —
-     unchanged text is the defective-disposition finding the Fix rule names.
+     genuine copy launders nothing a decite would not — and the prior copy's
+     snapshot stays in the pool as a `(decited)`-style entry, its bytes
+     sweepable: an adjudication may not disposition a finding whose grounding
+     bytes were not retained. And sweeping is a ratchet: a source any surviving
+     pass has swept never leaves the pool — dropped from the document's
+     citations, it stays listed `citation (decited) → path` (its snapshot
+     copy) for the remainder of the review, counter-evidence-only — so a
+     previously swept source absent from this pass's list without its
+     `(decited)` entry is a failed check, whatever it grounded; where a decite
+     record exists, the entry answers it. And verify here
+     every fix-dispositioned finding of the previous pass: its named fix locus
+     must differ from that pass's pinned document —
+     an unchanged locus is the defective-disposition finding the Fix rule names.
    - *Merits.* Re-derive a sample of SUPPORTED **and** non-SUPPORTED verdicts on the
      merits — kind match, strength match (hedge stripped or strength-setting?),
      inference validity, attachment (the supporting source cited for the claim
@@ -463,7 +486,10 @@ both re-checked by Stability each pass.
      travelled to an uncited echo is a failed sample), and for a non-SUPPORTED
      verdict whether the cited source
      really fails to carry the claim: the audits must catch the lazy refuser as well
-     as the lazy supporter. Recompute with `wc` and arithmetic every figure a finding
+     as the lazy supporter. Where the previous pass carried an escalated fix,
+     re-derive affirmatively that its named defect is absent from the revision
+     — the verified-tier discharge is this check's work, recorded among its
+     components. Recompute with `wc` and arithmetic every figure a finding
      rests on and every figure inside a sampled SUPPORTED re-derivation (the
      adversary has no calculator by design). Sample honoured
      `standing` rows too, `not a claim` retirements included (checked for
@@ -510,16 +536,22 @@ both re-checked by Stability each pass.
      `citation (decited) → path` for the remainder of the review, swept like
      any source, its content admissible as counter-evidence against any claim
      and conferring no support, so the pass that articulated one bearing cannot
-     bury the bearings it never wrote down. Every fix is verified at the
-     next pass's audit: the finding's quoted claim text, or its enclosing
-     block, must differ from the pinned document — unchanged text is a
+     bury the bearings it never wrote down — and the sweep ratchet (step 2)
+     retains every swept source the same way, decite record or none. Every fix
+     names its locus — the finding's quoted claim by default, or the other
+     document text the repair touches (a premise, a contradicting claim, an
+     inserted sentence's block), quoted in the disposition — and is verified at
+     the next pass's audit: the named locus must differ from the pinned
+     document (an insertion's block must hold it) — an unchanged locus is a
      defective disposition, a record-level finding, never a discharged fix —
      and a same-defect finding re-raised over the revised text — matched per
-     the contest key rules — escalates on its second recurrence to the verified
+     the contest key rules, recurrences recorded under the original finding —
+     escalates on its second recurrence to the verified
      tier: there, accept is ordinary, but a fix discharges only when the next
      audit-clean pass raises no same-defect finding over the revision and its
      audit records an affirmative re-derivation that the named defect is absent
-     — text difference no longer suffices — and a recurrence after that voids
+     (Merits' work, recorded among that check's components)
+     — locus difference no longer suffices — and a recurrence after that voids
      the discharge, returning the finding to the tier: cosmetic revision cannot
      farm cold-pass variance.
    - **Accept with a stated reason** — the claim stands; record the standing entry.
@@ -620,7 +652,12 @@ both re-checked by Stability each pass.
    in exactly two contexts — here, as a finding's disposition (including re-keying
    entries orphaned by a heading rename where the quote still matches uniquely),
    and step 1's abort-class repair; adding one outside a finding disposition
-   never is.
+   never is. A re-key may move the anchor and may narrow the quote within the
+   traced finding's quoted claim — never widen it: text the finding never
+   covered takes a fresh disposition. A re-keyed entry keeps its original trace
+   (a binding re-affirmation the entry's own, the B-finding staying in the
+   Review log), and Reconciliation's containment is judged against that trace
+   after the narrowing.
 4. **UNVERIFIABLE findings have one extra path**: the author fetches and verifies the
    source outside this skill. A verified source lands as a local file and joins the
    source list — an onward-identified one as a `via` entry, which is a cited source
@@ -673,8 +710,9 @@ both re-checked by Stability each pass.
    the hash identity is what checks that. The declaration the author signs lists
    every audit failure — voided or declined — with its check and quoted evidence,
    every deletion-resolved contest with
-   its dispute and recorded replacement, every decite with its finding's quoted
-   evidence, every binding adjudication with its
+   its dispute and recorded replacement, every ratchet-retained source —
+   dropped or changed after a sweep — with its finding's quoted evidence where
+   a decite grounded one, every binding adjudication with its
    re-affirmation inventory, the full acceptance inventory — every standing
    entry, with its key and reason, affirmed by the author item by item at
    signing — the fix inventory — every fix-dispositioned finding with its keyed
@@ -818,9 +856,10 @@ show bare citations for legibility:
   and asks only for the disposition; a standing entry then retires it, and a Green
   annotation names it — the author chose what you would see.
 - `citation (decited) → path` — a source the document no longer cites,
-  retained by a decite record: sweep it in full; its content is admissible as
+  retained by the sweep ratchet after a pass swept it: sweep it in full; its
+  content is admissible as
   counter-evidence against any claim and confers no support, and it answers
-  its decite record rather than any document citation — report no inert
+  its retention rather than any document citation — report no inert
   finding for it.
 - An entry the document nowhere cites in-text may carry
   `[governs: <claims or sections>]` — a `via` entry excepted, its suffix inert
@@ -836,8 +875,8 @@ list, for a document citing nothing — reconciliation then only confirms that.
 Reconcile the list against the document's citations **before** the sweep (a
 bibliography-only mention is a citation for this purpose); a path
 answering no citation is reported inert and not swept — its evidence is inadmissible
-in both directions anyway — a `(decited)` entry excepted, answering its decite
-record instead:
+in both directions anyway — a `(decited)` entry excepted, answering its retention
+instead:
 
 `<source-list>`
 
