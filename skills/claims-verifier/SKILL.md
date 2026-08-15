@@ -391,9 +391,10 @@ auditor's return hash, each recorded per pass by their own rules.
 2. **Audit the pass before working findings.** The audit is not the
    orchestrator's own read: spawn a second fresh subagent — the **auditor**
    — per pass, cold like the adversary, on a read-only agent type carrying
-   `Read`, `Grep`, and `Bash` and no `Write`, `Edit`, or network tool (the
-   sanctioned-shape rule under Stability governs, extra read-only tools
-   fenced there); its `Bash` is
+   `Read`, `Grep`, and `Bash` and no `Write` or `Edit` (the sanctioned-shape
+   rule under Stability governs the full shape, including how a network-scope
+   tool the type carries is presence-void without a transcript to catch its
+   use); its `Bash` is
    recomputation only — a write to snapshots or the record surfaces as an
    integrity defect at the next spawn, and the hash identity surfaces any
    live-file write, though it cannot attribute one. The auditor works
@@ -700,24 +701,50 @@ auditor's return hash, each recorded per pass by their own rules.
        affirmation, never recorded in time for any pass's Stability: the
        sanctioned shape is a **read-only tool set**, not an exact allow-list —
        the security is the absence of what voids a pass, not the exclusion of
-       every navigation tool: no `Write`, `Edit`, or network tool present
-       (so an edit is structurally impossible and the offline fence holds
-       itself), `Read` and `Grep` present, the auditor additionally carrying
-       `Bash` for recomputation. Any further tool the harness's read-only
-       agent type carries must itself be read-only — a `Glob` and the like —
-       and its **presence** is sanctioned where its **use** is caught: a
-       recorded `Glob`, directory listing, or path-less search is a fence
-       breach the transcript verification flags exactly as it flags a stray
-       read path, and a recorded network call (a `WebFetch`/`WebSearch` the
-       type carries) is a defective audit record for the auditor and a
-       fence-breach void for the adversary — so an extra tool changes no
-       verdict a faithful pass reaches, and a config carrying a `Write`,
-       `Edit`, or an unfenceable non-read-only tool is the unsanctioned one.
-       The model and invocation settings are step 6's sanctioned variation.
+       every navigation tool. **Required present**: `Read` and `Grep`, the
+       auditor additionally `Bash` for recomputation. **Presence-void
+       always** — the config is unsanctioned if the type carries any of them,
+       transcript or none: `Write`, `Edit`, and every other state-mutating
+       tool (an edit must be structurally impossible, and the hash re-check
+       only catches a *disk* write). Any further tool the type carries must be
+       read-only, and is sanctioned only where it is **fenceable**: a tool is
+       fenceable when every one of its invocations is transcript-recorded
+       **and** the transcript walk below flags any invocation that is not a
+       `Read` or `Grep` naming the document or a listed source — so a `Glob`,
+       a path-enumeration, or a network fetch is caught **by its existence**
+       in the transcript, its return never needing to be reconstructed. Two
+       tiers of extra tool, because their misuse has two blast radii:
+       - **Local-scope read-only** (`Glob`, directory/path enumeration) —
+         worst-case misuse lists working-tree paths, inside the read fence's
+         own reach. Sanctioned present whatever the harness records: where a
+         transcript exists its use is caught by the walk; where none does, an
+         uncatchable misuse is the same accepted no-transcript floor as any
+         other unobserved fence breach. Presence never voids.
+       - **Network-scope** (`WebFetch`, `WebSearch`, any tool reaching outside
+         the local corpus) — worst-case misuse imports outside knowledge,
+         **beyond** the offline fence entirely, and a network read leaves no
+         on-disk trace, so the transcript walk is its *only* catch. Sanctioned
+         present **only where the harness records a transcript** the walk (and,
+         for the final auditor, certification) covers: a recorded call is then
+         caught by existence — a defective audit record for the auditor, a
+         fence-breach void for the adversary. Where the harness records **no**
+         transcript, a network tool's presence is uncatchable and therefore
+         **presence-void**: the config is unsanctioned, and the auditor needs a
+         network-free type there (or the review cannot run on that harness —
+         an honest limitation, not a silent gap).
+       An unrecognised extra tool defaults to network-scope treatment —
+       presence-void unless proven local-scope and transcript-caught. The
+       model and invocation settings are step 6's sanctioned variation.
      - Where the harness records a transcript, run the transcript
-       verification, required for audit-cleanliness there: every read and
-       search names the document or a listed source — an excerpt entry's
-       `full:` path or any stray path is fence-breach evidence; the union of
+       verification, required for audit-cleanliness there: the walk is over
+       **every recorded tool call**, not reads alone — each call is a `Read`
+       or `Grep` naming the document or a listed source, and **any other
+       recorded call is fence-breach evidence by its existence**: an excerpt
+       entry's `full:` path, any stray path, a `Glob` or path-enumeration, a
+       network fetch, or any call naming a path or URL outside the listed set
+       — the call's presence is the breach, its return never needing to be
+       reconstructed (this is what makes an extra fenceable tool caught by
+       existence, per the sanctioned-shape rule above). The union of
        read ranges covers the attested chunk ranges; the prompt-as-sent and
        tool set match the transcript, not merely the orchestrator's own
        record; and where tool outputs are recorded, read content is consistent
@@ -1340,7 +1367,15 @@ auditor's return hash, each recorded per pass by their own rules.
    the source-change adjudication first. And it certifies the per-pass audit records:
    certification attests the records' form and completeness, not a full
    re-execution (the audit was the auditor's execution; certification is
-   over its recorded output), with one
+   over its recorded output), with **two** exceptions where certification
+   does re-execute. The first is the final auditor's transcript
+   verification: that auditor has no successor to run Stability's transcript
+   walk over it, so certification runs the **full** walk itself — every
+   recorded tool call checked by existence per Stability's transcript rule,
+   not a form-and-completeness pass — since a final-auditor fence breach (a
+   stray path, a network fetch on a network-carrying type) is exactly what
+   no other party can catch, and it is the convergence-sealing pass. The
+   second is one
    mandatory cross-party exception — at signing the **orchestrator**, in
    front of the author, draws a named sample (never chosen) from the review's
    whole obligation space — any ledger row, standing entry, source-list
@@ -1378,15 +1413,18 @@ auditor's return hash, each recorded per pass by their own rules.
 ## Running a pass
 
 Spawn one subagent — a read-only reviewer agent type — with
-`run_in_background: false`, with `Read` and `Grep` and **no `Write`, `Edit`,
-or network tool**: with no write tool an edit is structurally impossible
-rather than merely forbidden, and with no network tool the offline fence
-holds itself. Prefer a type with nothing more; where the harness's only
-read-only type also carries a navigation tool like `Glob` (or any other
-read-only tool), that is the sanctioned shape too — the fence forbids its
-use ("Do not open, list, or search anything else"), and a `Glob` or
-path-less search in the transcript is a fence breach the pass verification
-catches, so the extra tool's presence changes no verdict. `Bash`, `Edit`, and
+`run_in_background: false`, `Read` and `Grep` present and **no `Write`,
+`Edit`, or other state-mutating tool** (an edit is then structurally
+impossible, not merely forbidden). Prefer a type with nothing more; the
+sanctioned-shape rule under Stability governs any extra tool the harness's
+read-only type carries — a local-scope navigation tool (`Glob`) is
+sanctioned present, its misuse caught by the transcript walk where one
+exists and folded into the accepted no-transcript floor where none does;
+a **network-scope** tool (`WebFetch`/`WebSearch`) is sanctioned present
+**only where the harness records a transcript** the walk covers, and is
+presence-void otherwise, since a network read leaves no trace the walk
+could catch. The fence forbids every such tool's use ("Do not open, list,
+or search anything else"), so a faithful adversary calls none. `Bash`, `Edit`, and
 `Write` in this skill's own tool list are the orchestrator's — hashes, document fixes,
 the record — and `Bash` the auditor's for recomputation — never the adversary's. Record the invocation identity in the pass
 record where the harness exposes one; where it does not, freshness is claimed,
