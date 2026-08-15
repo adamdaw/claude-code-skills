@@ -390,10 +390,13 @@ auditor's return hash, each recorded per pass by their own rules.
 
 2. **Audit the pass before working findings.** The audit is not the
    orchestrator's own read: spawn a second fresh subagent — the **auditor**
-   — per pass, cold like the adversary, with `Read`, `Grep`, and `Bash`
-   (recomputation only — a write to snapshots or the record surfaces as an
+   — per pass, cold like the adversary, on a read-only agent type carrying
+   `Read`, `Grep`, and `Bash` and no `Write`, `Edit`, or network tool (the
+   sanctioned-shape rule under Stability governs, extra read-only tools
+   fenced there); its `Bash` is
+   recomputation only — a write to snapshots or the record surfaces as an
    integrity defect at the next spawn, and the hash identity surfaces any
-   live-file write, though it cannot attribute one). The auditor works
+   live-file write, though it cannot attribute one. The auditor works
    offline under the adversary's background-knowledge rule: its `Bash` runs
    local recomputation against its sanctioned read set — the closure of
    what the seven checks are defined over: this skill file, the record, the
@@ -695,11 +698,22 @@ auditor's return hash, each recorded per pass by their own rules.
        adversary's and the auditors' as recorded at the time this check runs,
        the post-terminal certification invocation's being the author's signing
        affirmation, never recorded in time for any pass's Stability: the
-       adversary's — a read-only reviewer agent type with the
-       `Read`-and-`Grep` tool list; each auditor invocation's — `Read`,
-       `Grep`, and
-       `Bash`; the model and invocation settings are step 6's
-       sanctioned variation.
+       sanctioned shape is a **read-only tool set**, not an exact allow-list —
+       the security is the absence of what voids a pass, not the exclusion of
+       every navigation tool: no `Write`, `Edit`, or network tool present
+       (so an edit is structurally impossible and the offline fence holds
+       itself), `Read` and `Grep` present, the auditor additionally carrying
+       `Bash` for recomputation. Any further tool the harness's read-only
+       agent type carries must itself be read-only — a `Glob` and the like —
+       and its **presence** is sanctioned where its **use** is caught: a
+       recorded `Glob`, directory listing, or path-less search is a fence
+       breach the transcript verification flags exactly as it flags a stray
+       read path, and a recorded network call (a `WebFetch`/`WebSearch` the
+       type carries) is a defective audit record for the auditor and a
+       fence-breach void for the adversary — so an extra tool changes no
+       verdict a faithful pass reaches, and a config carrying a `Write`,
+       `Edit`, or an unfenceable non-read-only tool is the unsanctioned one.
+       The model and invocation settings are step 6's sanctioned variation.
      - Where the harness records a transcript, run the transcript
        verification, required for audit-cleanliness there: every read and
        search names the document or a listed source — an excerpt entry's
@@ -1364,10 +1378,15 @@ auditor's return hash, each recorded per pass by their own rules.
 ## Running a pass
 
 Spawn one subagent — a read-only reviewer agent type — with
-`run_in_background: false`, restricted to `Read` and `Grep` —
-no `Glob` (the fence leaves it no legitimate use), no `Bash`, no `Write`, no `Edit`,
-no network. With no write tool an edit is structurally impossible rather than merely
-forbidden; with no network tool the offline fence holds itself. `Bash`, `Edit`, and
+`run_in_background: false`, with `Read` and `Grep` and **no `Write`, `Edit`,
+or network tool**: with no write tool an edit is structurally impossible
+rather than merely forbidden, and with no network tool the offline fence
+holds itself. Prefer a type with nothing more; where the harness's only
+read-only type also carries a navigation tool like `Glob` (or any other
+read-only tool), that is the sanctioned shape too — the fence forbids its
+use ("Do not open, list, or search anything else"), and a `Glob` or
+path-less search in the transcript is a fence breach the pass verification
+catches, so the extra tool's presence changes no verdict. `Bash`, `Edit`, and
 `Write` in this skill's own tool list are the orchestrator's — hashes, document fixes,
 the record — and `Bash` the auditor's for recomputation — never the adversary's. Record the invocation identity in the pass
 record where the harness exposes one; where it does not, freshness is claimed,
