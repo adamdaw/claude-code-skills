@@ -513,13 +513,16 @@ auditor's return hash, each recorded per pass by their own rules.
      mandatorily, so interior padding is a mechanical failure, not a sampling
      gamble — and an invited-inference range wider than its inviting block is
      the same failure. And scan every `no claims` attestation range exhaustively
-     for quantitative tokens: a digit, currency, or per-cent token, a
-     Numbers-rule change-verb (halved, doubled, tripled and their kin), or a
-     fraction or proportion word used quantitatively (two-thirds, four fifths,
-     a quarter of) in an attestation
+     for quantitative tokens: a digit, currency, or per-cent token, a spelled-out
+     cardinal or multiplier (one … twenty, hundred, thousand, million, and the
+     ordinal and multiplier forms), a Numbers-rule change-verb (halved, doubled,
+     tripled and their kin), or a fraction or proportion word (two-thirds, four
+     fifths, a quarter of) in an attestation
      range without its retiring standing entry or figure-note is a failed check —
-     the token list is deterministic and errs wide, a benign hit clearing through
-     a one-time figure-note; spelled-out bare cardinals stay Attestations' sampled work, being too common in prose to scan without drowning the check —
+     the token list is deterministic and errs wide, so a benign hit (a bare
+     cardinal in prose, "one of the", "no one") clears through a one-time
+     figure-note that a standing entry then honours silently thereafter:
+     orthography must not decide coverage, `nine` catchable where `9` is —
      figures are mechanically visible, so their identification over attestation
      rows is the tiling's exhaustive companion, not the Attestations sample's
      gamble (figureless empirical prose stays Attestations' sampled work).
@@ -778,10 +781,22 @@ auditor's return hash, each recorded per pass by their own rules.
        surfaced as `standing-overridden` for claim-verdict entries, or as the
        unengaged-checkable-content record-level finding for `not a claim`
        entries. Honour-everything is the laziness this sample exists to catch.
+     - Every honoured `not a claim` entry retiring figure-bearing content is
+       checked **exhaustively**, never by the sample above, for demonstrated
+       leaning: any document claim or invited inference depending on the retired
+       figures defeats the retirement and is a failed check — removing empirical
+       content from scope on an adjacent disclaimer is the high-risk disposition,
+       so its leaning backstop is exhaustive like the fix re-derivation, not left
+       to the draw.
      - Probe the sweep itself: search the sources for counter-evidence bearing
        on a sample of claims. The queries per sampled claim are mandated,
        never chosen: every distinctive content token of the claim and every
-       figure it carries, each run over the whole swept corpus and recorded
+       figure it carries — plus, where the claim's load-bearing term is a
+       short token the distinctive-content-token rule's >3-char floor excludes
+       (an acronym or identifier: "AI", "ML", "GDP", "S3"), that token too, the
+       floor being candidate-pair noise control, never probe coverage, so no
+       claim's counter-evidence sweep is left with an empty query set — each run
+       over the whole swept corpus and recorded
        verbatim. The probe set carries a positive control — one
        query aimed at a known bearing (an existing finding's quoted evidence
        line; on a finding-free review, quote any line from a swept source
@@ -1143,6 +1158,11 @@ auditor's return hash, each recorded per pass by their own rules.
    - the template attestation: the author attests the skill file whose
      recorded hash every pass carries is the canonical distribution,
      unmodified — fabrication-class if false;
+   - the certification affirmation: the certification invocation's recorded
+     spawn configuration matches the sanctioned auditor shape and its recorded
+     prompt matches the template verbatim — affirmed by the author at signing,
+     the terminal invocation having no successor auditor to run Stability over
+     it;
    - the fix inventory: every fix-dispositioned finding with its keyed claim;
    - the observation inventory: every Observation across all passes,
      acknowledged by the author at signing — nothing worth the author's eye
@@ -1196,9 +1216,15 @@ auditor's return hash, each recorded per pass by their own rules.
    consecutive Greens that satisfy the convergence predicate, never an
    earlier reset-and-superseded Green; the same 4-byte draw machinery over four populations in this
    order — first Green's recomputations, first Green's judgement lines,
-   second Green's recomputations, second Green's judgement lines; its
+   second Green's recomputations, second Green's judgement lines, the same
+   empty/size-zero/exhaustion handling the per-pass sampler carries (a
+   population legitimately empty on a clean Green is skipped and surfaced, an
+   all-empty set leaving the sample vacuously satisfied); its
    inputs the auditor's list (pin included); its spawn configuration the
-   auditor's shape, checked under the same Stability invariant; its
+   auditor's shape and its prompt the template below, both recorded and — since
+   no pass succeeds it to run Stability over them — affirmed by the author at
+   signing against the sanctioned shapes, listed in the declaration, the human
+   gate closing the one self-check no successor auditor can; its
    prompt its own verbatim template, recorded and template-checked the
    same way: "You are the certification invocation for a claims-verifier
    review. From `<skill-path>` step 6, re-execute the mandated sample —
