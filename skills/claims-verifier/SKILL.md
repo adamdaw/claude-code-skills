@@ -754,11 +754,16 @@ auditor's return hash, each recorded per pass by their own rules.
        locus is the defective-disposition finding the Fix rule names.
    - *Merits.* Re-derive a sample of SUPPORTED **and** non-SUPPORTED verdicts
      on the merits — its sample target scaled: the greater of three and a
-     tenth of the ledger's verdicted-claim count (rounded up), so audit
+     tenth of the ledger's **enumerated-claim count** (rounded up), so audit
      coverage density does not collapse as the document grows, the bare
      SUPPORTED verdict no longer the one dangerous thing sampled at a fixed
      floor while unswept declarations, finding-figures, derivation edges, and
-     undischarged fixes are all exhaustive. A re-derivation applies the prompt's **entire**
+     undischarged fixes are all exhaustive. The enumerated-claim count is
+     every claim-bearing ledger row — the five verdicts, `standing`,
+     `standing-overridden`, and `not a claim` alike — never only the
+     fresh-verdicted rows and never the attestation or `unreviewed` rows,
+     so driving claims into `standing` or `not a claim` retirements cannot
+     shrink the base and collapse the sample back toward its floor. A re-derivation applies the prompt's **entire**
      Cited-evidence and Logic rule set, not a shortlist — for a SUPPORTED
      verdict that includes the report bar (does the source itself report —
      data, method, derivation, first-hand account — or merely restate or cite
@@ -806,16 +811,17 @@ auditor's return hash, each recorded per pass by their own rules.
        surfaced as `standing-overridden` for claim-verdict entries, or as the
        unengaged-checkable-content record-level finding for `not a claim`
        entries. Honour-everything is the laziness this sample exists to catch.
-     - Every honoured `not a claim` entry retiring figure-bearing content is
-       checked **exhaustively**, never by the sample above, for demonstrated
-       leaning: any document claim or invited inference depending on the retired
-       figures defeats the retirement and is a failed check — removing empirical
-       content from scope on an adjacent disclaimer is the high-risk disposition,
-       so its leaning backstop is exhaustive like the fix re-derivation, not left
-       to the draw.
+     - Every honoured `not a claim` entry is checked **exhaustively**, never by
+       the sample above, for demonstrated leaning: any document claim or invited
+       inference depending on the retired content defeats the retirement and is a
+       failed check — removing content from scope on an adjacent disclaimer is
+       the high-risk disposition whether or not the content carries a figure, so
+       its leaning backstop is exhaustive like the fix re-derivation, not left
+       to the draw; a retirement of pure value-judgement content, nothing
+       leaning on it, clears trivially.
      - Probe the sweep itself: search the sources for counter-evidence bearing
        on a sample of claims — the same scaled target as the Merits verdict
-       sample (the greater of three and a tenth of the verdicted-claim count). The queries per sampled claim are mandated,
+       sample (the greater of three and a tenth of the enumerated-claim count). The queries per sampled claim are mandated,
        never chosen: every distinctive content token of the claim and every
        figure it carries — plus, where the claim's load-bearing term is a
        short token the distinctive-content-token rule's >3-char floor excludes
