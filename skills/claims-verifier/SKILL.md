@@ -91,7 +91,9 @@ orchestrator's own read.
    (full: source-path, N lines)` — one entry, the
    excerpt form itself attesting the full source too large to sweep — and,
    directionally like the pathed entry's no-omitted-counter-bearing
-   attestation, that the unswept remainder omits no content counter-bearing on
+   attestation, that the unswept remainder — and every gap skipped between
+   marked blocks at a declared discontinuity, the splice channel offset
+   containment cannot see — omits no content counter-bearing on
    the claims the excerpt supports, fabrication-class if false: the author cut
    the remainder the adversary never reads, so this is the one place a cited
    source's counter-evidence could otherwise be knowingly omitted without the
@@ -485,7 +487,10 @@ auditor's return hash, each recorded per pass by their own rules.
    is, are, was, were, it, this, that, with, as, by; a content word is any
    token not on the list and longer than three characters — crude on
    purpose: determinism outranks linguistics here, and the same rule
-   defines "distinctive content token" wherever the audit uses it);
+   defines "distinctive content token" wherever the audit uses that term for
+   population construction — the counter-evidence probe additionally reaching a
+   claim's load-bearing short tokens by its own rule, coverage there outranking
+   the noise-control floor);
    thesis/takeaway sentences — every section-initial
    and section-final sentence plus any sentence opening with a consequence
    marker ("so", "therefore", "in short", "the upshot"). Two auditors over
@@ -497,7 +502,11 @@ auditor's return hash, each recorded per pass by their own rules.
    the integer stream across a check's populations in the order the check
    lists them, one item to each in turn, completing every round begun — a
    size-zero population is skipped and consumes no integer; stop at the end
-   of the first full round in which the check's total reaches three, or
+   of the first full round in which the check's total reaches at least the
+   check's sample target — three for every check but the two substantive
+   verdict checks (Merits verdict re-derivation and the counter-evidence
+   probe), which scale their target with the population as their own rules
+   below state — or
    when every population is exhausted (drawing every item the populations
    hold satisfies the check, whatever the total), so every non-empty
    population receives at least one draw, the seed,
@@ -566,7 +575,11 @@ auditor's return hash, each recorded per pass by their own rules.
        just membership: recompute each marked block at its stated offsets in
        the full source. A miss is a failed check — substituting, or splicing a
        new meaning out of genuine lines, is attribution fraud the fence would
-       never see. And the self-identification test the adversary's excerpt
+       never see. Every declared discontinuity — the skip between two marked
+       blocks — is surfaced as a one-time finding on the excerpt-note model,
+       naming the skipped range so the author dispositions it under the
+       intra-gap attestation, never folded silently into the containment
+       arithmetic. And the self-identification test the adversary's excerpt
        exemption removed relocates here: confirm the full file self-identifies
        as the cited work in identifying position, its authorship signals
        consistent with the entry's provenance class.
@@ -629,7 +642,11 @@ auditor's return hash, each recorded per pass by their own rules.
        failed check, a cited source having never entered the sweep;
      - every uncited entry's `governs` attribution is checked both directions
        — an entry steered away from claims it plainly governs, or toward
-       claims it does not, is a failure;
+       claims it does not, is a failure; and every grounded `governs` entry
+       conferring SUPPORTED has its grounding span adjudicated **exhaustively**
+       here — scoping tie versus mere topical match, the span quoted — since a
+       grounded uncited entry is the only uncited route to SUPPORTED and is
+       too load-bearing to leave to the sampled Merits attachment check;
      - an Observation whose content engages a claim's support, a verdict, or a
        record-level defect class is a misfiled finding — a deterministic
        failure, not a sampled catch.
@@ -656,7 +673,10 @@ auditor's return hash, each recorded per pass by their own rules.
        check covers the auditor's recorded prompt against its template, and
        the previous auditor's transcript against the auditor read set —
        both this bullet's work, so audit-clean quantifies over them.
-     - Confirm every recorded spawn configuration is sanctioned: the
+     - Confirm every recorded spawn configuration is sanctioned — the
+       adversary's and the auditors' as recorded at the time this check runs,
+       the post-terminal certification invocation's being the author's signing
+       affirmation, never recorded in time for any pass's Stability: the
        adversary's — a read-only reviewer agent type with the
        `Read`-and-`Grep` tool list; each auditor invocation's — `Read`,
        `Grep`, and
@@ -733,7 +753,12 @@ auditor's return hash, each recorded per pass by their own rules.
        unchanged
        locus is the defective-disposition finding the Fix rule names.
    - *Merits.* Re-derive a sample of SUPPORTED **and** non-SUPPORTED verdicts
-     on the merits. A re-derivation applies the prompt's **entire**
+     on the merits — its sample target scaled: the greater of three and a
+     tenth of the ledger's verdicted-claim count (rounded up), so audit
+     coverage density does not collapse as the document grows, the bare
+     SUPPORTED verdict no longer the one dangerous thing sampled at a fixed
+     floor while unswept declarations, finding-figures, derivation edges, and
+     undischarged fixes are all exhaustive. A re-derivation applies the prompt's **entire**
      Cited-evidence and Logic rule set, not a shortlist — for a SUPPORTED
      verdict that includes the report bar (does the source itself report —
      data, method, derivation, first-hand account — or merely restate or cite
@@ -789,7 +814,8 @@ auditor's return hash, each recorded per pass by their own rules.
        so its leaning backstop is exhaustive like the fix re-derivation, not left
        to the draw.
      - Probe the sweep itself: search the sources for counter-evidence bearing
-       on a sample of claims. The queries per sampled claim are mandated,
+       on a sample of claims — the same scaled target as the Merits verdict
+       sample (the greater of three and a tenth of the verdicted-claim count). The queries per sampled claim are mandated,
        never chosen: every distinctive content token of the claim and every
        figure it carries — plus, where the claim's load-bearing term is a
        short token the distinctive-content-token rule's >3-char floor excludes
@@ -1035,7 +1061,12 @@ auditor's return hash, each recorded per pass by their own rules.
 
    An `unreviewed` range takes one of two dispositions — accept-as-standing
    is not available for it. Revise the document until a pass holds it whole
-   (a fix), or **split** it into separate documents, each reviewed
+   (a fix — externalising an indivisible over-capacity region, a vast data
+   table or the like, into a cited source is a fix, the region then
+   represented under the excerpt and unswept rules; a region genuinely
+   neither compressible, splittable, nor externalisable is out of this
+   skill's scope as constituted and the author restructures the document
+   before review), or **split** it into separate documents, each reviewed
    independently under this skill with its own citations, source list,
    record, and convergence. The split terminates this review without
    convergence. Its closing: names the successors; transfers the
@@ -1655,6 +1686,12 @@ caption is its own block; the note body is the citation's text, not its location
 as the one deterministic default; sentence-only or section-wide scope only where the
 document's placement says so explicitly (a heading citation, "sources for this
 section", "as noted in §2") — support does not travel to uncited echoes.
+A SUPPORTED standing entry resting on a sentence-only or section-wide citation
+that sits **outside the key's own block** records that citation's block as a
+dependency line — block-hashed and re-checked like any dependency — so
+detaching the support (an edit to the citation's block while the key's block
+stays byte-identical) unanchors the entry, never leaving a now-unsupported
+claim honoured on an unchanged key-block hash.
 Plausibility is not support, and neither is your own agreement.
 
 ## Procedure
