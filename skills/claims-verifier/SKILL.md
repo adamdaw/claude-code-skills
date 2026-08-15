@@ -178,9 +178,13 @@ Three kinds of content:
   arithmetic vary per pass and stay outside the key — and a pass that sweeps
   that source in full finds the entry unanchored: the gap it retired is gone. One class is excluded from
   bare acceptance: the finding that a `not a claim` entry retired a genuine claim may
-  only be dispositioned by re-keying, pruning, or converting the rejection into a
-  real disposition — accepting it as standing would let a mistaken rejection exit the
-  review permanently through its own repair mechanism. Grouped entries — one reason over several keys of the same defect
+  only be dispositioned by re-keying, pruning, converting the rejection into a
+  real disposition, or — where the author holds the finding itself mistaken — a
+  dispute record under it, which retires the finding but never honour-exempts
+  the entry: the unengaged-content finding stays raisable by any later pass.
+  Accepting it as standing would let a mistaken rejection exit the
+  review permanently through its own repair mechanism; this class takes these
+  routes, not step 3's general record-level acceptance. Grouped entries — one reason over several keys of the same defect
   class — are fine, carrying a trace per key since the keys came from separate
   findings; they are how a batch of commonplaces, or the dependents of one standing
   premise, retire in one disposition. An invited-inference entry additionally
@@ -228,7 +232,8 @@ Three kinds of content:
 
 - **`## Review log`**, at the bottom: the administrative writes — rename notes,
   step-1 repair notes, binding adjudications with their re-affirmation findings
-  and dispositions, boundary adjudications, split closings, and the signed
+  and dispositions, source-change adjudications that disposition no finding,
+  boundary adjudications, split closings, and the signed
   convergence declaration itself. Neither standing entry nor pass output; nothing
   here is ever substituted into a prompt.
 
@@ -264,7 +269,9 @@ both re-checked by Stability each pass.
    Blocking input defects — repair each with the author before running:
    - A cited local file that cannot be read, is empty, or reads as
      unintelligible content (a scanned PDF returned as noise); a directory in
-     the list.
+     the list; a source unreadable for line length (past the read tool's
+     horizon), repaired by a mechanical reflow copy — the transform noted, the
+     snapshot hashing the reflowed bytes.
    - A record that does not bind to this document. Binding is by content: a
      record whose recorded document hashes match the document binds to it
      whatever the paths now say — renaming re-binds a record, never orphans
@@ -284,7 +291,10 @@ both re-checked by Stability each pass.
      author before the next pass: re-affirmed (the author confirming the
      entry's reason engages this document's text), re-keyed, or pruned. The
      declaration lists the adjudication and that inventory, and attests no
-     other record in scope reviews this document.
+     other record in scope reviews this document. A predecessor record the
+     author names — an earlier review of this document, wherever it lived —
+     is admitted like a split successor's inheritance: its open contests,
+     carried findings, and ratchet-retained sources enter this review.
    - An abort-class record defect (foreign text in the standing section,
      `None yet.` beside entries, a conflicting duplicate key). Repair it
      mechanically: prune the foreign text or the stray `None yet.`; of a
@@ -342,7 +352,9 @@ both re-checked by Stability each pass.
        and declared-unswept ranges jointly tile each file, sampled per-chunk
        quoted lines sit at their stated offsets, count and final line agree
        (paged forms likewise), the trailing-newline off-by-one against `wc -l`
-       tolerated.
+       tolerated — and recompute each attested file's maximum line length
+       against the read horizon: a source exceeding it was never attested
+       `read` whole.
      - Verify every `unswept` and `unreviewed` declaration and every excerpt
        entry's too-large attestation: necessity and extent, on stated
        arithmetic. The plea records what the pass held and what it declined —
@@ -373,8 +385,10 @@ both re-checked by Stability each pass.
        excerpt-note or retirement;
      - every non-text embed in the document has its surfacing — a reliance
        finding, an embed-note, or a retirement;
-     - every attestation row over lines carrying figures or empirical
-       statements has its retiring entry or its figure-note;
+     - every attestation stretch the Attestations check, or any pass, has
+       identified as figure-bearing has its retiring entry or its figure-note
+       — identification is Attestations' sampled work; this invariant checks
+       only the bookkeeping over stretches so identified;
      - every SUPPORTED claim has a Support-record entry, and every
        Support-record entry answers a SUPPORTED ledger row;
      - every `via` source-list entry traces to the UNVERIFIABLE finding that
@@ -511,8 +525,9 @@ both re-checked by Stability each pass.
      before the next pass.
    - In the pass's own output: put it to the author with its quoted evidence.
 
-   Either way the pass resets the streak — an audit-failed pass never counts
-   toward convergence, signed or declined. Signed (**voided**), its output is
+   A failure of the input-artifact or pass-output class resets the streak,
+   signed or declined — record repairs never do — and an audit-failed pass
+   never counts toward convergence. Signed (**voided**), its output is
    untrusted and its findings become carried findings; declined, its findings
    are worked as they stand. Every finding is worked with the author
    regardless — no finding exits the review undispositioned — and an audit
@@ -662,7 +677,8 @@ both re-checked by Stability each pass.
    document quoting an injection example keeps it). A record-level finding
    the author holds simply wrong is dispositioned by accept-with-reason whose
    reason records the dispute — repairable record facts get no contest; the
-   asymmetry is deliberate. One acceptance carries extra weight: accepting a
+   asymmetry is deliberate — except the `not a claim`-retired-a-genuine-claim
+   class, which takes only the record section's own routes. One acceptance carries extra weight: accepting a
    missing-source finding — the author holding the mention no citation — has
    attestation-equivalent semantics, the file staying off the list and out of
    the sweep, and the declaration lists it as a sweep exclusion.
@@ -778,7 +794,11 @@ both re-checked by Stability each pass.
      audit-cleanliness per pass, disposition count per pass, open-contest
      count;
    - the attestation that no other record in scope — the document's directory
-     and the record's — reviews this document.
+     and the record's — reviews this document, and the author's **history
+     attestation**: no prior review of this document — in any location, under
+     any prior state of the document — was begun and discarded,
+     fabrication-class if false; a named predecessor's record is admitted at
+     step 1 like a split successor's inheritance.
 
    It carries fresh hashes taken at signature time — the document and each
    listed source from disk, the prompt rebuilt from the second Green's
@@ -919,10 +939,13 @@ show bare citations for legibility:
   `[governs: <claims or sections>]` — a `via` entry excepted, its suffix inert
   per its bullet — authoritative for that entry only, per
   entry, not per document: a mixed document keeps placement for its cited
-  entries while `governs` covers the uncited rest. On an in-text-cited entry
-  the suffix has no legal function — placement always wins — and citedness
-  shows only at the pre-sweep reconcile: a cited entry found bearing the
-  suffix there is an input defect — stop and return
+  entries while `governs` covers the uncited rest. **In-text-cited** means
+  cited in the document's body: a bibliography-only mention is not in-text —
+  it makes the entry answerable at the reconcile, nothing more. On an
+  in-text-cited entry
+  the suffix has no legal function — placement always wins — and in-text
+  citedness shows at the pre-sweep reconcile: an in-text-cited entry found
+  bearing the suffix there is an input defect — stop and return
   `No review — input invalid`, naming it. An uncited entry's `governs`
   is grounded only where a verifiable document-text span ties the work to the
   governed claims or sections — quote the span; a topical match or the bare
@@ -1163,7 +1186,12 @@ Plausibility is not support, and neither is your own agreement.
      unconditionally** (an inert entry is reconciliation's exclusion, never your
      choice) — the full read is the counter-evidence sweep, and counter-evidence
      anywhere in the cited corpus is admissible against any claim. Chunked reads are full reads; the
-     Read tool's per-call limits are never a trigger. Only where a source genuinely
+     Read tool's per-call limits are never a trigger — but a line the tool
+     truncates is an unread remainder: where truncation pervades the file (a
+     minified or single-line source), the file is unreadable as listed — stop
+     and return `No review — input invalid` naming it — and an isolated
+     truncated line is declared `unswept` with character arithmetic, since
+     line ranges cannot express it. Only where a source genuinely
      exceeds what one pass can hold in aggregate, declare `unswept: <range>` in
      Source check, its trigger stating the size arithmetic — what the pass held
      and what it declined, output counting as capacity alongside input — since
@@ -1396,8 +1424,10 @@ defined mark ride in the annotations position, beside the verdict, never
 qualifying it. An invited-inference row carries the verbatim
 inviting span — each span, for a multi-span inference — in place of the
 compression. A `standing` row carries the entry's quoted key in place
-of a compression and no fresh verdict; a `standing-overridden` row carries the live
-verdict and the entry it overrides. Attestation rows complete the tiling. Where the document itself genuinely exceeds
+of a compression and no fresh verdict; a `standing-overridden` row holds
+`standing-overridden` in the verdict cell, with the live verdict and the
+overridden entry's reference riding in the annotations position — both defined
+marks. Attestation rows complete the tiling. Where the document itself genuinely exceeds
 what one pass can hold in aggregate, an `unreviewed: <range>` row (its trigger
 stating the same size arithmetic an unswept plea carries) is the honest ledger
 form — each such row is a record-level finding, forcing
