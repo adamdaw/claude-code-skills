@@ -1319,10 +1319,13 @@ auditor's return hash, each recorded per pass by their own rules.
    per pass, holding that pass's ledger rows, the standing entries it
    introduced or honoured, its source-list entries, and its recorded
    recomputations in record order, plus one predicates population holding the
-   convergence predicates in step-6 order — drawn round-robin so the sample
+   convergence predicates in step-6 order — drawn round-robin, completing
+   every round begun exactly as the per-pass sampler does, until the sample
    spans at least three items from at least two passes and always at least
-   one predicate, each bound relaxed to what exists where the review holds
-   fewer; the author's role is to **witness** the re-run in
+   one predicate: the draw stops at the end of the first full round in which
+   all three bounds hold, never mid-round, so the recorded sample is
+   reproducible between executors, each bound relaxed to what exists where
+   the review holds fewer; the author's role is to **witness** the re-run in
    person, never to select its targets — drawn, never chosen, as everywhere
    else in this file, so the party the control checks cannot steer it past
    the very entries they alone know to be weak — and
