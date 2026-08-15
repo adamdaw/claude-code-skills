@@ -253,7 +253,12 @@ Everything verdict-relevant is pinned at spawn. The orchestrator first
 **snapshots** the document, every listed source file (an excerpt entry's full
 source included), and the record as it stands into a snapshot
 directory beside the record, named in the pass record and retained for the
-review's life; the prompt's substituted paths are the snapshot's, so the
+review's life. The store is content-addressed — each snapshot file's name
+carries its own content hash — so unchanged bytes keep one path across
+passes, which is what lets two Greens substitute byte-identical prompts,
+while changed bytes take a new path and the prior copy persists by
+construction (the record's snapshot, never substituted into any prompt,
+changes path each pass harmlessly); the prompt's substituted paths are the snapshot's, so the
 adversary reads bytes the author cannot mutate mid-pass — a swap-and-restore
 between spawn and pass-end re-hash touches nothing the pass read — and a
 decited or changed source's prior bytes stay sweepable. From the snapshot,
@@ -278,7 +283,8 @@ both re-checked by Stability each pass.
      unintelligible content (a scanned PDF returned as noise); a directory in
      the list; a source unreadable for line length (past the read tool's
      horizon), repaired by a mechanical reflow copy — the transform noted, the
-     snapshot hashing the reflowed bytes.
+     snapshot hashing the reflowed bytes; an in-text-cited entry bearing a
+     `[governs:]` suffix, repaired by dropping the suffix — placement wins.
    - A record that does not bind to this document. Binding is by content: a
      record whose recorded document hashes match the document binds to it
      whatever the paths now say — renaming re-binds a record, never orphans
@@ -320,12 +326,18 @@ both re-checked by Stability each pass.
    orchestrator's own read: spawn a second fresh subagent — the **auditor**
    — per pass, cold like the adversary, with `Read`, `Grep`, and `Bash`
    (recomputation only; any write it made would surface as a
-   snapshot-integrity defect at the next spawn). It receives the record
-   path, the snapshot directory, the previous spawn's record snapshot, and
-   this step's seven checks verbatim; it executes them and returns the
+   snapshot-integrity defect at the next spawn). It receives this skill
+   file's path — the seven checks and every rule they reference read from
+   it — the record path, the snapshot directory, and the previous spawn's
+   record snapshot; it executes the checks and returns the
    audit record — for each check, what was examined or drawn, what was
-   recomputed, and the result — which the orchestrator appends unchanged:
-   the party whose diligence an audit certifies never writes it. Findings
+   recomputed, and the result, every recomputation stating its inputs
+   beside its result (file, offsets, figures — re-execution a command, not
+   an investigation) — which the orchestrator appends unchanged:
+   the party whose diligence an audit certifies never writes it. The pass
+   record carries the auditor's spawn configuration — agent type, tool
+   list, invocation identity where the harness exposes one — symmetrically
+   with the adversary's. Findings
    the audit itself raises — a steer met
    while auditing, a probe hit inside a declared-unswept range, evidence
    impugning a claim's verdict — are numbered `A1, A2, …` in the audit record;
@@ -339,12 +351,18 @@ both re-checked by Stability each pass.
    Segmentation, Support, and Merits sample — except that Support verifies
    every unswept, unreviewed, and excerpt declaration, and Merits recomputes
    every figure a finding rests on and runs its derivation-graph confirmation
-   over every edge, a global invariant sampling cannot touch. Samples are the
-   auditor's choice, at least three items per sampled check (or all,
-   where fewer exist), each named in the record — the choice is trusted, the
-   documentation is not optional — and each draw includes, where the
-   population allows, at least one item not drawn by that check in the
-   previous pass: habit is not coverage.
+   over every edge, a global invariant sampling cannot touch — and Merits
+   re-derives every undischarged fix. Samples are drawn, never chosen: for
+   each sampled check, order the population as the record and ledger
+   present it and take items at indices derived from
+   `sha256(document-hash ∥ pass number)` — leading bytes, each modulo the
+   population size, repeats skipped — until at least three items are drawn
+   (or all, where fewer exist), the seed, populations, and draws named in
+   the audit record so any reader can re-derive that the mandated draw was
+   the draw taken. A drawn sample cannot be aimed — not by the auditor, the
+   orchestrator, or the author short of editing the document, which resets
+   the streak and re-seeds the draw — and the pass number in the seed keeps
+   consecutive draws distinct over unchanged bytes: habit is not coverage.
    - *Coverage.* Claim ranges (`standing` rows included), `no claims`
      attestation rows, and declared `unreviewed` ranges tile the document —
      every line in exactly one kind of row, attestations never overlapping
@@ -380,7 +398,8 @@ both re-checked by Stability each pass.
        size is a `wc` away; the audit recomputes, and a plea without
        arithmetic fails. Judge against the baseline recorded in the pass
        record at spawn (the harness's context size, or the orchestrator's
-       stated estimate marked as such where the harness exposes none),
+       stated estimate marked as such where the harness exposes none — an
+       estimate may not undercut a context size the harness documents),
        superseded by the largest corpus any pass of this review has
        demonstrably swept — this pass included, by audit time — when that is
        larger. A plea judged with no recorded baseline is the orchestrator's
@@ -414,8 +433,12 @@ both re-checked by Stability each pass.
      - contest accounting — re-raises recorded as continuing contests,
        escalation counts, re-opened deletion-resolved contests — reconciles
        against the record;
-     - every ledger verdict is drawn from the closed set (the five,
-       `standing`, `standing-overridden`); an out-of-set or qualified label is
+     - every binding re-affirmation finding (`B`-numbered, Review log)
+       carries a disposition — an unworked B-finding is a failed check;
+     - every claim row's ledger verdict is drawn from the closed set (the
+       five, `standing`, `standing-overridden`) — attestation and
+       `unreviewed` rows are their own row kinds, outside this invariant; an
+       out-of-set or qualified label is
        a failure — the closed set governs the verdict cell, defined
        annotations riding beside it;
      - every entry of the substituted standing section is accounted for in the
@@ -456,8 +479,10 @@ both re-checked by Stability each pass.
        never an adjudicable event, since retained bytes are the ground
        adjudications and the ratchet stand on.
      - Check the substituted prompt against this skill file: the template
-       portion must match verbatim — the hash pins what was used, not that it
-       was canonical.
+       portion must match verbatim, and this skill file's own hash is
+       recorded in the pass record — what was used is pinned; that it was
+       canonical is the author's signing-time template attestation,
+       checkable out-of-band against the published distribution.
      - Confirm the recorded spawn configuration is the sanctioned one: a
        read-only reviewer agent type and the `Read`-and-`Grep` tool list are
        the invariants; the model and invocation settings are step 6's
@@ -546,13 +571,14 @@ both re-checked by Stability each pass.
        affirmatively re-derive that its named defect is absent from the
        revised locus — exhaustive, never sampled; the fix discharge is this
        check's work, recorded among its components, and a defect found
-       present is a same-defect finding under the Fix rule. And where an
-       open contest's dispute is un-re-raised in this pass's output and was
-       un-re-raised in the most recent prior audit-clean surviving pass,
+       present is a same-defect finding under the Fix rule. And where the
+       vindication gate's window (step 3) completes at this pass — this
+       pass the second consecutive surviving non-re-raising pass since the
+       dispute's last re-raise, the first of the two audit-clean —
        re-derive the contested claim
-       against the disputed source — the vindication gate (step 3), the
-       two-pass window counting this pass, its
-       outcome recorded here either way.
+       against the disputed source, its
+       outcome recorded here either way: step 3's predicate is the one
+       rule, this duty its executor.
      - Recompute with `wc` and arithmetic every figure a finding rests on and
        every figure inside a sampled SUPPORTED re-derivation — the adversary
        has no calculator by design.
@@ -613,7 +639,9 @@ both re-checked by Stability each pass.
    affirmative, not an absence: all seven checks recorded with their named
    samples and recomputed figures, and no failure beyond record repairs. A
    pass whose audit record cannot support that re-derivation is not
-   audit-clean, and the declaration re-derives audit-cleanliness per pass the
+   audit-clean — the auditor's spawn recorded, every check's draw
+   re-derivable from its seed, every recomputation carrying its inputs —
+   and the declaration re-derives audit-cleanliness per pass the
    same way it re-derives the streak.
 
 3. **Work the findings one at a time with the author**, writing each
@@ -674,7 +702,12 @@ both re-checked by Stability each pass.
      figures or empirical statements rests on a document-visible disclaimer at
      the flag rule's bar — per claim, adjacent, a blanket disclaimer
      disclaiming nothing — quoted in the reason, and demonstrated leaning
-     defeats it exactly as it defeats a quoted-speech disclaimer; a
+     defeats it exactly as it defeats a quoted-speech disclaimer.
+     Document-visible means reader-visible in the artifact's rendered form —
+     a disclaimer in an HTML comment or any non-rendering construct
+     disclaims nothing — and the disposition carries the author's
+     attestation that the disclaimer survives the published rendering,
+     fabrication-class if false; a
      record-only intent attestation is never sufficient, since nothing on disk
      can falsify it, and the wrapper argument alone never suffices. The
      prompt's wrapper rules govern the boundary — quoted speech and rhetorical
@@ -816,7 +849,8 @@ both re-checked by Stability each pass.
      identity;
    - no surviving full-review pass follows the second Green;
    - the two Greens' standing annotations reference the same entries;
-   - every finding in every recorded pass carries a disposition;
+   - every finding in every recorded pass — and every Review-log finding,
+     `B`-numbered re-affirmations included — carries a disposition;
    - no contest stands open.
 
    The streak arithmetic: count consecutive audit-clean surviving Greens. The
@@ -863,6 +897,13 @@ both re-checked by Stability each pass.
    - every binding adjudication with its re-affirmation inventory;
    - the acceptance inventory: every standing entry with its key and reason,
      affirmed by the author item by item at signing;
+   - the input inventory: the identity line and every attestation-bearing
+     source-list entry, affirmed by the author item by item at signing — a
+     line or attestation the author never supplied cannot survive its own
+     affirmation;
+   - the template attestation: the author attests the skill file whose
+     recorded hash every pass carries is the canonical distribution,
+     unmodified — fabrication-class if false;
    - the fix inventory: every fix-dispositioned finding with its keyed claim;
    - every sweep exclusion — accepted missing-source findings, standing
      unswept ranges, excerpt-backed full
@@ -870,7 +911,8 @@ both re-checked by Stability each pass.
      alike;
    - every source-hash transition over the review's life;
    - a mechanical re-derivation of every convergence predicate from the pass
-     records alone, joined in a successor review by the inherited items under
+     records and the Review log alone, joined in a successor review by the
+     inherited items under
      its predecessor link: streak position with each reset event named,
      audit-cleanliness per pass, disposition count per pass, open-contest
      count;
@@ -886,7 +928,10 @@ both re-checked by Stability each pass.
    recorded prompt with the standing section re-substituted from the record
    as it stands, and every embed content hash recorded in a standing entry
    re-taken from its file — required equal to both Greens' recorded sets and
-   the recorded entry values. And it certifies the per-pass audit records:
+   the recorded entry values. An inequality aborts the signing: the
+   post-Green change is a new hash identity, the streak returns to zero, and
+   the loop resumes at the next pass — a changed source additionally taking
+   the source-change adjudication first. And it certifies the per-pass audit records:
    certification attests the records' form and completeness, not a full
    re-execution (the audit was the auditor's execution; certification is
    over its recorded output), with one
@@ -1140,7 +1185,9 @@ external reliance on the speaker) unless the document expressly disclaims assert
 it **and** nothing in the document leans on it — demonstrated leaning (a claim
 depending on the quoted content, or an invited inference over it) defeats the
 disclaimer: a piece cannot launder its load-bearing assertions through other
-people's mouths. Reference-list lines are `no claims` for
+people's mouths. A disclaimer, flag, or acknowledgment counts only where it
+is reader-visible in the artifact's rendered form: text in an HTML comment
+or any non-rendering construct disclaims nothing. Reference-list lines are `no claims` for
 their citation metadata only; annotation prose on one ("the definitive demonstration
 that X causes Y") is in scope — annotation in substance, not by position:
 checkable content a line carries beyond identifying the work, and identity text
@@ -1296,7 +1343,9 @@ Plausibility is not support, and neither is your own agreement.
      Source check, its trigger stating the size arithmetic — what the pass held
      and what it declined, output counting as capacity alongside input — since
      the audit recomputes it and a plea without arithmetic fails; the declaration
-     is a one-time record-level finding on the flag-note model, and the author's
+     is a one-time record-level finding on the flag-note model, its notice
+     naming the pool-wide effect — the unswept remainder is outside the
+     counter-evidence pool for every claim, not only the capped ones — and the author's
      acceptance of the gap attests the unswept remainder bears only on the
      claims already capped by it — the unavailable entry's bearing attestation,
      false in the same fabrication class — and every claim citing
