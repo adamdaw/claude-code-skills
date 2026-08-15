@@ -1567,8 +1567,10 @@ show bare citations for legibility:
   `[variant: <version-or-date>, current]` or
   `[variant: <version-or-date>, dated]`, parsing like a `trace` suffix;
   bracketed suffixes compose in any order, one space apart. The pin is
-  required on ordinary pathed entries only — excerpt, `(decited)`, and
-  disclosed forms carry their own provenance — and a pin-less pathed entry
+  required on ordinary pathed entries **and valid `via` entries** (whose
+  fetched file is a promise of currency the same way a path is) — excerpt,
+  `(decited)`, and disclosed forms carry their own provenance — and a
+  pin-less pathed or `via` entry
   is never an abort: it is a record-level finding, its present-tense
   current-behaviour claims taking the dated-form cap pending repair:
   where the pin is `dated`, a present-tense claim about current behaviour
