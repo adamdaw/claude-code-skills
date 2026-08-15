@@ -229,7 +229,8 @@ Three kinds of content:
 - **`## Pass N`**, appended per pass above the Review log, its header naming the document path (the
   binding the rename rule depends on): the spawn-time hashes, the capacity
   baseline (the harness's context size as known at spawn), the resolution
-  map — each listed entry's live path beside its snapshot path — the spawn
+  map — each listed entry's live path beside its snapshot path — the record's
+  own spawn and audit-close snapshot pointers, the spawn
   configuration (agent type and tool list as invoked, with the invocation
   identity where the harness exposes one), the substituted prompt
   verbatim (fenced like the output — the declaration's re-substitution needs its
@@ -333,7 +334,12 @@ both re-checked by Stability each pass.
    — per pass, cold like the adversary, with `Read`, `Grep`, and `Bash`
    (recomputation only — a write to snapshots or the record surfaces as an
    integrity defect at the next spawn, and the hash identity surfaces any
-   live-file write, though it cannot attribute one). It receives this skill
+   live-file write, though it cannot attribute one). The auditor works
+   offline under the adversary's background-knowledge rule: its `Bash` runs
+   local recomputation against named snapshot inputs only, network access
+   or outside knowledge in a re-derivation is a defective audit record, and
+   where the harness records transcripts the transcript verification covers
+   the auditor's reads and commands too. It receives this skill
    file's path — the seven checks and every rule they reference read from
    it — the record path, the snapshot directory, and the previous spawn's
    record snapshot, and the transcript path where the harness records one;
@@ -372,10 +378,17 @@ both re-checked by Stability each pass.
    and continue. For each sampled check, order the population as the
    record and ledger present it — a population the auditor must construct
    (candidate pairs, thesis sentences) is enumerated into the audit record
-   first, the draw then taken from that recorded enumeration — and consume
+   first by a stated mechanical rule recorded with it (every non-adjacent
+   block pair sharing an echoed content word; every section-initial and
+   section-final sentence), the rule's application re-derivable — an
+   enumeration with no stated rule, or one its rule's application
+   contradicts, is a defective audit record — the draw then taken from
+   that recorded enumeration — and consume
    the integer stream across a check's populations in the order the check
-   lists them, one item to each in turn, until at least three items per
-   check are drawn (or every population is exhausted), the seed,
+   lists them, one item to each in turn, completing every round begun —
+   stop at the end of the first full round in which the check's total
+   reaches three, so every enumerated population receives at least one
+   draw (or all items, where a population is smaller), the seed,
    populations, and draws named in the audit record so any reader can
    re-derive that the mandated draw was the draw taken. The pass number in
    the seed keeps consecutive draws distinct over unchanged bytes: habit
@@ -459,13 +472,15 @@ both re-checked by Stability each pass.
        a failure — the closed set governs the verdict cell, defined
        annotations riding beside it;
      - every entry of the substituted standing section is accounted for in the
-       output — honoured, `standing-overridden`, or found unanchored; anything
+       output — honoured, `standing-overridden`, found unanchored, or
+       reported defective with its record-level finding; anything
        else is a failure;
      - the output contains only the enumerated sections; an unenumerated
        section, or disposition-recommendation or ship-verdict content
        anywhere, is a failure;
      - every accepted-unverified standing entry names the read-source verdict
-       it supersedes, or states no source was read where none was;
+       it supersedes — the named verdict matching the traced finding's report
+       — or states no source was read where none was;
      - the verdict line agrees with the findings section (`_None_` findings
        admit `Green` or `No claims enumerated`, the two split by ledger
        content and honoured inventory; any listed finding requires
@@ -620,6 +635,13 @@ both re-checked by Stability each pass.
        attaching the gap to the claims it bears on.
      - Confirm the Support record's derivation edges form a DAG grounded in
        source-backed entries — a cycle satisfies every per-entry check.
+     - Re-execute a seeded sample of the previous audit record's
+       recomputations against the retained snapshots — the same draw
+       machinery, the population its recomputation lines; a mismatch is a
+       defective audit record, taking the re-audit and its streak
+       consequence: an audit's arithmetic is checked by the next pass's
+       auditor, never only by its own writer (vacuous on the first pass,
+       there being no previous audit record).
      - Passing judgement work carries the same evidence as failing: every
        re-derivation, probe, and engagement check records what it consulted
        — lines, queries, bars applied — beside its outcome, and a result
@@ -865,8 +887,9 @@ both re-checked by Stability each pass.
 
 4. **UNVERIFIABLE findings have one extra path**: the author fetches and
    verifies the source outside this skill. A verified source lands as a local
-   file and joins the source list — an onward-identified one as a `via`
-   entry, a cited source by chain: it can support, contradict, or overclaim
+   file and joins the source list — a source the document itself cites as an
+   ordinary pathed entry, one identified by an onward citation as a `via`
+   entry: it can support, contradict, or overclaim
    like any other. The disposition written under the finding is the fetch
    itself — `resolved by fetch`, naming the new source-list entry — which
    satisfies the convergence check; the next pass verdicts the claim against
@@ -970,7 +993,11 @@ both re-checked by Stability each pass.
    the second Green's audit-close pin, the only sanctioned delta after that
    pin being the declaration itself — anything else is the blocking
    record-integrity defect the append-only rule names — and the predicate
-   re-derivation runs against the pinned bytes. An inequality aborts the signing: the
+   re-derivation runs against the pinned bytes. An audit finding or record
+   repair on the final Green therefore forces the loop onward, by design:
+   its disposition is written and the next pass runs — the pin, the rebuilt
+   prompt, and the streak arithmetic jointly make signing over it
+   impossible. An inequality aborts the signing: the
    post-Green change is a new hash identity, the streak returns to zero, and
    the loop resumes at the next pass — a changed source additionally taking
    the source-change adjudication first. And it certifies the per-pass audit records:
@@ -1188,7 +1215,10 @@ where its checkable content lies wholly within the quoted text **and the entry's
 reason engages it** — a coarse key whose reason engaged only part of the quote
 retires only that part; the unengaged assertions inside it are findable. Raise no
 finding for a covered claim unless you find counter-evidence the reason does not
-address — a new finding, `standing-overridden` in the ledger, carrying the live
+address, or document text that shifts the covered claim's reading from what its
+block held at disposition (a scope-setting definition or strengthening
+qualifier aimed at the key — the stipulative-definition rule's standing case) —
+a new finding, `standing-overridden` in the ledger, carrying the live
 verdict. Every mismatch — key, context, or dependency line against the document —
 routes through the unanchored rule instead: a cold read observes mismatch, not
 change. An unanchored entry is a record-level finding and its claim is enumerated
@@ -1244,7 +1274,10 @@ Two kinds of hedge: a **speaker-attitude** hedge ("I believe", "I suspect") is
 stripped, support judged against the embedded proposition; an **evidential-strength**
 operator ("suggests", "indicates", "early data point to", and the probability modals
 "probably", "likely", "almost certainly") sets the claim's stated strength, so
-suggestive evidence supports a claim of suggestion. The modals form a ladder each
+suggestive evidence supports a claim of suggestion. A bare possibility modal —
+"may", "might", "could", "possibly" — takes the suggests rung's bar: mere
+possibility is not a checkable strength, so the lowest rung is the floor for
+every strength operator. The modals form a ladder each
 rung of which demands strictly more: "suggests"/"indicates" is carried by
 evidence that positively favours the claim — kind-matched, and more than bare
 consistency or topical mention; "probably"/"likely" by read evidence that makes the claim
@@ -1257,7 +1290,12 @@ its ordinary reading — easier or harder to satisfy alike — or the document
 elsewhere trades on the ordinary
 sense ("revenue means gross bookings" under a revenue-growth headline) — then
 downstream claims are judged at ordinary strength. The verdict-shift test
-governs regardless of consistency, however uniformly the definition is used. An operational
+governs regardless of consistency, however uniformly the definition is used —
+and it counts standing text: a definition, unit stipulation, or scope-setter
+that shifts the reading of a standing entry's quoted key from what its block
+held at disposition is a finding, `standing-overridden`, the strengthened
+reading verdicted live — coverage never migrates in meaning any more than in
+text. An operational
 definition
 used consistently ("latency means time-to-first-byte" throughout) is out of scope and
 **transparent** only where it shifts no verdict: then it is semantics, not a premise,
@@ -1359,7 +1397,9 @@ Plausibility is not support, and neither is your own agreement.
    lines carrying figures or empirical statements is legal only where a
    standing entry retires them; otherwise such a stretch, unenumerated,
    surfaces exactly once as a **figure-note** finding on the flag-note model —
-   naming the stretch, asking whether its content is asserted anywhere — and
+   naming the stretch, asking whether its content is asserted anywhere — the
+   attestation row with its undispositioned note the legal interim form, the
+   note the row's licence until an entry retires the stretch — and
    its retiring entry's reason is a document-visible disclaimer at the flag
    rule's bar — per claim, adjacent, a blanket disclaimer disclaiming nothing,
    demonstrated leaning defeating it, a record-only attestation never
@@ -1457,7 +1497,9 @@ Plausibility is not support, and neither is your own agreement.
      follow — the strength gap is the quotable defect, owned by the
      missing-premise route (UNSUPPORTED, the bridging premise named; never
      CONTRADICTED or OVERCLAIMED) — unless the inference
-     itself supplies the difference. Support
+     itself supplies the difference: a stated deductive step making the
+     stronger conclusion follow, named in the derivation — an unexplained
+     jump never does. Support
      routes combine in a fixed order: read counter-evidence or contradiction
      anywhere sinks the claim; otherwise an unread identified source for the claim
      caps it at UNVERIFIABLE whatever other routes show — the fetch obligation
@@ -1659,7 +1701,10 @@ invalid.
 Claim findings and record-level findings both, numbered, **ordered most load-bearing
 first**. Every non-standing claim verdicted other than SUPPORTED appears — a ledger
 verdict with no finding is invalid — plus `standing-overridden` rows, flag-notes,
-excerpt-notes, embed-notes, and figure-notes; honoured `standing` claims are excluded. Each claim finding names the ID, quotes the
+excerpt-notes, embed-notes, figure-notes, and every Source-check reconciliation
+finding (the Source check line is its evidence site; the numbered entry here is
+its one disposition target — a finding class with no number cannot trace);
+honoured `standing` claims are excluded. Each claim finding names the ID, quotes the
 claim as written, states the refutation or absence of support — the source line
 quoted for source-based OVERCLAIMED and CONTRADICTED; for an inherited verdict, the
 premise finding cited in place of a source line — and names the kind of evidence
