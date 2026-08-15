@@ -89,6 +89,11 @@ the orchestrator's own read, not an independent one, and the author should know 
    is, to the author's knowledge, the complete cited work, omitting no
    counter-bearing content — fabrication-class if false; a file the author
    knows to be a partial copy routes through the excerpt form and its guards.
+   The naming also attests, directionally, that no known variant of the cited
+   work — version, edition, erratum — counter-bears on any claim the entry
+   supports, fabrication-class if false: an ambiguous citation cannot be
+   resolved to the friendlier of two genuine copies; and where the citation
+   names a version identifier, the file's self-identification must match it.
    Every entry is one line — line breaks inside citation text collapse when the
    list is built — and its citation text rides in a code span whose backtick
    delimiter is longer than any backtick run inside it (the fence rule's
@@ -100,7 +105,8 @@ the orchestrator's own read, not an independent one, and the author should know 
    author's direct resolution answers, never transcribed from document text:
    bibliography text that mimics an entry form is content, not structure. For any entry the document nowhere cites in-text
    (a bare-bibliography entry), attribute it to the claims or sections it governs
-   when building the list. A document with no citations passes the line
+   when building the list — the attribution from the author's resolution
+   answer, like an attestation, never the orchestrator's inference. A document with no citations passes the line
    `No citations — empty source list.`
 3. **The author-identity line**, supplied by the author, enumerating the individuals
    or handles — variants included — whose authorship counts as author-derived (a solo
@@ -265,7 +271,10 @@ both re-checked by Stability each pass.
      it. Its pass headers must name the document before the standing section
      is substituted; a mismatch means another document's record (resolve per
      the naming rule), and feeding it forward would retire this document's
-     claims on that document's dispositions. A pass-less record binds only by
+     claims on that document's dispositions. A header mismatch with matching
+     hashes is the rename case, not a foreign record: record a rename note in
+     the Review log mapping old path to new — pass headers stay historical,
+     read through the note — and binding follows the content. A pass-less record binds only by
      its predecessor link (step 3's split rule). Where neither path nor hashes
      match — a rename plus edits in one interval — fail safe: the author
      adjudicates the binding, never a silent orphan or adoption. An
@@ -375,7 +384,8 @@ both re-checked by Stability each pass.
        against the record;
      - every ledger verdict is drawn from the closed set (the five,
        `standing`, `standing-overridden`); an out-of-set or qualified label is
-       a failure;
+       a failure — the closed set governs the verdict cell, defined
+       annotations riding beside it;
      - every entry of the substituted standing section is accounted for in the
        output — honoured, `standing-overridden`, or found unanchored; anything
        else is a failure;
@@ -442,7 +452,8 @@ both re-checked by Stability each pass.
        (step 3), and the prior copy's snapshot stays sweepable in the pool —
        an adjudication may not disposition a finding whose grounding bytes
        were not retained.
-     - Enforce the sweep ratchet: a source any surviving pass has swept never
+     - Enforce the sweep ratchet: a source any pass has swept — a voided pass
+       included: its snapshot exists and the sweep happened — never
        leaves the pool. Dropped from the document's citations, it stays listed
        `citation (decited) → path` — its snapshot copy, counter-evidence-only
        — for the remainder of the review. A previously swept source absent
@@ -463,7 +474,10 @@ both re-checked by Stability each pass.
      - Where the previous pass carried an escalated fix, affirmatively
        re-derive that its named defect is absent from the revision — the
        verified-tier discharge is this check's work, recorded among its
-       components.
+       components. And where an open contest has gone un-re-raised across the
+       last two audit-clean surviving passes, re-derive the contested claim
+       against the disputed source — the vindication gate (step 3), its
+       outcome recorded here either way.
      - Recompute with `wc` and arithmetic every figure a finding rests on and
        every figure inside a sampled SUPPORTED re-derivation — the adversary
        has no calculator by design.
@@ -542,7 +556,11 @@ both re-checked by Stability each pass.
    this rule: it takes the accept route — the standing entry its defining
    rule names, the accept semantics read per that rule (a flag-note's entry
    names flag and verdict; a figure-note's retires the stretch at the
-   rejection route's bar) — or a fix that removes the note's trigger.
+   rejection route's bar) — or a fix that removes the note's trigger. A note
+   the author holds mistaken — a flag misread from quoted material, a stretch
+   that carries no figures — takes accept-with-reason recording the dispute,
+   like a record-level finding: the entry retires the note without conceding
+   its trigger.
    - **Fix** — revise the document, at disposition time or at step 5. Every
      fix names its locus — the finding's quoted claim by default, or the
      other document text the repair touches (a premise, a contradicting
@@ -588,15 +606,24 @@ both re-checked by Stability each pass.
      misread, or never read, the source): record the dispute and its evidence
      under the finding and leave the claim live. **An open contest blocks
      convergence** — contesting is not a parking spot, no contest closes by
-     quiet, and every contest ends in fix-or-accept by one of three routes:
+     quiet, and every contest ends in fix, accept, or vindication, by one of
+     four routes:
      **escalation** — re-raised twice more, the re-raises counted from any
      pass whose output records them, a voided pass's carried re-raise
      included; the escalation is recorded under the original contested
      finding (the second re-raise still takes the continuing-contest record)
      and the author's fix-or-accept disposition there closes it; **the
-     author's conversion** at any time, recorded the same way — a finding no
-     pass re-raises still waits on this; or **the deletion rule**, resolving
-     it as a fix. A contest keys like a standing entry — the contested
+     author's conversion** at any time, recorded the same way; **the deletion
+     rule**, resolving it as a fix; or **vindication** — once no audit-clean
+     surviving pass has re-raised the dispute across the next two such
+     passes, the audit's Merits check re-derives the contested claim against
+     the disputed source: carried, the contest closes in the claim's favour,
+     the re-derivation recorded under the original finding as the closure's
+     evidence and the claim returning to ordinary live verdicting; not
+     carried, the re-derivation is itself a re-raise. Silence alone closes
+     nothing — the re-derivation is the gate — and a finding no pass
+     re-raises and no re-derivation carries still waits on the author's
+     conversion. A contest keys like a standing entry — the contested
      claim's quoted text at its anchor — so it survives reflow and edits
      elsewhere. Matching requires overlap and the same defect: overlap with
      the key's quoted text wherever it now appears in the document
@@ -732,7 +759,8 @@ both re-checked by Stability each pass.
    - every audit failure — voided or declined — with its check and quoted
      evidence;
    - every deletion-resolved contest with its dispute and recorded
-     replacement;
+     replacement, and every vindicated contest with its recorded
+     re-derivation;
    - every ratchet-retained source — dropped or changed after a sweep — with
      its finding's quoted evidence where a decite grounded one;
    - every binding adjudication with its re-affirmation inventory;
@@ -836,7 +864,9 @@ show bare citations for legibility:
   attestation, directional like the unavailable form's, that the file is the
   complete cited work with no counter-bearing content omitted — a knowingly
   partial copy belongs in the excerpt form, and supplying one here is the
-  fabrication class.
+  fabrication class — and that no known variant of the work (version,
+  edition, erratum) counter-bears on the claims it supports; a version
+  identifier in the citation must match the file's self-identification.
 - `citation → cited, not available locally (author attests no local copy,
   good-faith belief that the work supports each claim it caps as written, and no
   knowledge of counter-bearing content in it)` — the
@@ -890,9 +920,13 @@ show bare citations for legibility:
   per its bullet — authoritative for that entry only, per
   entry, not per document: a mixed document keeps placement for its cited
   entries while `governs` covers the uncited rest. On an in-text-cited entry
-  the suffix is malformed — placement always wins and it has no legal function
-  there, so the parse-failure abort owns it. An uncited entry's `governs`
-  must be grounded in document text you can verify; ungrounded, it fails closed
+  the suffix has no legal function — placement always wins — and citedness
+  shows only at the pre-sweep reconcile: a cited entry found bearing the
+  suffix there is an input defect — stop and return
+  `No review — input invalid`, naming it. An uncited entry's `governs`
+  is grounded only where a verifiable document-text span ties the work to the
+  governed claims or sections — quote the span; a topical match or the bare
+  bibliography listing grounds nothing; ungrounded, it fails closed
   to counter-evidence-only document-wide semantics, conferring no SUPPORTED.
 The line `No citations — empty source list.` is not an entry: it is the whole
 list, for a document citing nothing — reconciliation then only confirms that.
@@ -1174,7 +1208,8 @@ Plausibility is not support, and neither is your own agreement.
      bibliography. SUPPORTED
      requires every source cited for the claim read; an unread cited source could
      contradict, so its claims cap at UNVERIFIABLE. Counter-evidence is admissible
-     from the document and cited sources (`via` chains included), nowhere else: a
+     from the document, cited sources (`via` chains included), and `(decited)`
+     entries — nowhere else: any other
      listed path answering no citation is inert in both directions.
    - **Logic.** Premises stated, conclusion follows, no quantifier or scope slippage
      (a "some" quietly becoming "all"). A conclusion needing an unstated load-bearing
@@ -1356,7 +1391,9 @@ orphan claims landing where the fallback puts them).
 ### Claim ledger
 
 Document order, one row per claim: ID · line range(s) · the claim compressed to a
-line · class(es) · verdict. An invited-inference row carries the verbatim
+line · class(es) · verdict · annotations — `flagged by the document` and any
+defined mark ride in the annotations position, beside the verdict, never
+qualifying it. An invited-inference row carries the verbatim
 inviting span — each span, for a multi-span inference — in place of the
 compression. A `standing` row carries the entry's quoted key in place
 of a compression and no fresh verdict; a `standing-overridden` row carries the live
