@@ -831,14 +831,18 @@ auditor's return hash, each recorded per pass by their own rules.
        draw above (which still owns this entry's reading-shift and
        counter-evidence checks, both turning on developments outside the entry).
      - Probe the sweep itself: search the sources for counter-evidence bearing
-       on a sample of claims — the same scaled target as the Merits verdict
+       on a sample of claims — its population the pass's non-standing verdicted
+       claim rows in document order (honoured `standing` and `not a claim` rows
+       carry their own counter-evidence probe in the honoured-standing check
+       above), the same scaled target as the Merits verdict
        sample (the greater of three and a tenth of the enumerated-claim count). The queries per sampled claim are mandated,
        never chosen: every distinctive content token of the claim and every
-       figure it carries — plus, where the claim's load-bearing term is a
-       short token the distinctive-content-token rule's >3-char floor excludes
-       (an acronym or identifier: "AI", "ML", "GDP", "S3"), that token too, the
-       floor being candidate-pair noise control, never probe coverage, so no
-       claim's counter-evidence sweep is left with an empty query set — each run
+       figure it carries, plus every ≤3-char non-stop-word token the claim
+       carries — an acronym, identifier, or ordinary short term it turns on
+       ("AI", "GDP", "gap", "tax", "law") — the >3-char floor being
+       candidate-pair noise control, never probe coverage, so the queries reach
+       the claim's short discriminating terms and no sweep is left with only
+       generic high-frequency tokens — each run
        over the whole swept corpus and recorded
        verbatim. The probe set carries a positive control — one
        query aimed at a known bearing (an existing finding's quoted evidence
@@ -1302,16 +1306,23 @@ auditor's return hash, each recorded per pass by their own rules.
    certification attests the records' form and completeness, not a full
    re-execution (the audit was the auditor's execution; certification is
    over its recorded output), with one
-   mandatory cross-party exception — at signing a named sample is **drawn**,
-   never chosen, from the review's whole obligation space — any ledger row,
-   standing entry, source-list entry, recorded recomputation, or convergence
-   predicate (streak position, audit-cleanliness per pass, contest and
-   disposition counts) — by the certification seed's own draw machinery,
-   the populations structured as each pass's obligations plus a predicates
-   population and drawn round-robin so the sample spans at least three items
-   from at least two passes and always at least one predicate, re-derived in
-   front of the author, each bound relaxed to what exists where the
-   review holds fewer; the author's role is to **witness** the re-run in
+   mandatory cross-party exception — at signing the **orchestrator**, in
+   front of the author, draws a named sample (never chosen) from the review's
+   whole obligation space — any ledger row, standing entry, source-list
+   entry, recorded recomputation, or convergence predicate (streak position,
+   audit-cleanliness per pass, contest and disposition counts). This is the
+   orchestrator's live cross-party re-run, distinct from the certification
+   invocation's own audit-sample above — that cold invocation returns only a
+   record and does not run it. Its seed is the certification seed suffixed
+   `:cross-party` (a separate integer stream, so the two draws never
+   correlate); its populations are constructed canonically — one population
+   per pass, holding that pass's ledger rows, the standing entries it
+   introduced or honoured, its source-list entries, and its recorded
+   recomputations in record order, plus one predicates population holding the
+   convergence predicates in step-6 order — drawn round-robin so the sample
+   spans at least three items from at least two passes and always at least
+   one predicate, each bound relaxed to what exists where the review holds
+   fewer; the author's role is to **witness** the re-run in
    person, never to select its targets — drawn, never chosen, as everywhere
    else in this file, so the party the control checks cannot steer it past
    the very entries they alone know to be weak — and
