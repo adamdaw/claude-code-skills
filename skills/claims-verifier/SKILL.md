@@ -31,8 +31,9 @@ confirmation — agreement that means nothing. A fresh invocation is the structu
 independence reset. Never verify claims you drafted in the same context.
 
 The same suspicion points back at the orchestrator, which may itself be the drafting
-session. The loop's audits exist to keep the orchestrator honest too — but they are
-the orchestrator's own read, not an independent one, and the author should know that.
+session. The loop's audits exist to keep the orchestrator honest too, which is why
+they are executed by a second cold invocation — the auditor — and never by the
+orchestrator's own read.
 
 ## Inputs the adversary gets, and nothing else
 
@@ -249,7 +250,8 @@ standing section travels, inside the prompt.
 ## One hash identity
 
 Everything verdict-relevant is pinned at spawn. The orchestrator first
-**snapshots** the document and every listed source file into a snapshot
+**snapshots** the document, every listed source file (an excerpt entry's full
+source included), and the record as it stands into a snapshot
 directory beside the record, named in the pass record and retained for the
 review's life; the prompt's substituted paths are the snapshot's, so the
 adversary reads bytes the author cannot mutate mid-pass — a swap-and-restore
@@ -298,8 +300,11 @@ both re-checked by Stability each pass.
      declaration lists the adjudication and that inventory, and attests no
      other record in scope reviews this document. A predecessor record the
      author names — an earlier review of this document, wherever it lived —
-     is admitted like a split successor's inheritance: its open contests,
-     carried findings, and ratchet-retained sources enter this review.
+     is admitted like a split successor's inheritance: its full inheritance
+     inventory, as the split rule defines it — open contests, carried
+     findings, undispositioned findings, undischarged fixes, standing
+     entries whose keys land in this document, and the ratchet pool with
+     its snapshots — enters this review.
    - An abort-class record defect (foreign text in the standing section,
      `None yet.` beside entries, a conflicting duplicate key). Repair it
      mechanically: prune the foreign text or the stray `None yet.`; of a
@@ -311,9 +316,17 @@ both re-checked by Stability each pass.
    Then snapshot the inputs, take the spawn hashes from the snapshot, run the
    pass, and append output and hashes under the next `## Pass N`.
 
-2. **Audit the pass before working findings.** Run the seven checks and write
-   the audit record: for each check, what was examined or drawn, what was
-   recomputed, and the result. Findings the audit itself raises — a steer met
+2. **Audit the pass before working findings.** The audit is not the
+   orchestrator's own read: spawn a second fresh subagent — the **auditor**
+   — per pass, cold like the adversary, with `Read`, `Grep`, and `Bash`
+   (recomputation only; any write it made would surface as a
+   snapshot-integrity defect at the next spawn). It receives the record
+   path, the snapshot directory, the previous spawn's record snapshot, and
+   this step's seven checks verbatim; it executes them and returns the
+   audit record — for each check, what was examined or drawn, what was
+   recomputed, and the result — which the orchestrator appends unchanged:
+   the party whose diligence an audit certifies never writes it. Findings
+   the audit itself raises — a steer met
    while auditing, a probe hit inside a declared-unswept range, evidence
    impugning a claim's verdict — are numbered `A1, A2, …` in the audit record;
    their dispositions trace `Pass N, audit finding Am`. Everything read while
@@ -327,7 +340,7 @@ both re-checked by Stability each pass.
    every unswept, unreviewed, and excerpt declaration, and Merits recomputes
    every figure a finding rests on and runs its derivation-graph confirmation
    over every edge, a global invariant sampling cannot touch. Samples are the
-   orchestrator's choice, at least three items per sampled check (or all,
+   auditor's choice, at least three items per sampled check (or all,
    where fewer exist), each named in the record — the choice is trusted, the
    documentation is not optional — and each draw includes, where the
    population allows, at least one item not drawn by that check in the
@@ -435,9 +448,13 @@ both re-checked by Stability each pass.
        failure, not a sampled catch.
    - *Stability.* In order:
      - Re-hash the hash identity at pass end — the live files against the
-       snapshot's spawn hashes, since the snapshot itself cannot drift; a
+       snapshot's spawn hashes; a
        mismatch is a failed check: an edit during the final Green would
-       otherwise slip convergence.
+       otherwise slip convergence. And re-hash the retained snapshots
+       themselves — every prior pass's copies against their recorded hashes:
+       a missing or altered snapshot is a blocking record-integrity defect,
+       never an adjudicable event, since retained bytes are the ground
+       adjudications and the ratchet stand on.
      - Check the substituted prompt against this skill file: the template
        portion must match verbatim — the hash pins what was used, not that it
        was canonical.
@@ -457,6 +474,17 @@ both re-checked by Stability each pass.
        the record's top section at spawn; where `None yet.` was substituted,
        the check passes by confirming the section, or the record, did not
        exist at spawn.
+     - Diff the live record against the previous spawn's record snapshot.
+       Every difference must be a sanctioned write: a pass appended, a
+       disposition written under a finding, a Review log note, or a
+       standing-section edit traced to a disposition or a step-1 repair. Any
+       other delta — an altered or deleted pass output, a vanished finding
+       or disposition, an edited audit record — is a blocking
+       record-integrity defect, never author-adjudicable: the record's
+       history is append-only, and the convergence predicates are only as
+       good as the ledger they re-derive from. On the review's first pass,
+       with no previous record snapshot, the check passes vacuously — a
+       pre-existing record is step 1's binding question, not this check's.
      - Re-check every embed content hash a standing entry records against its
        file, and every enclosing-block hash against the block now holding its
        key, dependency line, or retired item. A mismatch, or a missing block
@@ -465,7 +493,11 @@ both re-checked by Stability each pass.
        coverage never splits between candidates.
      - Compare each spawn hash with the previous pass's recorded hashes. A
        changed document is the loop's normal cycle. A changed source is a
-       surfaced event, adjudicated with the author before the next pass: the
+       surfaced event, adjudicated with the author before the next pass —
+       only against verified prior bytes: the prior snapshot is re-confirmed
+       against its recorded hash and the change characterised into the
+       record first, a missing or altered prior copy blocking per the
+       snapshot re-hash rule: the
        adjudication unanchors standing entries and contest evidence whose
        reasons depend on that source's content; it is recorded as
        `resolved by source change` where it dispositions a finding; where that
@@ -480,9 +512,17 @@ both re-checked by Stability each pass.
        — for the remainder of the review. A previously swept source absent
        from this pass's list without its `(decited)` entry is a failed check,
        whatever it grounded; where a decite record exists, the entry answers
-       it.
-     - Verify every fix-dispositioned finding of the previous pass: its named
-       fix locus must differ from that pass's pinned document — an unchanged
+       it. A later revision re-citing a pool source converts its entry back
+       to an ordinary pathed one — fresh attestations, swept as any cited
+       source — the decite record annotated with the re-citation; where the
+       re-cited file's bytes differ from the pool snapshot, the prior
+       snapshot stays listed `citation (decited) → snapshot-path` beside it,
+       counter-evidence-only, and the change takes the source-change
+       adjudication: swept bytes never leave the pool.
+     - Verify every fix-dispositioned finding not yet discharged — the
+       previous surviving pass's and any earlier pass's alike: its named
+       fix locus must differ from the disposing pass's pinned document — an
+       unchanged
        locus is the defective-disposition finding the Fix rule names.
    - *Merits.* Re-derive a sample of SUPPORTED **and** non-SUPPORTED verdicts
      on the merits. A re-derivation applies the prompt's **entire**
@@ -500,14 +540,18 @@ both re-checked by Stability each pass.
      non-SUPPORTED verdict, whether the cited source really fails to
      carry the claim: the audits must catch the lazy refuser as well as the
      lazy supporter. Further duties:
-     - For **every** fix-dispositioned finding of the previous pass,
+     - For **every** fix-dispositioned finding not yet discharged —
+       whichever pass dispositioned it, undischarged fixes carrying across
+       intervening voided, audit-failed, or `No review` passes —
        affirmatively re-derive that its named defect is absent from the
        revised locus — exhaustive, never sampled; the fix discharge is this
        check's work, recorded among its components, and a defect found
-       present is a same-defect finding under the Fix rule. And where an open
-       contest has gone un-re-raised across the
-       last two audit-clean surviving passes, re-derive the contested claim
-       against the disputed source — the vindication gate (step 3), its
+       present is a same-defect finding under the Fix rule. And where an
+       open contest's dispute is un-re-raised in this pass's output and was
+       un-re-raised in the most recent prior audit-clean surviving pass,
+       re-derive the contested claim
+       against the disputed source — the vindication gate (step 3), the
+       two-pass window counting this pass, its
        outcome recorded here either way.
      - Recompute with `wc` and arithmetic every figure a finding rests on and
        every figure inside a sampled SUPPORTED re-derivation — the adversary
@@ -648,9 +692,13 @@ both re-checked by Stability each pass.
      finding (the second re-raise still takes the continuing-contest record)
      and the author's fix-or-accept disposition there closes it; **the
      author's conversion** at any time, recorded the same way; **the deletion
-     rule**, resolving it as a fix; or **vindication** — once no audit-clean
-     surviving pass has re-raised the dispute across the next two such
-     passes, the audit's Merits check re-derives the contested claim against
+     rule**, resolving it as a fix; or **vindication** — the re-derivation
+     runs in the audit of the second consecutive surviving pass since the
+     dispute's last re-raise whose output does not re-raise it, the first of
+     the two being audit-clean; the current pass counts toward the window by
+     its output, and the closure stands only if its own audit proves clean —
+     an audit failure voids the vindication with the pass. The audit's
+     Merits check re-derives the contested claim against
      the disputed source: carried, the contest closes in the claim's favour,
      the re-derivation recorded under the original finding as the closure's
      evidence and the claim returning to ordinary live verdicting; not
@@ -712,13 +760,22 @@ both re-checked by Stability each pass.
    (a fix), or **split** it into separate documents, each reviewed
    independently under this skill with its own citations, source list,
    record, and convergence. The split terminates this review without
-   convergence. Its closing: names the successors; writes into each
-   successor's initial record the predecessor's open contests, carried
-   findings, and the standing entries whose keys land in that successor; opens
+   convergence. Its closing: names the successors; transfers the
+   **inheritance inventory** — the one inventory a split closing and a
+   step-1 predecessor admission both use: every open contest, every carried
+   finding, every finding not yet dispositioned, and every fix-dispositioned
+   finding not yet discharged, each routed to the successor holding its
+   keyed text or named locus (one whose text lands in no successor routes to
+   every successor, its disposition still owed); the standing entries whose
+   keys land in each successor; and the full ratchet pool — every swept
+   source with its snapshot copies, `(decited)` entries included,
+   counter-evidence-only semantics carrying — written into **every**
+   successor's list, since counter-evidence is admissible against any
+   claim; opens
    each successor's record with a Review log **predecessor link** naming the
    predecessor record's path — inherited traces resolve against the
-   predecessor's pass records through it, inherited contests and carried
-   findings enter the successor's convergence predicates as its own, and step
+   predecessor's pass records through it, every inherited obligation enters
+   the successor's convergence predicates as its own, and step
    1 binds the pass-less initial record by the link, whose target closing
    must name the successor; and adjudicates the boundary — the author attests
    no invited arrangement straddles the cut and no text in any successor
@@ -831,7 +888,8 @@ both re-checked by Stability each pass.
    re-taken from its file — required equal to both Greens' recorded sets and
    the recorded entry values. And it certifies the per-pass audit records:
    certification attests the records' form and completeness, not a full
-   re-execution (the orchestrator's-own-read caveat holds), with one
+   re-execution (the audit was the auditor's execution; certification is
+   over its recorded output), with one
    mandatory cross-party exception — at signing the author picks a named
    sample from the review's whole obligation space — any ledger row, standing
    entry, source-list entry, or recorded recomputation, at least three items
@@ -855,7 +913,7 @@ no `Glob` (the fence leaves it no legitimate use), no `Bash`, no `Write`, no `Ed
 no network. With no write tool an edit is structurally impossible rather than merely
 forbidden; with no network tool the offline fence holds itself. `Bash`, `Edit`, and
 `Write` in this skill's own tool list are the orchestrator's — hashes, document fixes,
-the record — never the adversary's. Record the invocation identity in the pass
+the record — and `Bash` the auditor's for recomputation — never the adversary's. Record the invocation identity in the pass
 record where the harness exposes one; where it does not, freshness is claimed,
 not shown. The review comes back as the subagent's return
 text; append it to the record.
@@ -1142,7 +1200,7 @@ attestation like any other, so a contradicting or self-asserting chart passes
 only on a fabrication-class lie. Any standing entry whose claim or retired item concerns a
 file-backed embed — the accept-as-unverified route for a leaned-on chart as much
 as the embed-note route — records the embed's
-content hash, written at disposition time and re-checked by the orchestrator's
+content hash, written at disposition time and re-checked by the review's
 audit each pass, never by you; a mismatch unanchors the entry: a swapped
 figure is re-adjudicated (a decorative image dispositions once; a load-bearing
 chart gets transcribed or owned).
