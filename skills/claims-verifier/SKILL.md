@@ -89,7 +89,13 @@ orchestrator's own read.
    rule. A source too large for one pass to sweep may be represented by an
    author-made excerpt file, listed as `citation (excerpt) → excerpt-path
    (full: source-path, N lines)` — one entry, the
-   excerpt form itself attesting the full source too large to sweep, the full
+   excerpt form itself attesting the full source too large to sweep — and,
+   directionally like the pathed entry's no-omitted-counter-bearing
+   attestation, that the unswept remainder omits no content counter-bearing on
+   the claims the excerpt supports, fabrication-class if false: the author cut
+   the remainder the adversary never reads, so this is the one place a cited
+   source's counter-evidence could otherwise be knowingly omitted without the
+   fabrication floor the other unswept-remainder paths all carry — the full
    path and its stated size present so the audit can recompute the size and judge
    necessity on corpus arithmetic — the totals with and without the full source —
    like any unswept plea. The excerpt file marks each contiguous block with its
@@ -420,7 +426,11 @@ auditor's return hash, each recorded per pass by their own rules.
    appended audit record that does not match its recorded return hash is a
    blocking record-integrity defect, and where a transcript exists the
    transcript's final message must equal the appended record: the append is
-   a copy, never an edit. The auditor's prompt is itself a verbatim
+   a copy, never an edit. At each pass's audit close — the audit record
+   appended and hashed — the orchestrator pins the record: snapshots and
+   hashes it into the store, the pin recorded in the pass record, so the next
+   pass's auditor and Stability's record diff chain to a gap-free baseline
+   (step 6's signing diff is the terminal case of the same pin). The auditor's prompt is itself a verbatim
    template — exactly this, the bracketed paths substituted and nothing
    added: "You are the audit invocation for a claims-verifier pass. Execute
    step 2's seven checks from `<skill-path>` exactly as written, over:
@@ -502,7 +512,12 @@ auditor's return hash, each recorded per pass by their own rules.
      own text**: separated parts of a relational claim take multiple ranges,
      mandatorily, so interior padding is a mechanical failure, not a sampling
      gamble — and an invited-inference range wider than its inviting block is
-     the same failure.
+     the same failure. And scan every `no claims` attestation range exhaustively
+     for numeric tokens: a digit, currency, or per-cent token in an attestation
+     range without its retiring standing entry or figure-note is a failed check —
+     figures are mechanically visible, so their identification over attestation
+     rows is the tiling's exhaustive companion, not the Attestations sample's
+     gamble (figureless empirical prose stays Attestations' sampled work).
    - *Attestations.* Read a sample of attested stretches and confirm they are
      genuinely claim-free; text retired by a `not a claim` standing entry
      counts as claim-free. A sampled attested stretch carrying figures,
@@ -558,7 +573,8 @@ auditor's return hash, each recorded per pass by their own rules.
        finding, an embed-note, or a retirement;
      - every attestation stretch the Attestations check, or any pass, has
        identified as figure-bearing has its retiring entry or its figure-note
-       — identification is Attestations' sampled work; this invariant checks
+       — identification is Coverage's exhaustive scan for figure tokens and
+       Attestations' sampled work for figureless empirical prose; this invariant checks
        only the bookkeeping over stretches so identified;
      - every SUPPORTED claim has a Support-record entry, and every
        Support-record entry answers a SUPPORTED ledger row;
@@ -1055,7 +1071,10 @@ auditor's return hash, each recorded per pass by their own rules.
 
 6. **Converged** when every one of these predicates holds:
    - two consecutive audit-clean surviving passes from distinct cold
-     invocations both return `Green — no findings` over an identical hash
+     invocations (distinctness shown by recorded invocation identity where the
+     harness exposes one, and claimed by the pass record's freshness
+     attestation where it does not — the claimed-not-shown rule, not a
+     convergence blocker) both return `Green — no findings` over an identical hash
      identity;
    - no surviving full-review pass follows the second Green;
    - the two Greens' standing annotations reference the same entries;
@@ -1329,7 +1348,9 @@ show bare citations for legibility:
   author-selected
   excerpt standing in for a source
   too large to sweep; the entry form itself attests the full source unavailable to
-  sweep, no companion entry, and the full path is the audit's handle, not a read
+  sweep and its unswept remainder free of content counter-bearing on the claims
+  the excerpt supports (fabrication-class if false, like the pathed entry's
+  completeness attestation), no companion entry, and the full path is the audit's handle, not a read
   target — the excerpt is what you sweep, in full like any source. Its
   provenance mark is `excerpt — author-selected`, appended to — never replacing —
   its content-authorship class, which is judged against the identity line like any
@@ -1380,7 +1401,9 @@ show bare citations for legibility:
   `No review — input invalid`, naming it. An uncited entry's `governs`
   is grounded only where a verifiable document-text span ties the work to the
   governed claims or sections — quote the span; a topical match or the bare
-  bibliography listing grounds nothing; ungrounded, it fails closed
+  bibliography listing grounds nothing, and a span readable either as a scoping
+  tie or a mere topical match grounds nothing too — the unambiguous tie is the
+  author's burden, as the citation-classification tie is; ungrounded, it fails closed
   to counter-evidence-only document-wide semantics, conferring no SUPPORTED
   — itself a record-level finding, reported among the Source check's
   reconciliation findings with the failed grounding named; a grounded
