@@ -61,6 +61,19 @@ orchestrator's own read.
      citations after a pass swept it, retained by the sweep ratchet:
      counter-evidence-only for the remainder of the review, its path the
      snapshot copy's.
+   - `citation (disclosed counter-bearing) → path` — a work the document
+     does not cite, disclosed by the author as known counter-bearing:
+     counter-evidence-only, swept in full, answering its disclosure rather
+     than any citation. Disclosure is a resolution-time duty, gathered with
+     the source list: the author attests every work known to them to
+     counter-bear on any claim is either cited or disclosed —
+     fabrication-class if withheld — which makes total omission no safer
+     than a false attestation, and disclosure the sanctioned route rather
+     than the fabrication trap the known-hostile citation rule would
+     otherwise make it. A disclosed work with no local copy is listed
+     `citation (disclosed counter-bearing, not available locally)`, naming
+     the claims it bears on, which cap at the UNVERIFIABLE rule until
+     fetched.
    An entry the document nowhere cites in-text may carry a
    `[governs: <claims or sections>]` suffix (never a `via` entry, whose suffix
    stays inert) — authoritative for that entry only,
@@ -290,7 +303,10 @@ both re-checked by Stability each pass.
      unintelligible content (a scanned PDF returned as noise); a directory in
      the list; a source unreadable for line length (past the read tool's
      horizon), repaired by a mechanical reflow copy — the transform noted, the
-     snapshot hashing the reflowed bytes; an in-text-cited entry bearing a
+     snapshot hashing the reflowed bytes, the document itself under the same
+     gate (its maximum line length recomputed here and by the audit, a
+     truncating line reflowed before any pass — coverage is defined over
+     bytes the loop can read); an in-text-cited entry bearing a
      `[governs:]` suffix, repaired by dropping the suffix — placement wins.
    - A record that does not bind to this document. Binding is by content: a
      record whose recorded document hashes match the document binds to it
@@ -301,7 +317,12 @@ both re-checked by Stability each pass.
      claims on that document's dispositions. A header mismatch with matching
      hashes is the rename case, not a foreign record: record a rename note in
      the Review log mapping old path to new — pass headers stay historical,
-     read through the note — and binding follows the content. A pass-less record binds only by
+     read through the note — and binding follows the content. Headers naming
+     this path over stale hashes — no recorded hash matching the live
+     document — is the loop's ordinary post-fix state and binds: the record
+     side is vouched by the record-snapshot diff, the document side is the
+     dispositions' own fixes; content decides conflicts, continuity carries
+     the normal cycle. A pass-less record binds only by
      its predecessor link (step 3's split rule). Where neither path nor hashes
      match — a rename plus edits in one interval — fail safe: the author
      adjudicates the binding, never a silent orphan or adoption. An
@@ -339,7 +360,12 @@ both re-checked by Stability each pass.
    local recomputation against named snapshot inputs only, network access
    or outside knowledge in a re-derivation is a defective audit record, and
    where the harness records transcripts the transcript verification covers
-   the auditor's reads and commands too. It receives this skill
+   the auditor too, parameterised by party — the adversary's sanctioned
+   reads are the document and the listed snapshot paths; the auditor's are
+   this skill file, the record, the snapshot store, and its named inputs —
+   each pass's transcripts verified by the next pass's auditor, the final
+   pass's auditor transcript, having no successor, left for the signing
+   sample where it exists. It receives this skill
    file's path — the seven checks and every rule they reference read from
    it — the record path, the snapshot directory, and the previous spawn's
    record snapshot, and the transcript path where the harness records one;
@@ -385,10 +411,12 @@ both re-checked by Stability each pass.
    contradicts, is a defective audit record — the draw then taken from
    that recorded enumeration — and consume
    the integer stream across a check's populations in the order the check
-   lists them, one item to each in turn, completing every round begun —
-   stop at the end of the first full round in which the check's total
-   reaches three, so every enumerated population receives at least one
-   draw (or all items, where a population is smaller), the seed,
+   lists them, one item to each in turn, completing every round begun — a
+   size-zero population is skipped and consumes no integer; stop at the end
+   of the first full round in which the check's total reaches three, or
+   when every population is exhausted (drawing every item the populations
+   hold satisfies the check, whatever the total), so every non-empty
+   population receives at least one draw, the seed,
    populations, and draws named in the audit record so any reader can
    re-derive that the mandated draw was the draw taken. The pass number in
    the seed keeps consecutive draws distinct over unchanged bytes: habit
@@ -418,9 +446,10 @@ both re-checked by Stability each pass.
        and declared-unswept ranges jointly tile each file, sampled per-chunk
        quoted lines sit at their stated offsets, count and final line agree
        (paged forms likewise), the trailing-newline off-by-one against `wc -l`
-       tolerated — and recompute each attested file's maximum line length
+       tolerated — and recompute each attested file's, and the document's,
+       maximum line length
        against the read horizon: a source exceeding it was never attested
-       `read` whole.
+       `read` whole, and a document exceeding it was never covered whole.
      - Verify every `unswept` and `unreviewed` declaration and every excerpt
        entry's too-large attestation: necessity and extent, on stated
        arithmetic. The plea records what the pass held and what it declined —
@@ -510,6 +539,11 @@ both re-checked by Stability each pass.
        a missing or altered snapshot is a blocking record-integrity defect,
        never an adjudicable event, since retained bytes are the ground
        adjudications and the ratchet stand on.
+     - Confirm every pathed entry in the substituted prompt resolves inside
+       the snapshot store and matches the resolution map — the read fence's
+       substrate, checked unconditionally, transcript or none: a live path
+       in the prompt is the swap-and-restore window the snapshot exists to
+       close.
      - Check the substituted prompt against this skill file: the template
        portion must match verbatim, and this skill file's own hash is
        recorded in the pass record — what was used is pinned; that it was
@@ -628,19 +662,29 @@ both re-checked by Stability each pass.
        unengaged-checkable-content record-level finding for `not a claim`
        entries. Honour-everything is the laziness this sample exists to catch.
      - Probe the sweep itself: search the sources for counter-evidence bearing
-       on a sample of claims. A hit the pass engaged nowhere in its output is
+       on a sample of claims. The probe set carries a positive control — one
+       query aimed at a known bearing (an existing finding's quoted evidence
+       line): a control that misses shows the probe machinery never touched
+       the corpus, a defective audit record — and an empty constructed
+       enumeration records why its rule's terms fail to occur, quoting the
+       absent markers. A hit the pass engaged nowhere in its output is
        a named failure — chunk-boundary attestations prove targeted reads, and
        only an outcome probe touches the sweep. A probe hit inside a
        declared-unswept range is not a pass failure but a named finding,
        attaching the gap to the claims it bears on.
      - Confirm the Support record's derivation edges form a DAG grounded in
-       source-backed entries — a cycle satisfies every per-entry check.
+       source-backed or `document-contents` entries — a cycle satisfies
+       every per-entry check.
      - Re-execute a seeded sample of the previous audit record's
        recomputations against the retained snapshots — the same draw
-       machinery, the population its recomputation lines; a mismatch is a
+       machinery, the population its recomputation lines — and re-derive a
+       seeded sample of its judgement lines the same way, the named item
+       re-judged against the snapshots and the outcomes compared; a
+       mismatch on either is a
        defective audit record, taking the re-audit and its streak
-       consequence: an audit's arithmetic is checked by the next pass's
-       auditor, never only by its own writer (vacuous on the first pass,
+       consequence: an audit's arithmetic and judgement are checked by the
+       next pass's
+       auditor, never only by their own writer (vacuous on the first pass,
        there being no previous audit record).
      - Passing judgement work carries the same evidence as failing: every
        re-derivation, probe, and engagement check records what it consulted
@@ -956,8 +1000,10 @@ both re-checked by Stability each pass.
    - every binding adjudication with its re-affirmation inventory;
    - the acceptance inventory: every standing entry with its key and reason,
      affirmed by the author item by item at signing;
-   - the input inventory: the identity line and every attestation-bearing
-     source-list entry, affirmed by the author item by item at signing — a
+   - the input inventory: the identity line, every attestation-bearing
+     source-list entry (the counter-bearing disclosure duty included), and
+     the document's self-description metadata (byline, affiliation, date,
+     version), affirmed by the author item by item at signing — a
      line or attestation the author never supplied cannot survive its own
      affirmation;
    - the template attestation: the author attests the skill file whose
@@ -966,7 +1012,8 @@ both re-checked by Stability each pass.
    - the fix inventory: every fix-dispositioned finding with its keyed claim;
    - every sweep exclusion — accepted missing-source findings, standing
      unswept ranges, excerpt-backed full
-     sources, and every attested-unavailable or attested-unreadable entry
+     sources, pathless disclosed counter-bearing entries, and every
+     attested-unavailable or attested-unreadable entry
      alike;
    - every source-hash transition over the review's life;
    - a mechanical re-derivation of every convergence predicate from the pass
@@ -1006,8 +1053,11 @@ both re-checked by Stability each pass.
    over its recorded output), with one
    mandatory cross-party exception — at signing the author picks a named
    sample from the review's whole obligation space — any ledger row, standing
-   entry, source-list entry, or recorded recomputation, at least three items
-   from at least two passes, each bound relaxed to what exists where the
+   entry, source-list entry, recorded recomputation, or convergence
+   predicate (streak position, audit-cleanliness per pass, contest and
+   disposition counts), at least three items
+   from at least two passes and always at least one predicate re-derived in
+   front of the author, each bound relaxed to what exists where the
    review holds fewer, the author's choice, never the orchestrator's — and
    the applicable invariants are re-run in front of the author against the
    hash-pinned artifacts: a recomputation re-executed, a ledger row's verdict
@@ -1139,6 +1189,12 @@ show bare citations for legibility:
   counter-evidence against any claim and confers no support, and it answers
   its retention rather than any document citation — report no inert
   finding for it.
+- `citation (disclosed counter-bearing) → path` — a work the document does
+  not cite, disclosed by the author as known counter-bearing: sweep it in
+  full; counter-evidence-only, conferring no support, answering its
+  disclosure — report no inert finding for it. The pathless form
+  (`disclosed counter-bearing, not available locally`) names the claims it
+  bears on, which cap at the UNVERIFIABLE rule until fetched.
 - An entry the document nowhere cites in-text may carry
   `[governs: <claims or sections>]` — a `via` entry excepted, its suffix inert
   per its bullet — authoritative for that entry only, per
@@ -1171,8 +1227,9 @@ Reconcile the list against the document's citations **before** the sweep (a
 bibliography-only mention is a citation for this purpose); a path
 answering no citation is reported inert and not swept — its evidence is inadmissible
 in both directions anyway — a `(decited)` entry excepted, answering its retention,
+a `(disclosed counter-bearing)` entry excepted, answering its disclosure,
 and a `[governs:]`-suffixed entry excepted, answering its attribution (never a
-`via` entry, whose suffix stays inert per its bullet): both are
+`via` entry, whose suffix stays inert per its bullet): all three are
 swept, never inert:
 
 `<source-list>`
@@ -1343,7 +1400,12 @@ attestation like the identity line, not a claim the document must source — sco
 identity, affiliation, and artifact-provenance metadata (the date and version
 lines) only: a checkable empirical assertion inside a bio
 ("cut defect rates 40% at three companies") is a claim like any other, since
-empirical content decides scope here too.
+empirical content decides scope here too, and a span readable both as
+affiliation metadata and as an empirical assertion (a tenure figure, an
+achievement count) is a claim — ties fail closed here as everywhere. The
+carve-out is an attestation, not an exemption: the self-description's truth
+is the author's, fabrication-class if false, affirmed in the declaration's
+input inventory.
 
 The burden of proof is the document's. A claim is supported when a cited source
 carries the evidence at the claim's stated strength, or follows validly from
@@ -1477,7 +1539,8 @@ Plausibility is not support, and neither is your own agreement.
      requires every source cited for the claim read; an unread cited source could
      contradict, so its claims cap at UNVERIFIABLE. Counter-evidence is admissible
      from the document, in-text-cited sources (`via` chains included),
-     `(decited)` entries, and every uncited entry the reconcile answers — a
+     `(decited)` and `(disclosed counter-bearing)` entries, and every
+     uncited entry the reconcile answers — a
      `[governs:]` entry grounded or not, and an unattributed bare-bibliography
      entry, all swept like cited sources — nowhere else: only an inert entry
      (a path the reconcile leaves answering nothing) is inert in both
@@ -1691,7 +1754,10 @@ marked, and `excerpt — author-selected` appended where support came through an
 excerpt;
 for derivation-backed support, the premise IDs and the inference stated in one line,
 and a multi-locator entry states its linking inference the same way, since the link
-between a table row and a method line is itself a step someone must be able to audit.
+between a table row and a method line is itself a step someone must be able to audit;
+for contents-route support (a claim about the document's own contents), the quoted
+document evidence — the enumerated items or sections — with locators, marked
+`document-contents`.
 The claim-quote/source-quote pairing is what makes a strength mismatch visible;
 never substitute your ledger compression. A SUPPORTED verdict with no entry here is
 invalid.
