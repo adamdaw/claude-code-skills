@@ -705,36 +705,56 @@ auditor's return hash, each recorded per pass by their own rules.
        auditor additionally `Bash` for recomputation. **Presence-void
        always** — the config is unsanctioned if the type carries any of them,
        transcript or none: `Write`, `Edit`, and every other state-mutating
-       tool (an edit must be structurally impossible, and the hash re-check
-       only catches a *disk* write). Any further tool the type carries must be
-       read-only, and is sanctioned only where it is **fenceable**: a tool is
-       fenceable when every one of its invocations is transcript-recorded
-       **and** the transcript walk below flags any invocation that is not a
-       `Read` or `Grep` naming the document or a listed source — so a `Glob`,
-       a path-enumeration, or a network fetch is caught **by its existence**
-       in the transcript, its return never needing to be reconstructed. Two
-       tiers of extra tool, because their misuse has two blast radii:
+       tool that writes through a dedicated tool call (an edit must be
+       structurally impossible, and the hash re-check only catches a *disk*
+       write). `Bash` is the one required tool that is itself mutation- and
+       network-capable, so it is fenced by **content**, the single place
+       existence does not suffice — a recomputation call and a network or
+       mutating call are both legitimately-shaped `Bash` invocations, so the
+       walk cannot tell them apart without reading the command string. The
+       auditor's `Bash` is bounded to local, read-only, deterministic
+       recomputation over its sanctioned read set — hashing, `wc`, arithmetic,
+       `grep`/`cat`/`sort`/`head`/`tail` and the like. Where a transcript
+       exists, the walk parses **every** `Bash` invocation's command string,
+       and a call invoking a network binary (`curl`, `wget`, `nc`, `ssh`, …),
+       a writing redirection or any mutating command, or any binary outside
+       the local-recomputation set is a **fence breach by content** — a
+       defective audit record. Where the harness records **no** transcript,
+       the auditor's `Bash` must be harness-guaranteed network-incapable (no
+       egress), its only residual power a disk write the hash re-check
+       surfaces; a harness that cannot guarantee that cannot run the auditor
+       (the honest limitation the network-scope tier also names). Any further
+       tool the type carries must be read-only, sanctioned by its blast-radius
+       tier — the tiers differ precisely in whether fenceability is required:
        - **Local-scope read-only** (`Glob`, directory/path enumeration) —
          worst-case misuse lists working-tree paths, inside the read fence's
-         own reach. Sanctioned present whatever the harness records: where a
-         transcript exists its use is caught by the walk; where none does, an
-         uncatchable misuse is the same accepted no-transcript floor as any
-         other unobserved fence breach. Presence never voids.
+         own reach. Sanctioned present whatever the harness records, **no
+         fenceability required**: where a transcript exists its use is caught
+         by the walk; where none does, an uncatchable misuse is the same
+         accepted no-transcript floor as any other unobserved fence breach.
+         Presence never voids.
        - **Network-scope** (`WebFetch`, `WebSearch`, any tool reaching outside
          the local corpus) — worst-case misuse imports outside knowledge,
          **beyond** the offline fence entirely, and a network read leaves no
          on-disk trace, so the transcript walk is its *only* catch. Sanctioned
-         present **only where the harness records a transcript** the walk (and,
-         for the final auditor, certification) covers: a recorded call is then
-         caught by existence — a defective audit record for the auditor, a
-         fence-breach void for the adversary. Where the harness records **no**
-         transcript, a network tool's presence is uncatchable and therefore
+         present **only where it is fenceable**: every one of *its own*
+         invocations is transcript-recorded — not merely that *a* transcript
+         exists, since a harness that logs reads but not network calls records
+         no such call to catch, so the pass record carries a positive control
+         (a known harness-issued or deliberately-made call of this tool's
+         category, found in the transcript) proving this tool's calls appear
+         there — and the walk (and, for the final auditor, certification)
+         then flags a recorded call by existence: a defective audit record for
+         the auditor, a fence-breach void for the adversary. Absent that proof
+         — no transcript, or a transcript that does not record this tool's
+         category — the tool's presence is uncatchable and therefore
          **presence-void**: the config is unsanctioned, and the auditor needs a
          network-free type there (or the review cannot run on that harness —
          an honest limitation, not a silent gap).
        An unrecognised extra tool defaults to network-scope treatment —
-       presence-void unless proven local-scope and transcript-caught. The
-       model and invocation settings are step 6's sanctioned variation.
+       presence-void unless proven local-scope, and fenceable per the
+       positive-control test above. The model and invocation settings are
+       step 6's sanctioned variation.
      - Where the harness records a transcript, run the transcript
        verification, required for audit-cleanliness there: the walk is over
        **every recorded tool call**, not reads alone — each call is a `Read`
@@ -744,7 +764,14 @@ auditor's return hash, each recorded per pass by their own rules.
        network fetch, or any call naming a path or URL outside the listed set
        — the call's presence is the breach, its return never needing to be
        reconstructed (this is what makes an extra fenceable tool caught by
-       existence, per the sanctioned-shape rule above). The union of
+       existence, per the sanctioned-shape rule above). The **one** call type
+       existence cannot judge is the auditor's `Bash`, whose recomputation
+       presence is legitimate: each `Bash` invocation is instead checked **by
+       content** — its command string parsed against the local-recomputation
+       set per the sanctioned-shape rule, a network binary, mutating command,
+       writing redirection, or any out-of-set binary a fence breach — so a
+       `Bash` call is never waved through on existence, and never flagged for
+       existence alone. The union of
        read ranges covers the attested chunk ranges; the prompt-as-sent and
        tool set match the transcript, not merely the orchestrator's own
        record; and where tool outputs are recorded, read content is consistent
@@ -1365,10 +1392,13 @@ auditor's return hash, each recorded per pass by their own rules.
    post-Green change is a new hash identity, the streak returns to zero, and
    the loop resumes at the next pass — a changed source additionally taking
    the source-change adjudication first. And it certifies the per-pass audit records:
-   certification attests the records' form and completeness, not a full
-   re-execution (the audit was the auditor's execution; certification is
-   over its recorded output), with **two** exceptions where certification
-   does re-execute. The first is the final auditor's transcript
+   beyond its own mandated work — the four-population sample re-executed
+   against the snapshots and every convergence predicate re-derived, both
+   above — certification attests the per-pass records' form and
+   completeness, not a full re-execution of every recomputation they
+   recorded (the audit was the auditor's execution; certification is
+   over its recorded output). Two further re-executions it does run. The
+   first is the final auditor's transcript
    verification: that auditor has no successor to run Stability's transcript
    walk over it, so certification runs the **full** walk itself — every
    recorded tool call checked by existence per Stability's transcript rule,
@@ -1421,10 +1451,12 @@ read-only type carries — a local-scope navigation tool (`Glob`) is
 sanctioned present, its misuse caught by the transcript walk where one
 exists and folded into the accepted no-transcript floor where none does;
 a **network-scope** tool (`WebFetch`/`WebSearch`) is sanctioned present
-**only where the harness records a transcript** the walk covers, and is
-presence-void otherwise, since a network read leaves no trace the walk
-could catch. The fence forbids every such tool's use ("Do not open, list,
-or search anything else"), so a faithful adversary calls none. `Bash`, `Edit`, and
+**only where it is fenceable** — the harness records *this tool's own
+call category* (proven by the positive control), not merely some
+transcript — and is presence-void otherwise, since a network read leaves
+no trace the walk could catch. The fence forbids every such tool's use
+("Do not open, list, or search anything else"), so a faithful adversary
+calls none. `Bash`, `Edit`, and
 `Write` in this skill's own tool list are the orchestrator's — hashes, document fixes,
 the record — and `Bash` the auditor's for recomputation — never the adversary's. Record the invocation identity in the pass
 record where the harness exposes one; where it does not, freshness is claimed,
