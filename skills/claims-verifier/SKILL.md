@@ -119,7 +119,12 @@ the orchestrator's own read, not an independent one, and the author should know 
    identity fails closed (`provenance undeterminable`, the data-and-method bar),
    while a signal that plausibly matches no listed identity classes independent —
    so an omitted identity buys its sources unearned independence, which is why
-   completeness is the author's obligation, not their option. The line may also
+   completeness is the author's obligation, not their option. The line carries
+   the author's explicit completeness attestation — every identity, handle, or
+   pseudonym whose authorship should class author-derived is enumerated, none
+   withheld — fabrication-class if false, like every other attestation the
+   trust root leans on: an omitted handle is a false attestation, not an
+   oversight outside the floor. The line may also
    carry a negative attestation — a named byline the author attests is not
    theirs nor any listed individual's, fabrication-class if false — which
    classes that byline's exact match independent: the homonym repair, the
@@ -418,8 +423,10 @@ both re-checked by Stability each pass.
        key's quote contained in the traced finding's quoted claim (an audit
        finding's quoted evidence);
      - every pathed source-list entry carries a read attestation, a declared
-       unswept range, an inert reconciliation finding, or a standing
-       retirement of its inert finding;
+       unswept range, or an inert reconciliation finding — and every inert
+       report is verified here, exhaustively: search the document for any
+       citation or bibliography mention answering the entry; a hit is a
+       failed check, a cited source having gone unswept;
      - every uncited entry's `governs` attribution is checked both directions
        — an entry steered away from claims it plainly governs, or toward
        claims it does not, is a failure;
@@ -478,17 +485,27 @@ both re-checked by Stability each pass.
        fix locus must differ from that pass's pinned document — an unchanged
        locus is the defective-disposition finding the Fix rule names.
    - *Merits.* Re-derive a sample of SUPPORTED **and** non-SUPPORTED verdicts
-     on the merits — kind match, strength match (hedge stripped or
-     strength-setting?), inference validity, attachment (the supporting source
-     cited for the claim under the block rule, or governing it as an uncited
-     entry — support that travelled to an uncited echo is a failed sample),
-     and for a non-SUPPORTED verdict whether the cited source really fails to
+     on the merits. A re-derivation applies the prompt's **entire**
+     Cited-evidence and Logic rule set, not a shortlist — for a SUPPORTED
+     verdict that includes the report bar (does the source itself report —
+     data, method, derivation, first-hand account — or merely restate or cite
+     onward?), restatement directionality and the self-copy flag, the
+     provenance class and its data-and-method bar, the
+     every-cited-source-read precondition, kind match, strength match (hedge
+     stripped or strength-setting?), inference validity, and attachment (the
+     supporting source cited for the claim under the block rule, or governing
+     it as a grounded uncited entry — support that travelled to an uncited
+     echo is a failed sample); a re-derivation that checks the named
+     dimensions but skips the support bar is an under-enumerated run. For a
+     non-SUPPORTED verdict, whether the cited source really fails to
      carry the claim: the audits must catch the lazy refuser as well as the
      lazy supporter. Further duties:
-     - Where the previous pass carried an escalated fix, affirmatively
-       re-derive that its named defect is absent from the revision — the
-       verified-tier discharge is this check's work, recorded among its
-       components. And where an open contest has gone un-re-raised across the
+     - For **every** fix-dispositioned finding of the previous pass,
+       affirmatively re-derive that its named defect is absent from the
+       revised locus — exhaustive, never sampled; the fix discharge is this
+       check's work, recorded among its components, and a defect found
+       present is a same-defect finding under the Fix rule. And where an open
+       contest has gone un-re-raised across the
        last two audit-clean surviving passes, re-derive the contested claim
        against the disputed source — the vindication gate (step 3), its
        outcome recorded here either way.
@@ -565,7 +582,7 @@ both re-checked by Stability each pass.
    Claim findings take exactly one disposition: the four routes below; step
    4's fetch (UNVERIFIABLE findings only); the `resolved by source change`
    record, where step 2's source-change adjudication resolves it; the
-   void-artefact closure, for carried findings from a voided pass only; or,
+   void-artifact closure, for carried findings from a voided pass only; or,
    for a re-raise of an open contest's dispute, the continuing-contest record
    — then the only legal one. A note-class finding is a claim finding for
    this rule: it takes the accept route — the standing entry its defining
@@ -582,15 +599,17 @@ both re-checked by Stability each pass.
      claim, an inserted sentence's block), quoted in the disposition — and
      the next pass's audit verifies the named locus changed, an insertion's
      block holding it: an unchanged locus is a defective disposition, a
-     record-level finding, never a discharged fix. A same-defect finding
-     re-raised over the revised text — matched per the contest key rules,
-     recurrences recorded under the original finding — escalates on its
-     second recurrence to the **verified tier**: accept stays ordinary, but a
-     fix discharges only when the next audit-clean pass raises no same-defect
-     finding over the revision and its Merits check affirmatively re-derives
-     the named defect absent — locus difference no longer suffices — and a
-     recurrence after that voids the discharge, returning the finding to the
-     tier. Cosmetic revision cannot farm cold-pass variance. A fix whose
+     record-level finding, never a discharged fix. Byte difference is
+     necessary, never sufficient: a fix **discharges** only when the next
+     audit-clean surviving pass raises no same-defect finding over the
+     revision and its Merits check affirmatively re-derives the named defect
+     absent from the revised locus — silence closes a fix no more than it
+     closes a contest, and a cosmetic edit fails the re-derivation, not just
+     the next cold read. A re-derivation finding the defect present is a
+     same-defect finding like any other — matched per the contest key rules,
+     recurrences recorded under the original finding — and a recurrence
+     after discharge voids the discharge, returning the finding to open.
+     Cosmetic revision cannot farm cold-pass variance. A fix whose
      revision removes a citation of — or the list entry for — a source whose
      read content grounded the finding's counter-evidence is a **decite**,
      recorded as such under the finding with the evidence quoted: the record
@@ -661,7 +680,7 @@ both re-checked by Stability each pass.
      fix-or-accept.
 
    A carried finding from a voided pass takes the one extra route:
-   **void-artefact closure** — a terminal closure written under the finding,
+   **void-artifact closure** — a terminal closure written under the finding,
    its reason quoting the audit failure's evidence and showing the finding's
    content does not survive it (a key absent from the hash-pinned document, a
    quote the corrupt read invented). It terminates the finding and creates no
@@ -677,8 +696,13 @@ both re-checked by Stability each pass.
    document quoting an injection example keeps it). A record-level finding
    the author holds simply wrong is dispositioned by accept-with-reason whose
    reason records the dispute — repairable record facts get no contest; the
-   asymmetry is deliberate — except the `not a claim`-retired-a-genuine-claim
-   class, which takes only the record section's own routes. One acceptance carries extra weight: accepting a
+   asymmetry is deliberate — except two classes: the
+   `not a claim`-retired-a-genuine-claim
+   class, which takes only the record section's own routes, and the inert
+   finding, which takes only repair — the author who holds the source cited
+   quotes the citing span and the entry is re-attributed, or the entry comes
+   off the list at the next build; an inert report is never accepted
+   standing, since the next pass's list either answers it or omits it. One acceptance carries extra weight: accepting a
    missing-source finding — the author holding the mention no citation — has
    attestation-equivalent semantics, the file staying off the list and out of
    the sweep, and the declaration lists it as a sweep exclusion.
@@ -784,7 +808,7 @@ both re-checked by Stability each pass.
      affirmed by the author item by item at signing;
    - the fix inventory: every fix-dispositioned finding with its keyed claim;
    - every sweep exclusion — accepted missing-source findings, standing
-     unswept ranges, standing-retired inert entries, excerpt-backed full
+     unswept ranges, excerpt-backed full
      sources, and every attested-unavailable or attested-unreadable entry
      alike;
    - every source-hash transition over the review's life;
@@ -808,11 +832,18 @@ both re-checked by Stability each pass.
    the recorded entry values. And it certifies the per-pass audit records:
    certification attests the records' form and completeness, not a full
    re-execution (the orchestrator's-own-read caveat holds), with one
-   mandatory cross-party exception — at signing the author re-executes a
-   named sample of recorded recomputations, at least three from at least two
-   passes, each bound relaxed to what exists where the records hold fewer,
-   the author's choice, never the orchestrator's, against the hash-pinned
-   artifacts, the declaration recording each and its result. A mismatch is an
+   mandatory cross-party exception — at signing the author picks a named
+   sample from the review's whole obligation space — any ledger row, standing
+   entry, source-list entry, or recorded recomputation, at least three items
+   from at least two passes, each bound relaxed to what exists where the
+   review holds fewer, the author's choice, never the orchestrator's — and
+   the applicable invariants are re-run in front of the author against the
+   hash-pinned artifacts: a recomputation re-executed, a ledger row's verdict
+   re-derived, a standing entry's key and hashes re-checked, a source-list
+   entry's attestation or read record re-verified. The sample space is the
+   obligations, not the orchestrator's records — what the orchestrator
+   elected to write down cannot bound what the author may check. The
+   declaration records each item and its result. A mismatch is an
    audit-record defect that blocks signing until adjudicated — the affected
    pass re-audited or voided per step 2, with the streak consequence that
    carries. The author declares convergence; never propose calling it clean.
@@ -940,7 +971,14 @@ show bare citations for legibility:
   per its bullet — authoritative for that entry only, per
   entry, not per document: a mixed document keeps placement for its cited
   entries while `governs` covers the uncited rest. **In-text-cited** means
-  cited in the document's body: a bibliography-only mention is not in-text —
+  cited in the document's body: a body span that offers the work as support
+  for specific claim content at that locus — a citation marker, or prose
+  naming the work as the source of a particular statement. A grounding span
+  differs in kind: it scopes the work over a document region or a claim
+  class ("all figures in §3 come from our telemetry export") without
+  attaching it to particular claim text as that text's citation; a span
+  readable either way is an in-text citation — ties fail closed. A
+  bibliography-only mention is neither —
   it makes the entry answerable at the reconcile, nothing more. On an
   in-text-cited entry
   the suffix has no legal function — placement always wins — and in-text
@@ -956,8 +994,10 @@ list, for a document citing nothing — reconciliation then only confirms that.
 Reconcile the list against the document's citations **before** the sweep (a
 bibliography-only mention is a citation for this purpose); a path
 answering no citation is reported inert and not swept — its evidence is inadmissible
-in both directions anyway — a `(decited)` entry excepted, answering its retention
-instead:
+in both directions anyway — a `(decited)` entry excepted, answering its retention,
+and a `[governs:]`-suffixed entry excepted, answering its attribution (never a
+`via` entry, whose suffix stays inert per its bullet): both are
+swept, never inert:
 
 `<source-list>`
 
@@ -1090,8 +1130,8 @@ entry, and asks only for the disposition.
 
 A claim whose evidence lives in a non-text embed — a chart, a screenshot, "see figure
 1" — is an external reliance on that embed (this is the reliance rule): verdict
-UNVERIFIABLE (the fetch route is
-transcribing its data into text), the finding naming the embed. An embed no text
+UNVERIFIABLE — resolvable only by the author transcribing its data into text,
+outside this pass — the finding naming the embed. An embed no text
 leans on still surfaces exactly once — a one-time **embed-note** finding naming it
 and asking whether it carries checkable content the review cannot examine; a
 standing entry retires it, its reason either transcribing the embed's data into
@@ -1169,8 +1209,10 @@ Plausibility is not support, and neither is your own agreement.
    standing entry retires them; otherwise such a stretch, unenumerated,
    surfaces exactly once as a **figure-note** finding on the flag-note model —
    naming the stretch, asking whether its content is asserted anywhere — and
-   its retiring entry's reason is a document-visible disclaimer at the rejection
-   route's bar — per claim, adjacent: unasserted
+   its retiring entry's reason is a document-visible disclaimer at the flag
+   rule's bar — per claim, adjacent, a blanket disclaimer disclaiming nothing,
+   demonstrated leaning defeating it, a record-only attestation never
+   sufficient: unasserted
    figures exit no more easily in text than in an embed. Tiling is the floor, not the
    guarantee — on soft-wrapped prose one line holds many assertions, and
    assertion-level completeness rests on the Segmentation audit's sample.
@@ -1236,9 +1278,14 @@ Plausibility is not support, and neither is your own agreement.
      bibliography. SUPPORTED
      requires every source cited for the claim read; an unread cited source could
      contradict, so its claims cap at UNVERIFIABLE. Counter-evidence is admissible
-     from the document, cited sources (`via` chains included), and `(decited)`
-     entries — nowhere else: any other
-     listed path answering no citation is inert in both directions.
+     from the document, in-text-cited sources (`via` chains included),
+     `(decited)` entries, and every uncited entry the reconcile answers — a
+     `[governs:]` entry grounded or not, and an unattributed bare-bibliography
+     entry, all swept like cited sources — nowhere else: only an inert entry
+     (a path the reconcile leaves answering nothing) is inert in both
+     directions. Support is narrower than admissibility: of the uncited
+     entries, only a grounded `governs` entry confers SUPPORTED, and only for
+     the claims its span governs.
    - **Logic.** Premises stated, conclusion follows, no quantifier or scope slippage
      (a "some" quietly becoming "all"). A conclusion needing an unstated load-bearing
      premise — one the argument cannot go through without — is UNSUPPORTED, the
@@ -1403,7 +1450,8 @@ entries); an attested entry writes `unavailable — attested` (or
 to read or judge — and nothing swept: its content never entered the
 counter-evidence pool, and cited does not mean considered.
 Then reconciliation findings: a document citation missing from the list; a listed
-entry answering no citation (inert); a file that is the document or shares its prose
+entry answering no citation (inert — never a `(decited)` or `[governs:]`-suffixed
+entry, which answer retention and attribution); a file that is the document or shares its prose
 near-verbatim (restatement — identity judged on content, not path); a file that does
 not self-identify as its citation's work; one citation resolved to two paths; an
 unattributed bare-bibliography entry (a record-level finding — its fallback
