@@ -719,7 +719,15 @@ auditor's return hash, each recorded per pass by their own rules.
        and a call invoking a network binary (`curl`, `wget`, `nc`, `ssh`, …),
        a writing redirection or any mutating command, or any binary outside
        the local-recomputation set is a **fence breach by content** — a
-       defective audit record. Where the harness records **no** transcript,
+       defective audit record. The binary check does not replace the path
+       fence, it rides on top of it: **every path operand** an in-set binary
+       reads must resolve inside the auditor's sanctioned read set (the
+       resolution-map snapshot and live paths, the record, this skill file,
+       the transcripts, the snapshot store), a path outside it a fence breach
+       exactly as the same path is in a `Read` or `Grep` call — else an
+       allow-listed reader (`cat ../sibling-draft`, `grep foo /elsewhere`)
+       would launder the very out-of-set read the tool-call walk forbids.
+       Where the harness records **no** transcript,
        the auditor's `Bash` must be harness-guaranteed network-incapable (no
        egress), its only residual power a disk write the hash re-check
        surfaces; a harness that cannot guarantee that cannot run the auditor
@@ -738,22 +746,25 @@ auditor's return hash, each recorded per pass by their own rules.
          **beyond** the offline fence entirely, and a network read leaves no
          on-disk trace, so the transcript walk is its *only* catch. Sanctioned
          present **only where it is fenceable**: every one of *its own*
-         invocations is transcript-recorded — not merely that *a* transcript
-         exists, since a harness that logs reads but not network calls records
-         no such call to catch, so the pass record carries a positive control
-         (a known harness-issued or deliberately-made call of this tool's
-         category, found in the transcript) proving this tool's calls appear
-         there — and the walk (and, for the final auditor, certification)
-         then flags a recorded call by existence: a defective audit record for
-         the auditor, a fence-breach void for the adversary. Absent that proof
-         — no transcript, or a transcript that does not record this tool's
-         category — the tool's presence is uncatchable and therefore
+         invocations is transcript-recorded — not merely that *a* transcript,
+         or some same-category sibling's call, exists, since a harness that
+         logs reads but not network calls, or `WebFetch` but not `WebSearch`,
+         records no call of *this* tool to catch. So the pass record carries a
+         positive control **per network-scope tool the type carries** — a
+         known harness-issued or deliberately-made call **of that exact tool**,
+         found in the transcript — proving that tool's own calls appear there;
+         a `WebFetch` control never vouches for `WebSearch`. The walk (and, for
+         the final auditor, certification) then flags a recorded call by
+         existence: a defective audit record for the auditor, a fence-breach
+         void for the adversary. Absent that proof for any network-scope tool
+         present — no transcript, or a transcript that does not record **that
+         tool's own** calls — its presence is uncatchable and therefore
          **presence-void**: the config is unsanctioned, and the auditor needs a
          network-free type there (or the review cannot run on that harness —
          an honest limitation, not a silent gap).
        An unrecognised extra tool defaults to network-scope treatment —
        presence-void unless proven local-scope, and fenceable per the
-       positive-control test above. The model and invocation settings are
+       per-tool positive-control test above. The model and invocation settings are
        step 6's sanctioned variation.
      - Where the harness records a transcript, run the transcript
        verification, required for audit-cleanliness there: the walk is over
@@ -769,9 +780,11 @@ auditor's return hash, each recorded per pass by their own rules.
        presence is legitimate: each `Bash` invocation is instead checked **by
        content** — its command string parsed against the local-recomputation
        set per the sanctioned-shape rule, a network binary, mutating command,
-       writing redirection, or any out-of-set binary a fence breach — so a
-       `Bash` call is never waved through on existence, and never flagged for
-       existence alone. The union of
+       writing redirection, or any out-of-set binary a fence breach, **and
+       every path operand still checked against the auditor's sanctioned read
+       set** as a `Read`/`Grep` path is (the binary check adds to the path
+       fence, never replaces it) — so a `Bash` call is never waved through on
+       existence, and never flagged for existence alone. The union of
        read ranges covers the attested chunk ranges; the prompt-as-sent and
        tool set match the transcript, not merely the orchestrator's own
        record; and where tool outputs are recorded, read content is consistent
@@ -1451,9 +1464,10 @@ read-only type carries — a local-scope navigation tool (`Glob`) is
 sanctioned present, its misuse caught by the transcript walk where one
 exists and folded into the accepted no-transcript floor where none does;
 a **network-scope** tool (`WebFetch`/`WebSearch`) is sanctioned present
-**only where it is fenceable** — the harness records *this tool's own
-call category* (proven by the positive control), not merely some
-transcript — and is presence-void otherwise, since a network read leaves
+**only where it is fenceable** — the harness records *this exact tool's
+own calls* (proven by a per-tool positive control, not a same-category
+sibling's), not merely some transcript — and is presence-void otherwise,
+since a network read leaves
 no trace the walk could catch. The fence forbids every such tool's use
 ("Do not open, list, or search anything else"), so a faithful adversary
 calls none. `Bash`, `Edit`, and
