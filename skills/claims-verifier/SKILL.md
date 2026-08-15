@@ -242,7 +242,8 @@ Three kinds of content:
 - **`## Pass N`**, appended per pass above the Review log, its header naming the document path (the
   binding the rename rule depends on): the spawn-time hashes, the capacity
   baseline (the harness's context size as known at spawn), the resolution
-  map — each listed entry's live path beside its snapshot path — the record's
+  map — each listed entry's live path beside its snapshot path, the document's
+  own pair included — the record's
   own spawn and audit-close snapshot pointers, the spawn
   configuration (agent type and tool list as invoked, with the invocation
   identity where the harness exposes one), the substituted prompt
@@ -360,12 +361,15 @@ both re-checked by Stability each pass.
    local recomputation against named snapshot inputs only, network access
    or outside knowledge in a re-derivation is a defective audit record, and
    where the harness records transcripts the transcript verification covers
-   the auditor too, parameterised by party — the adversary's sanctioned
-   reads are the document and the listed snapshot paths; the auditor's are
-   this skill file, the record, the snapshot store, and its named inputs —
-   each pass's transcripts verified by the next pass's auditor, the final
-   pass's auditor transcript, having no successor, left for the signing
-   sample where it exists. It receives this skill
+   the auditor too, parameterised by party and split by verifier: the
+   current pass's auditor verifies the adversary's transcript (Stability's
+   duty, load-bearing for this pass's cleanliness — sanctioned reads: the
+   document and the listed snapshot paths); the previous auditor's
+   transcript — its path recorded in the pass record, among this auditor's
+   inputs — is verified by this pass's auditor (sanctioned reads: this
+   skill file, the record, the snapshot store, its named inputs), a breach
+   there a defective audit record; the final auditor's transcript falls to
+   the certification invocation (step 6). It receives this skill
    file's path — the seven checks and every rule they reference read from
    it — the record path, the snapshot directory, and the previous spawn's
    record snapshot, and the transcript path where the harness records one;
@@ -377,7 +381,12 @@ both re-checked by Stability each pass.
    the party whose diligence an audit certifies never writes it. The pass
    record carries the auditor's spawn configuration — agent type, tool
    list, invocation identity where the harness exposes one — symmetrically
-   with the adversary's. Findings
+   with the adversary's. Where the corpus exceeds one invocation's
+   capacity, the audit partitions: several fresh auditor invocations, each
+   spawned cold with the same inputs and a named portion of the seven
+   checks (a single check too large partitions by population), their
+   records jointly the pass's audit record — capacity never excuses
+   omission; it partitions it. Findings
    the audit itself raises — a steer met
    while auditing, a probe hit inside a declared-unswept range, evidence
    impugning a claim's verdict — are numbered `A1, A2, …` in the audit record;
@@ -403,12 +412,16 @@ both re-checked by Stability each pass.
    population size, repeats skipped; when the digest runs out, re-hash it
    and continue. For each sampled check, order the population as the
    record and ledger present it — a population the auditor must construct
-   (candidate pairs, thesis sentences) is enumerated into the audit record
-   first by a stated mechanical rule recorded with it (every non-adjacent
-   block pair sharing an echoed content word; every section-initial and
-   section-final sentence), the rule's application re-derivable — an
-   enumeration with no stated rule, or one its rule's application
-   contradicts, is a defective audit record — the draw then taken from
+   is enumerated into the audit record first by this file's canonical
+   rules, verbatim mandates, never examples: candidate pairs — every
+   non-adjacent block pair sharing at least one stemmed content word,
+   stop-words excluded; thesis/takeaway sentences — every section-initial
+   and section-final sentence plus any sentence opening with a consequence
+   marker ("so", "therefore", "in short", "the upshot"). Two auditors over
+   the same bytes construct the same population; a different rule, or an
+   application its rule contradicts, is a defective audit record, and an
+   empty constructed population is a surfaced event recorded with the
+   quoted absent markers — the draw then taken from
    that recorded enumeration — and consume
    the integer stream across a check's populations in the order the check
    lists them, one item to each in turn, completing every round begun — a
@@ -539,7 +552,8 @@ both re-checked by Stability each pass.
        a missing or altered snapshot is a blocking record-integrity defect,
        never an adjudicable event, since retained bytes are the ground
        adjudications and the ratchet stand on.
-     - Confirm every pathed entry in the substituted prompt resolves inside
+     - Confirm every pathed entry in the substituted prompt — `<doc-path>`
+       included — resolves inside
        the snapshot store and matches the resolution map — the read fence's
        substrate, checked unconditionally, transcript or none: a live path
        in the prompt is the swap-and-restore window the snapshot exists to
@@ -662,12 +676,16 @@ both re-checked by Stability each pass.
        unengaged-checkable-content record-level finding for `not a claim`
        entries. Honour-everything is the laziness this sample exists to catch.
      - Probe the sweep itself: search the sources for counter-evidence bearing
-       on a sample of claims. The probe set carries a positive control — one
+       on a sample of claims. The queries per sampled claim are mandated,
+       never chosen: every distinctive content token of the claim and every
+       figure it carries, each run over the whole swept corpus and recorded
+       verbatim. The probe set carries a positive control — one
        query aimed at a known bearing (an existing finding's quoted evidence
-       line): a control that misses shows the probe machinery never touched
-       the corpus, a defective audit record — and an empty constructed
-       enumeration records why its rule's terms fail to occur, quoting the
-       absent markers. A hit the pass engaged nowhere in its output is
+       line; on a finding-free review, quote any line from a swept source
+       into the record and re-find it — the machinery, not the finding, is
+       what the control validates): a control that misses shows the probe
+       machinery never touched
+       the corpus, a defective audit record. A hit the pass engaged nowhere in its output is
        a named failure — chunk-boundary attestations prove targeted reads, and
        only an outcome probe touches the sweep. A probe hit inside a
        declared-unswept range is not a pass failure but a named finding,
@@ -859,7 +877,10 @@ both re-checked by Stability each pass.
      escalation count carrying — a paraphrase never resets the ratchet. A
      contest whose evidence field is empty is repaired with the author at the
      next audit: the author supplies the evidence, or converts the contest to
-     fix-or-accept.
+     fix-or-accept — and contest evidence unanchored by a source-change
+     adjudication takes the same repair route, the author re-supplying
+     evidence against the retained prior bytes (the pool holds them) or
+     converting, the escalation and vindication counters riding unchanged.
 
    A carried finding from a voided pass takes the one extra route:
    **void-artifact closure** — a terminal closure written under the finding,
@@ -998,6 +1019,8 @@ both re-checked by Stability each pass.
    - every ratchet-retained source — dropped or changed after a sweep — with
      its finding's quoted evidence where a decite grounded one;
    - every binding adjudication with its re-affirmation inventory;
+   - any annotation-mismatch adjudication between the two Greens, quoting
+     the mismatch;
    - the acceptance inventory: every standing entry with its key and reason,
      affirmed by the author item by item at signing;
    - the input inventory: the identity line, every attestation-bearing
@@ -1024,10 +1047,14 @@ both re-checked by Stability each pass.
      count;
    - the attestation that no other record in scope — the document's directory
      and the record's — reviews this document, and the author's **history
-     attestation**: no prior review of this document — in any location, under
-     any prior state of the document — was begun and discarded,
+     attestation**, triggered by existence, never by disposal: no other
+     review of this document — any byte-state, any location, any fate,
+     retained, paused, parallel, archived, or discarded — exists or existed
+     that is not named here and admitted at step 1,
      fabrication-class if false; a named predecessor's record is admitted at
-     step 1 like a split successor's inheritance.
+     step 1 like a split successor's inheritance. Restarting until the cold
+     dice come up favourable is exactly what this forecloses: every prior
+     roll is named, or the attestation is false.
 
    It carries fresh hashes taken at signature time — the document and each
    listed source from disk, the prompt rebuilt from the second Green's
@@ -1037,10 +1064,20 @@ both re-checked by Stability each pass.
    the recorded entry values. Each pass's audit close also pins the record —
    snapshotted and hashed into the store as the audit record is appended,
    the hash recorded with it; at signing the live record is diffed against
-   the second Green's audit-close pin, the only sanctioned delta after that
-   pin being the declaration itself — anything else is the blocking
+   the second Green's audit-close pin, the only sanctioned deltas after that
+   pin being the certification invocation's record and the declaration
+   itself — anything else is the blocking
    record-integrity defect the append-only rule names — and the predicate
-   re-derivation runs against the pinned bytes. An audit finding or record
+   re-derivation runs against the pinned bytes. Before signing, the
+   orchestrator spawns one final cold auditor — the **certification
+   invocation**, not a pass: seeded from the second Green's recorded hash
+   identity, it re-executes a mandated sample of the last two audits'
+   recomputations and judgement lines against the retained snapshots (the
+   terminal analogue of the cross-pass duty, whose successor those audits
+   never get) and verifies the final auditor's transcript where the harness
+   records one; its record is appended to the Review log, and a mismatch is
+   a defective audit record, re-audited per step 2 with the streak
+   consequence that carries. An audit finding or record
    repair on the final Green therefore forces the loop onward, by design:
    its disposition is written and the next pass runs — the pin, the rebuilt
    prompt, and the streak arithmetic jointly make signing over it
@@ -1228,8 +1265,11 @@ bibliography-only mention is a citation for this purpose); a path
 answering no citation is reported inert and not swept — its evidence is inadmissible
 in both directions anyway — a `(decited)` entry excepted, answering its retention,
 a `(disclosed counter-bearing)` entry excepted, answering its disclosure,
-and a `[governs:]`-suffixed entry excepted, answering its attribution (never a
-`via` entry, whose suffix stays inert per its bullet): all three are
+a `via` entry excepted, answering its trace — its onward-citation validation
+deferred to the intermediate's sweep, and never a two-paths conflict with its
+intermediate's own entry —
+and a `[governs:]`-suffixed entry excepted, answering its attribution (a
+`via` entry's `[governs:]` suffix stays inert per its bullet): all four are
 swept, never inert:
 
 `<source-list>`
@@ -1511,7 +1551,13 @@ Plausibility is not support, and neither is your own agreement.
      kind rule applies to sources as to the document. A source
      that merely restates the claim or only cites onward supports nothing — the
      onward chase is obligatory exactly there, where the source's support *is* its
-     onward citation, and nowhere else. Restatement is directional: a supporting line
+     onward citation, and nowhere else. The mirror rule is single-valued: a
+     read source's onward citation of counter-bearing work ("Miller 2021
+     reports the opposite effect") is itself a bearing — never silent, never
+     ridden past to SUPPORTED: the claims it bears against cap at the
+     UNVERIFIABLE rule under the locate test, the onward citation the
+     citation to fetch, unless read counter-evidence already sinks them; a
+     citation alone, carrying no data, is never CONTRADICTED-grade. Restatement is directional: a supporting line
      that also appears in the document is restatement only where the document does
      not attribute it — a verbatim excerpt the document explicitly attributes to that
      source is legitimate quotation, still evidence, and exempt from the
