@@ -11,6 +11,7 @@ that loads Markdown skills can read. The craft guides they defer to live in
 | [`spec-review`](skills/spec-review/SKILL.md) | Reviews a GitHub work-item issue **as a spec**, before anyone builds it. Spawns a fresh read-only subagent that reads only the published issue and its tracker ticket, reports findings, and cannot implement. |
 | [`brevity-enforcer`](skills/brevity-enforcer/SKILL.md) | Cuts a durable doc (ADR, spec, plan, design doc, issue body) down to length without softening an RFC 2119 keyword or flipping the register. Ships `cutcheck.py` so the check is mechanical rather than eyeballed. |
 | [`pr-neighbors`](skills/pr-neighbors/SKILL.md) | Finds the open PRs that impact, or are impacted by, the one you're about to review or merge. |
+| [`claims-verifier`](skills/claims-verifier/SKILL.md) | Reviews a document's claims adversarially, before it ships. Spawns a fresh read-only subagent that attempts to refute every factual and logical claim against the document's own evidence, verdicts each (supported / unsupported / overclaimed / contradicted / unverifiable), and loops until two distinct cold passes come back clean over identical bytes. The partner to `senior-code-review`, for prose. |
 
 `pr-neighbors` was a team-mate's idea.
 
