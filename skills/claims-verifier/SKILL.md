@@ -2419,15 +2419,15 @@ Format: term — one-line sense — (primary defining line).
 - **the seven checks** — Coverage · Attestations · Segmentation · Support · Reconciliation · Stability · Merits, the per-pass audit — (490).
 - **audit-clean** — affirmative, not an absence: all seven checks recorded with samples and recomputations, no failure beyond record repairs — (1160).
 - **fabrication class** — attestations no offline audit can catch; false ones are the author's, the trust root — (68).
-- **data-and-method bar** — an author-derived source supports only via presented measurement, never restatement — (194).
-- **locate test** — separates a retrievable citation (→ UNVERIFIABLE) from an unlocatable one (→ UNSUPPORTED) — (2114).
-- **diligence standard** — every "known" includes unexamined suspicion, so not-reading cannot manufacture attestable ignorance — (155).
-- **presence-void** — a spawn config carrying a forbidden or unfenceable tool is unsanctioned regardless of use — (498).
+- **data-and-method bar** — an author-derived source supports only via presented measurement, never restatement — (2125).
+- **locate test** — separates a retrievable citation (→ UNVERIFIABLE) from an unlocatable one (→ UNSUPPORTED) — (2259).
+- **diligence standard** — every "known" includes unexamined suspicion, so not-reading cannot manufacture attestable ignorance — (157).
+- **presence-void** — a spawn config carrying a forbidden or unfenceable tool is unsanctioned regardless of use — (810).
 - **sanctioned shape** — the read-only tool set an adversary/auditor may carry; the auditor's Bash fence per assurance level; the network-tool fenceability tiers — (807).
 - **assurance level** — how completely the harness fences the auditor's Bash — `sealed` › `quarantined-clone` › `adversary-only`; preflight-selected, recorded per pass, carried into the declaration — (364).
 - **sealed** — the auditor's Bash structurally fenced: sandbox view equals the sanctioned read set, egress denied, non-bypassable by the invocation — (364).
 - **quarantined-clone** — the auditor handed only a disposable copy of the sanctioned read set; the write vector closed by construction, egress and out-of-set read attested, not structural — (364).
-- **sweep ratchet** — a source any pass swept never leaves the pool; a decited entry stays listed, counter-evidence-only — (91).
+- **sweep ratchet** — a source any pass swept never leaves the pool; a decited entry stays listed, counter-evidence-only — (970).
 - **variant pin** — the author-attested version/date of a source; a `dated` pin caps present-tense current-behaviour claims — (85).
 - **via entry** — a source admitted by an onward-citation chain; once valid it carries the pathed entry's full guard set — (73).
 - **governs** — an uncited entry's attribution to the claims/sections it authoritatively covers; grounded only by a verifiable document-text tie — (109).
