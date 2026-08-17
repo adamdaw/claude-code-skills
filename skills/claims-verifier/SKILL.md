@@ -25,22 +25,23 @@ converged; **the orchestrator** is the session running this loop.
 
 ## Contents
 
-- **Why a subagent and not this session** (45) — the structural-independence rule.
-- **Inputs the adversary gets** (57) — source-list entry forms, identity line, standing section.
-- **Where the record lives** (223) — `claims-review.md`; the three content kinds.
-- **One hash identity** (334) — the three spawn hashes; the content-addressed snapshot store.
-- **The loop** (363)
-  - 1. Resolve and check inputs (365)
-  - 2. Audit the pass — the seven checks (418): Coverage, Attestations, Segmentation, Support, Reconciliation, Stability, Merits (570+)
-  - 3. Work the findings — fix / accept / reject / contest (1076)
-  - 4. UNVERIFIABLE → author fetch (1271)
-  - 5. Apply fixes, run the next pass (1285)
-  - 6. Converged — predicates, streak, declaration, certification invocation, cross-party draw (1287)
-- **Running a pass** (1503) — spawn shape; the verbatim adversary prompt follows (1532).
-  - Read fence (1535) · What counts as a claim (1777) · Procedure (1916) · Hard prohibitions (2166) · Output (2184: Source check 2207, Claim ledger 2236, Support record 2254, Findings 2271, Observations 2294)
-- **Terms** (appendix) — glossary of the coined load-bearing terms.
-- **Limits** (2332) — what the audits do and do not catch.
-- **Related** (2367).
+- **Why a subagent and not this session** (46) — the structural-independence rule.
+- **Inputs the adversary gets** (58) — source-list entry forms, identity line, standing section.
+- **Where the record lives** (224) — `claims-review.md`; the three content kinds.
+- **One hash identity** (335) — the three spawn hashes; the content-addressed snapshot store.
+- **Running requirements** (364) — the `claims-auditor` agent to install; the assurance ladder (sealed · quarantined-clone · adversary-only).
+- **The loop** (419)
+  - 1. Resolve inputs, check them, assurance preflight (421)
+  - 2. Audit the pass — the seven checks (486): Coverage, Attestations, Segmentation, Support, Reconciliation, Stability, Merits (640+)
+  - 3. Work the findings — fix / accept / reject / contest (1166)
+  - 4. UNVERIFIABLE → author fetch (1361)
+  - 5. Apply fixes, run the next pass (1375)
+  - 6. Converged — predicates, streak, declaration, certification invocation, cross-party draw (1377)
+- **Running a pass** (1605) — spawn shape; the verbatim adversary prompt follows (1634).
+  - Read fence (1637) · What counts as a claim (1879) · Procedure (2018) · Hard prohibitions (2268) · Output (2286: Source check 2309, Claim ledger 2338, Support record 2356, Findings 2373, Observations 2396)
+- **Terms** (2409) — glossary of the coined load-bearing terms.
+- **Limits** (2437) — what the audits do and do not catch.
+- **Related** (2479).
 
 ## Why a subagent and not this session
 
@@ -360,6 +361,61 @@ document-resident text —
 both re-checked by Stability each pass — and this skill file's hash and the
 auditor's return hash, each recorded per pass by their own rules.
 
+## Running requirements
+
+The auditor needs a read-only agent type that carries `Bash` — for
+recomputation — and no network or write tool. Ship and install the bundled
+`claims-auditor` agent (this skill's `agents/claims-auditor.md`) to
+`.claude/agents/` (project) or `~/.claude/agents/` (user); its tool set,
+`Read, Grep, Bash`, is the sanctioned shape's floor. The adversary needs only a
+read-only type **without** `Bash` (`reviewer` or equivalent).
+
+The auditor's `Bash` is mutation- and network-capable, so the sanctioned-shape
+rule fences it **structurally**, never by policing command strings. How
+completely the running harness can supply that fence sets the run's **assurance
+level** — chosen by step 1's preflight, recorded in every pass, and carried
+into the declaration:
+
+- **sealed** — the auditor's `Bash` view is confined to the sanctioned read
+  set and its egress denied, both enforced by the environment and
+  non-bypassable by the invocation. Compose it from the two mechanisms below:
+  build the minimal view with a quarantined clone and point the platform
+  sandbox's readable root at that clone, then let the sandbox deny writes to
+  the record and deny all network. On Claude Code this is the Bash sandbox in
+  strict mode — in `.claude/settings.json`: `sandbox.enabled: true`,
+  `sandbox.allowUnsandboxedCommands: false` (so the `dangerouslyDisableSandbox`
+  escape is ignored and no invocation can opt out), `sandbox.network.allowedDomains: []`
+  (no egress), a `sandbox.filesystem` policy whose readable root is the clone
+  with `denyWrite` over the record copy, and `failIfUnavailable: true` so a
+  session that cannot load the sandbox refuses rather than runs open. Requires
+  the platform sandbox (`bwrap` + `socat` on Linux/WSL2, Seatbelt on macOS).
+  Highest assurance: out-of-set read, egress, and record write are all
+  structurally impossible.
+- **quarantined-clone** — where the harness exposes no such sandbox, the
+  orchestrator still **hands the auditor a quarantined world**: it copies the
+  sanctioned read set (the skill file, the record, the snapshot store, the
+  transcripts, and the live document and source paths the resolution map names)
+  into a fresh disposable directory, and the auditor's prompt paths and working
+  directory point only there. The canonical record, store, and live document
+  are absent from every path the auditor is given, so a stray write lands on a
+  throwaway copy — and the orchestrator trusts only the auditor's returned
+  message, discarding the clone. Combined with the `claims-auditor` tool set
+  (no web tool), this closes the write vector and narrows reads to the
+  sanctioned set by construction. But an absolute-path read or a `Bash` network
+  binary is bounded only by the tool set, the transcript walk where one exists,
+  and the author's signing attestation — **not** structurally. Lower assurance,
+  and the record says so.
+- **adversary-only** — where no `Bash`-carrying read-only type is available at
+  all, the audit cannot run; the review still produces adversary findings, but
+  no audit means no audit-clean pass and no certified convergence. The author
+  works the findings on their own judgement; the skill certifies nothing.
+
+Step 1's preflight selects the highest level the harness supports and records
+it. The audit is then `audit-clean @ <level>`, convergence and its declaration
+carry the achieved level, and a **certified** convergence needs a floor of
+`quarantined-clone`. A run may never claim a level the harness did not supply —
+an overclaimed level is a fabrication-class attestation.
+
 ## The loop
 
 1. **Resolve and check inputs.** Build the source list per the resolution rule.
@@ -412,18 +468,31 @@ auditor's return hash, each recorded per pass by their own rules.
      does. Note the repair in the Review log. This is the one context where
      editing the standing section outside a disposition is sanctioned.
 
-   Then snapshot the inputs, take the spawn hashes from the snapshot, run the
-   pass, and append output and hashes under the next `## Pass N`.
+   Then run the **assurance preflight** (see Running requirements): select the
+   highest audit level the harness supports — `sealed` where the platform
+   sandbox confines the auditor's `Bash` to the sanctioned view and denies
+   egress non-bypassably; `quarantined-clone` where only the disposable-view
+   construction is available; `adversary-only` where no `Bash`-carrying
+   read-only auditor type exists at all. The check is **fail-closed**: a level
+   is available only where its whole mechanism is present, and a missing piece
+   drops the run to the next level down rather than running open — never an
+   overclaim. Record the selected level in the pass record; it governs every
+   audit this review runs, a certified convergence needs a floor of
+   `quarantined-clone`, and the level is fixed for the review unless a later
+   preflight records a change with its cause. Then snapshot the inputs, take
+   the spawn hashes from the snapshot, run the pass, and append output and
+   hashes under the next `## Pass N`.
 
 2. **Audit the pass before working findings.** The audit is not the
    orchestrator's own read: spawn a second fresh subagent — the **auditor**
    — per pass, cold like the adversary, on a read-only agent type carrying
-   `Read`, `Grep`, and `Bash` and no `Write` or `Edit`, its `Bash` confined
-   to a **sandbox** whose filesystem view is the sanctioned read set and with
-   no network egress (the sanctioned-shape rule under Stability governs the
-   full shape — the Bash sandbox, and how a network-scope extra tool the type
-   carries is presence-void without a per-tool fenceable transcript); its
-   `Bash` is
+   `Read`, `Grep`, and `Bash` and no `Write` or `Edit` (the bundled
+   `claims-auditor` type), its `Bash` fenced to the sanctioned read set at the
+   run's **assurance level** — structurally at `sealed`, by the quarantined
+   view at `quarantined-clone` (Running requirements; the sanctioned-shape rule
+   under Stability governs the full shape — the Bash fence per level, and how a
+   network-scope extra tool the type carries is presence-void without a
+   per-tool fenceable transcript); its `Bash` is
    recomputation only — a write to snapshots or the record surfaces as an
    integrity defect at the next spawn, and the hash identity surfaces any
    live-file write, though it cannot attribute one. The auditor works
@@ -491,10 +560,11 @@ auditor's return hash, each recorded per pass by their own rules.
    an uncovered check or population range is a defective audit record, the
    audit not clean, since capacity never excuses omission. The pass
    record carries the auditor's spawn configuration — agent type, tool
-   list, invocation identity where the harness exposes one, and the `Bash`
-   sandbox descriptor (view roots and egress state) where the harness
-   exposes one — symmetrically with the adversary's, the sandbox field the
-   auditor's own since only its `Bash` is fenced by it. Where the corpus exceeds one invocation's
+   list, invocation identity where the harness exposes one, the run's
+   **assurance level** and, at `quarantined-clone`, the clone's root path, and
+   the `Bash` sandbox descriptor (view roots and egress state) where the
+   harness exposes one — symmetrically with the adversary's, the sandbox field
+   the auditor's own since only its `Bash` is fenced by it. Where the corpus exceeds one invocation's
    capacity, the audit partitions: several fresh auditor invocations, each
    spawned cold with the same inputs and a named portion of the seven
    checks (a single check too large partitions by population), their
@@ -745,7 +815,9 @@ auditor's return hash, each recorded per pass by their own rules.
        unwinnable against reading redirection, pipes, command and process
        substitution, and symlink or `..` escape, so the skill applies its own
        doctrine — the dangerous capability is made *impossible*, as no write
-       tool makes an edit impossible. The auditor's `Bash` runs in a
+       tool makes an edit impossible. This structural fence is the **sealed**
+       level, the highest of the assurance ladder (Running requirements): the
+       auditor's `Bash` runs in a
        **filesystem sandbox whose canonical view is exactly the sanctioned
        read set** — the skill file, the record, the snapshot store, the
        transcripts, and the resolution-map live document and source paths,
@@ -764,15 +836,28 @@ auditor's return hash, each recorded per pass by their own rules.
        view's roots and its egress state), it is recorded in the spawn
        configuration and this check confirms the canonical view equals the
        sanctioned read set and egress is denied — an absent or mismatched
-       descriptor unsanctions the config exactly as an absent read-only tool
-       set does. Where the harness exposes no descriptor, sandbox presence is
+       descriptor drops the run below `sealed` (never silently passing as
+       sealed), though it does not by itself void the audit the way a
+       forbidden write tool does at every level. Where the harness exposes no
+       descriptor, sealed presence is
        **claimed, not shown** — the freshness rule's structure — and carried
        to the author's signing attestation (the declaration's sandbox
        attestation, fabrication-class if false), the one place a
-       human closes what no artifact recorded; a harness that can neither
-       confine the auditor's `Bash` to the sanctioned view nor deny it egress
-       (nor let the author truthfully attest it did) cannot run the auditor
-       (the honest limitation the network-scope tier also names). Any further
+       human closes what no artifact recorded. Where sealed is unavailable —
+       no sandbox, no descriptor to verify one, and no honest attestation the
+       environment supplied it — the run does not refuse; it **drops one
+       level**, and the record says which. At **quarantined-clone** the same
+       canonical view is built by construction rather than enforced: the
+       auditor is handed a disposable copy of the sanctioned read set and only
+       those paths, so a write lands on the throwaway and reads are narrowed to
+       the set — but an absolute-path read or a network binary is bounded by
+       the `claims-auditor` tool set (no web tool), the transcript walk where
+       one exists, and the author's attestation, **not** structurally. The
+       audit still runs, `audit-clean @ quarantined-clone`, a lower assurance
+       the declaration carries. Only where even a `Bash`-carrying read-only
+       type is unavailable does the audit not run at all — **adversary-only**,
+       findings without certification: the honest floor the network-scope tier
+       also names, a degraded run the record discloses, never a silent gap. Any further
        tool the type carries must be read-only, sanctioned by its blast-radius
        tier — the tiers differ precisely in whether fenceability is required:
        - **Local-scope read-only** (`Glob`, directory/path enumeration) —
@@ -801,8 +886,10 @@ auditor's return hash, each recorded per pass by their own rules.
          present — no transcript, or a transcript that does not record **that
          tool's own** calls — its presence is uncatchable and therefore
          **presence-void**: the config is unsanctioned, and the auditor needs a
-         network-free type there (or the review cannot run on that harness —
-         an honest limitation, not a silent gap).
+         network-free type there — the bundled `claims-auditor` is exactly
+         that; failing any `Bash`-carrying read-only type, the run drops to
+         `adversary-only`, the honest floor of the assurance ladder, not a
+         silent gap.
        An unrecognised extra tool defaults to network-scope treatment —
        presence-void unless proven local-scope, and fenceable per the
        per-tool positive-control test above. The model and invocation settings are
@@ -819,13 +906,16 @@ auditor's return hash, each recorded per pass by their own rules.
        existence, per the sanctioned-shape rule above). The auditor's `Bash`
        is the exception existence does not judge, and neither does the walk
        fence it: its recomputation presence is legitimate, and its reads and
-       network are bounded **structurally by the sandbox** (the sanctioned-view
-       filesystem, no egress) per the sanctioned-shape rule, not by this walk.
+       network are bounded by the run's **assurance level** per the
+       sanctioned-shape rule — structurally by the sandbox at `sealed` (the
+       sanctioned-view filesystem, no egress), by the handed clone view and
+       the network-free tool set at `quarantined-clone` — not by this walk.
        The walk still reads each `Bash` command string as defense in depth —
        noting a recorded attempt at a network binary or a mutating command —
-       but a `Bash` call is neither waved through on existence nor flagged for
-       existence alone; the sandbox is what makes its out-of-set read
-       impossible. The union of
+       and at `quarantined-clone`, where the fence is not structural, that walk
+       is the load-bearing catch, not mere defense in depth. A `Bash` call is
+       neither waved through on existence nor flagged for existence alone; the
+       level's fence, not existence, is what bounds its out-of-set read. The union of
        read ranges covers the attested chunk ranges; the prompt-as-sent and
        tool set match the transcript, not merely the orchestrator's own
        record; and where tool outputs are recorded, read content is consistent
@@ -1291,6 +1381,10 @@ auditor's return hash, each recorded per pass by their own rules.
      attestation where it does not — the claimed-not-shown rule, not a
      convergence blocker) both return `Green — no findings` over an identical hash
      identity;
+   - both Greens are `audit-clean @` the same recorded assurance level, at or
+     above the `quarantined-clone` floor — an `adversary-only` run has no
+     audit-clean pass and so cannot certify convergence, and a level change
+     between the two Greens resets the streak like any other drift;
    - no surviving full-review pass follows the second Green;
    - the two Greens' standing annotations reference the same entries;
    - every finding in every recorded pass — and every Review-log finding,
@@ -1354,16 +1448,24 @@ auditor's return hash, each recorded per pass by their own rules.
      recorded hash every pass carries is the canonical distribution,
      unmodified — fabrication-class if false;
    - the certification affirmation: the certification invocation's recorded
-     spawn configuration matches the sanctioned auditor shape — the `Bash`
-     sandbox included where its descriptor is exposed — and its recorded
+     spawn configuration matches the sanctioned auditor shape at the run's
+     recorded assurance level — the `Bash` sandbox included where `sealed` and
+     its descriptor is exposed — and its recorded
      prompt matches the template verbatim — affirmed by the author at signing,
      the terminal invocation having no successor auditor to run Stability over
      it;
-   - the sandbox attestation: for every auditor and certification invocation
-     whose harness exposed no sandbox descriptor for Stability to verify, the
+   - the assurance attestation: the run's recorded assurance level, affirmed
+     by the author at signing, and — where the level rests on a claim no
+     artifact showed — its backing. At `sealed` with no sandbox descriptor for
+     Stability to verify, for every auditor and certification invocation the
      author attests its `Bash` ran confined to the sanctioned read set with no
-     network egress — fabrication-class if false — the human gate closing the
-     structural fence no artifact recorded, item by item at signing;
+     network egress — fabrication-class if false, the human gate closing the
+     structural fence no artifact recorded. At `quarantined-clone` the author
+     attests the auditor was handed only a disposable copy of the sanctioned
+     read set and its returned message alone was trusted, the egress and
+     out-of-set-read residual disclosed rather than structurally closed. A
+     level the harness did not supply cannot survive its own affirmation —
+     item by item at signing;
    - the fix inventory: every fix-dispositioned finding with its keyed claim;
    - the observation inventory: every Observation across all passes,
      acknowledged by the author at signing — nothing worth the author's eye
@@ -2309,25 +2411,28 @@ on whether the document should ship — that decision is the author's.
 Load-bearing coined terms, each defined once in the body and referenced throughout.
 Format: term — one-line sense — (primary defining line).
 
-- **read fence** — the adversary reads only the document and listed sources; anything else voids the pass — (1535).
-- **the seven checks** — Coverage · Attestations · Segmentation · Support · Reconciliation · Stability · Merits, the per-pass audit — (418).
-- **audit-clean** — affirmative, not an absence: all seven checks recorded with samples and recomputations, no failure beyond record repairs — (1066).
-- **fabrication class** — attestations no offline audit can catch; false ones are the author's, the trust root — (67).
-- **data-and-method bar** — an author-derived source supports only via presented measurement, never restatement — (193).
-- **locate test** — separates a retrievable citation (→ UNVERIFIABLE) from an unlocatable one (→ UNSUPPORTED) — (2008).
-- **diligence standard** — every "known" includes unexamined suspicion, so not-reading cannot manufacture attestable ignorance — (154).
-- **presence-void** — a spawn config carrying a forbidden or unfenceable tool is unsanctioned regardless of use — (425).
-- **sanctioned shape** — the read-only tool set an adversary/auditor may carry; the auditor's Bash sandbox; the network-tool fenceability tiers — (733).
-- **sweep ratchet** — a source any pass swept never leaves the pool; a decited entry stays listed, counter-evidence-only — (90).
-- **variant pin** — the author-attested version/date of a source; a `dated` pin caps present-tense current-behaviour claims — (84).
-- **via entry** — a source admitted by an onward-citation chain; once valid it carries the pathed entry's full guard set — (72).
-- **governs** — an uncited entry's attribution to the claims/sections it authoritatively covers; grounded only by a verifiable document-text tie — (108).
-- **excerpt — author-selected** — an author-cut stand-in for an over-large source; a sanctioned, disposition-gated cherry-pick channel — (133).
-- **the block rule** — a citation attaches to the block containing it (paragraph, list item, cell, caption); support never travels to an uncited echo — (1902).
-- **drawn, never chosen** — every audit sample is seed-derived and unaimable; any control the checked party could select is steerable — (524).
-- **claimed-not-shown** — where the harness exposes no identity or descriptor, a property (freshness, sandbox presence) is author-attested at signing, not verified — (769).
-- **certification invocation** — the terminal cold auditor before signing: re-executes the two-Green sample and re-derives every convergence predicate — (325).
-- **cross-party draw** — at signing, the orchestrator re-runs a seed-drawn sample of obligations in front of the author — (1474).
+- **read fence** — the adversary reads only the document and listed sources; anything else voids the pass — (1637).
+- **the seven checks** — Coverage · Attestations · Segmentation · Support · Reconciliation · Stability · Merits, the per-pass audit — (486).
+- **audit-clean** — affirmative, not an absence: all seven checks recorded with samples and recomputations, no failure beyond record repairs — (1156).
+- **fabrication class** — attestations no offline audit can catch; false ones are the author's, the trust root — (68).
+- **data-and-method bar** — an author-derived source supports only via presented measurement, never restatement — (194).
+- **locate test** — separates a retrievable citation (→ UNVERIFIABLE) from an unlocatable one (→ UNSUPPORTED) — (2110).
+- **diligence standard** — every "known" includes unexamined suspicion, so not-reading cannot manufacture attestable ignorance — (155).
+- **presence-void** — a spawn config carrying a forbidden or unfenceable tool is unsanctioned regardless of use — (494).
+- **sanctioned shape** — the read-only tool set an adversary/auditor may carry; the auditor's Bash fence per assurance level; the network-tool fenceability tiers — (803).
+- **assurance level** — how completely the harness fences the auditor's Bash — `sealed` › `quarantined-clone` › `adversary-only`; preflight-selected, recorded per pass, carried into the declaration — (364).
+- **sealed** — the auditor's Bash structurally fenced: sandbox view equals the sanctioned read set, egress denied, non-bypassable by the invocation — (364).
+- **quarantined-clone** — the auditor handed only a disposable copy of the sanctioned read set; the write vector closed by construction, egress and out-of-set read attested, not structural — (364).
+- **sweep ratchet** — a source any pass swept never leaves the pool; a decited entry stays listed, counter-evidence-only — (91).
+- **variant pin** — the author-attested version/date of a source; a `dated` pin caps present-tense current-behaviour claims — (85).
+- **via entry** — a source admitted by an onward-citation chain; once valid it carries the pathed entry's full guard set — (73).
+- **governs** — an uncited entry's attribution to the claims/sections it authoritatively covers; grounded only by a verifiable document-text tie — (109).
+- **excerpt — author-selected** — an author-cut stand-in for an over-large source; a sanctioned, disposition-gated cherry-pick channel — (134).
+- **the block rule** — a citation attaches to the block containing it (paragraph, list item, cell, caption); support never travels to an uncited echo — (2004).
+- **drawn, never chosen** — every audit sample is seed-derived and unaimable; any control the checked party could select is steerable — (594).
+- **claimed-not-shown** — where the harness exposes no identity or descriptor, a property (freshness, sandbox presence) is author-attested at signing, not verified — (843).
+- **certification invocation** — the terminal cold auditor before signing: re-executes the two-Green sample and re-derives every convergence predicate — (326).
+- **cross-party draw** — at signing, the orchestrator re-runs a seed-drawn sample of obligations in front of the author — (1576).
 
 ## Limits
 
@@ -2344,7 +2449,14 @@ that does not surface in the output leaves no trace — and invocation freshness
 that a pass ran as a genuinely fresh invocation rather than a warm session, is
 likewise unverifiable where the harness exposes no invocation identity — nor,
 there, that a subagent was spawned at all rather than its record written by
-the orchestrator's own hand. The
+the orchestrator's own hand. And the auditor's `Bash` fence is graduated, not
+guaranteed: only a `sealed` run makes an out-of-set read or a network call
+structurally impossible; a `quarantined-clone` run closes the write vector by
+construction but bounds egress and out-of-set reads by tool set, transcript
+walk, and attestation; an `adversary-only` run has no audit at all. The run
+records which, so a Green is only ever as strong as its disclosed assurance
+level — the skill degrades honestly rather than refusing, and never lets a
+lower level pass as a higher one. The
 reviewed bytes are the artifact: a publication pipeline that transcludes or
 renders beyond them is outside this review. An author-selected excerpt is
 a sanctioned cherry-pick channel — surfaced, marked, and disposition-gated, but
