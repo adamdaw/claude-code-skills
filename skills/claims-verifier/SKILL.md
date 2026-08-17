@@ -23,6 +23,25 @@ rather than the adversary waving it through on shared knowledge.
 Throughout, **the author** is the human who owns the document and declares the review
 converged; **the orchestrator** is the session running this loop.
 
+## Contents
+
+- **Why a subagent and not this session** (45) — the structural-independence rule.
+- **Inputs the adversary gets** (57) — source-list entry forms, identity line, standing section.
+- **Where the record lives** (223) — `claims-review.md`; the three content kinds.
+- **One hash identity** (334) — the three spawn hashes; the content-addressed snapshot store.
+- **The loop** (363)
+  - 1. Resolve and check inputs (365)
+  - 2. Audit the pass — the seven checks (418): Coverage, Attestations, Segmentation, Support, Reconciliation, Stability, Merits (570+)
+  - 3. Work the findings — fix / accept / reject / contest (1076)
+  - 4. UNVERIFIABLE → author fetch (1271)
+  - 5. Apply fixes, run the next pass (1285)
+  - 6. Converged — predicates, streak, declaration, certification invocation, cross-party draw (1287)
+- **Running a pass** (1503) — spawn shape; the verbatim adversary prompt follows (1532).
+  - Read fence (1535) · What counts as a claim (1777) · Procedure (1916) · Hard prohibitions (2166) · Output (2184: Source check 2207, Claim ledger 2236, Support record 2254, Findings 2271, Observations 2294)
+- **Terms** (appendix) — glossary of the coined load-bearing terms.
+- **Limits** (2332) — what the audits do and do not catch.
+- **Related** (2367).
+
 ## Why a subagent and not this session
 
 The session that drafted the document cannot review it. Asked to verify its own claims,
@@ -2284,6 +2303,31 @@ with a recommended disposition. Do not offer a verdict
 on whether the document should ship — that decision is the author's.
 
 ---
+
+## Terms
+
+Load-bearing coined terms, each defined once in the body and referenced throughout.
+Format: term — one-line sense — (primary defining line).
+
+- **read fence** — the adversary reads only the document and listed sources; anything else voids the pass — (1535).
+- **the seven checks** — Coverage · Attestations · Segmentation · Support · Reconciliation · Stability · Merits, the per-pass audit — (418).
+- **audit-clean** — affirmative, not an absence: all seven checks recorded with samples and recomputations, no failure beyond record repairs — (1066).
+- **fabrication class** — attestations no offline audit can catch; false ones are the author's, the trust root — (67).
+- **data-and-method bar** — an author-derived source supports only via presented measurement, never restatement — (193).
+- **locate test** — separates a retrievable citation (→ UNVERIFIABLE) from an unlocatable one (→ UNSUPPORTED) — (2008).
+- **diligence standard** — every "known" includes unexamined suspicion, so not-reading cannot manufacture attestable ignorance — (154).
+- **presence-void** — a spawn config carrying a forbidden or unfenceable tool is unsanctioned regardless of use — (425).
+- **sanctioned shape** — the read-only tool set an adversary/auditor may carry; the auditor's Bash sandbox; the network-tool fenceability tiers — (733).
+- **sweep ratchet** — a source any pass swept never leaves the pool; a decited entry stays listed, counter-evidence-only — (90).
+- **variant pin** — the author-attested version/date of a source; a `dated` pin caps present-tense current-behaviour claims — (84).
+- **via entry** — a source admitted by an onward-citation chain; once valid it carries the pathed entry's full guard set — (72).
+- **governs** — an uncited entry's attribution to the claims/sections it authoritatively covers; grounded only by a verifiable document-text tie — (108).
+- **excerpt — author-selected** — an author-cut stand-in for an over-large source; a sanctioned, disposition-gated cherry-pick channel — (133).
+- **the block rule** — a citation attaches to the block containing it (paragraph, list item, cell, caption); support never travels to an uncited echo — (1902).
+- **drawn, never chosen** — every audit sample is seed-derived and unaimable; any control the checked party could select is steerable — (524).
+- **claimed-not-shown** — where the harness exposes no identity or descriptor, a property (freshness, sandbox presence) is author-attested at signing, not verified — (769).
+- **certification invocation** — the terminal cold auditor before signing: re-executes the two-Green sample and re-derives every convergence predicate — (325).
+- **cross-party draw** — at signing, the orchestrator re-runs a seed-drawn sample of obligations in front of the author — (1474).
 
 ## Limits
 
