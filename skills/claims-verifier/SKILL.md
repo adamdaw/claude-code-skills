@@ -30,18 +30,18 @@ converged; **the orchestrator** is the session running this loop.
 - **Where the record lives** (224) — `claims-review.md`; the three content kinds.
 - **One hash identity** (335) — the three spawn hashes; the content-addressed snapshot store.
 - **Running requirements** (364) — the `claims-auditor` agent to install; the assurance ladder (sealed · quarantined-clone · adversary-only).
-- **The loop** (419)
-  - 1. Resolve inputs, check them, assurance preflight (421)
-  - 2. Audit the pass — the seven checks (486): Coverage, Attestations, Segmentation, Support, Reconciliation, Stability, Merits (640+)
-  - 3. Work the findings — fix / accept / reject / contest (1166)
-  - 4. UNVERIFIABLE → author fetch (1361)
-  - 5. Apply fixes, run the next pass (1375)
-  - 6. Converged — predicates, streak, declaration, certification invocation, cross-party draw (1377)
-- **Running a pass** (1605) — spawn shape; the verbatim adversary prompt follows (1634).
-  - Read fence (1637) · What counts as a claim (1879) · Procedure (2018) · Hard prohibitions (2268) · Output (2286: Source check 2309, Claim ledger 2338, Support record 2356, Findings 2373, Observations 2396)
-- **Terms** (2409) — glossary of the coined load-bearing terms.
-- **Limits** (2437) — what the audits do and do not catch.
-- **Related** (2479).
+- **The loop** (423)
+  - 1. Resolve inputs, check them, assurance preflight (425)
+  - 2. Audit the pass — the seven checks (490): Coverage, Attestations, Segmentation, Support, Reconciliation, Stability, Merits (644+)
+  - 3. Work the findings — fix / accept / reject / contest (1170)
+  - 4. UNVERIFIABLE → author fetch (1365)
+  - 5. Apply fixes, run the next pass (1379)
+  - 6. Converged — predicates, streak, declaration, certification invocation, cross-party draw (1381)
+- **Running a pass** (1609) — spawn shape; the verbatim adversary prompt follows (1638).
+  - Read fence (1641) · What counts as a claim (1883) · Procedure (2022) · Hard prohibitions (2272) · Output (2290: Source check 2309, Claim ledger 2338, Support record 2356, Findings 2373, Observations 2396)
+- **Terms** (2413) — glossary of the coined load-bearing terms.
+- **Limits** (2441) — what the audits do and do not catch.
+- **Related** (2483).
 
 ## Why a subagent and not this session
 
@@ -387,7 +387,11 @@ into the declaration:
   escape is ignored and no invocation can opt out), `sandbox.network.allowedDomains: []`
   (no egress), a `sandbox.filesystem` policy whose readable root is the clone
   with `denyWrite` over the record copy, and `failIfUnavailable: true` so a
-  session that cannot load the sandbox refuses rather than runs open. Requires
+  session that cannot load the sandbox refuses rather than runs open. A
+  ready-to-copy strict profile ships beside this skill at
+  `settings.sandbox.example.json` — copy it into `.claude/settings.json` and
+  keep `excludedCommands` empty, since that list is the second escape hatch a
+  command can be exempted through. Requires
   the platform sandbox (`bwrap` + `socat` on Linux/WSL2, Seatbelt on macOS).
   Highest assurance: out-of-set read, egress, and record write are all
   structurally impossible.
@@ -2411,15 +2415,15 @@ on whether the document should ship — that decision is the author's.
 Load-bearing coined terms, each defined once in the body and referenced throughout.
 Format: term — one-line sense — (primary defining line).
 
-- **read fence** — the adversary reads only the document and listed sources; anything else voids the pass — (1637).
-- **the seven checks** — Coverage · Attestations · Segmentation · Support · Reconciliation · Stability · Merits, the per-pass audit — (486).
-- **audit-clean** — affirmative, not an absence: all seven checks recorded with samples and recomputations, no failure beyond record repairs — (1156).
+- **read fence** — the adversary reads only the document and listed sources; anything else voids the pass — (1641).
+- **the seven checks** — Coverage · Attestations · Segmentation · Support · Reconciliation · Stability · Merits, the per-pass audit — (490).
+- **audit-clean** — affirmative, not an absence: all seven checks recorded with samples and recomputations, no failure beyond record repairs — (1160).
 - **fabrication class** — attestations no offline audit can catch; false ones are the author's, the trust root — (68).
 - **data-and-method bar** — an author-derived source supports only via presented measurement, never restatement — (194).
-- **locate test** — separates a retrievable citation (→ UNVERIFIABLE) from an unlocatable one (→ UNSUPPORTED) — (2110).
+- **locate test** — separates a retrievable citation (→ UNVERIFIABLE) from an unlocatable one (→ UNSUPPORTED) — (2114).
 - **diligence standard** — every "known" includes unexamined suspicion, so not-reading cannot manufacture attestable ignorance — (155).
-- **presence-void** — a spawn config carrying a forbidden or unfenceable tool is unsanctioned regardless of use — (494).
-- **sanctioned shape** — the read-only tool set an adversary/auditor may carry; the auditor's Bash fence per assurance level; the network-tool fenceability tiers — (803).
+- **presence-void** — a spawn config carrying a forbidden or unfenceable tool is unsanctioned regardless of use — (498).
+- **sanctioned shape** — the read-only tool set an adversary/auditor may carry; the auditor's Bash fence per assurance level; the network-tool fenceability tiers — (807).
 - **assurance level** — how completely the harness fences the auditor's Bash — `sealed` › `quarantined-clone` › `adversary-only`; preflight-selected, recorded per pass, carried into the declaration — (364).
 - **sealed** — the auditor's Bash structurally fenced: sandbox view equals the sanctioned read set, egress denied, non-bypassable by the invocation — (364).
 - **quarantined-clone** — the auditor handed only a disposable copy of the sanctioned read set; the write vector closed by construction, egress and out-of-set read attested, not structural — (364).
@@ -2428,11 +2432,11 @@ Format: term — one-line sense — (primary defining line).
 - **via entry** — a source admitted by an onward-citation chain; once valid it carries the pathed entry's full guard set — (73).
 - **governs** — an uncited entry's attribution to the claims/sections it authoritatively covers; grounded only by a verifiable document-text tie — (109).
 - **excerpt — author-selected** — an author-cut stand-in for an over-large source; a sanctioned, disposition-gated cherry-pick channel — (134).
-- **the block rule** — a citation attaches to the block containing it (paragraph, list item, cell, caption); support never travels to an uncited echo — (2004).
-- **drawn, never chosen** — every audit sample is seed-derived and unaimable; any control the checked party could select is steerable — (594).
-- **claimed-not-shown** — where the harness exposes no identity or descriptor, a property (freshness, sandbox presence) is author-attested at signing, not verified — (843).
+- **the block rule** — a citation attaches to the block containing it (paragraph, list item, cell, caption); support never travels to an uncited echo — (2008).
+- **drawn, never chosen** — every audit sample is seed-derived and unaimable; any control the checked party could select is steerable — (598).
+- **claimed-not-shown** — where the harness exposes no identity or descriptor, a property (freshness, sandbox presence) is author-attested at signing, not verified — (847).
 - **certification invocation** — the terminal cold auditor before signing: re-executes the two-Green sample and re-derives every convergence predicate — (326).
-- **cross-party draw** — at signing, the orchestrator re-runs a seed-drawn sample of obligations in front of the author — (1576).
+- **cross-party draw** — at signing, the orchestrator re-runs a seed-drawn sample of obligations in front of the author — (1580).
 
 ## Limits
 
