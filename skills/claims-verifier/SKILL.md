@@ -38,7 +38,7 @@ converged; **the orchestrator** is the session running this loop.
   - 5. Apply fixes, run the next pass (1390)
   - 6. Converged — predicates, streak, declaration, certification invocation, cross-party draw (1392)
 - **Running a pass** (1620) — spawn shape; the verbatim adversary prompt follows (1649).
-  - Read fence (1652) · What counts as a claim (1894) · Procedure (2033) · Hard prohibitions (2283) · Output (2301: Source check 2309, Claim ledger 2338, Support record 2356, Findings 2373, Observations 2396)
+  - Read fence (1652) · What counts as a claim (1894) · Procedure (2033) · Hard prohibitions (2283) · Output (2301: Source check 2324, Claim ledger 2353, Support record 2371, Findings 2388, Observations 2411)
 - **Terms** (2424) — glossary of the coined load-bearing terms.
 - **Limits** (2452) — what the audits do and do not catch.
 - **Related** (2494).
