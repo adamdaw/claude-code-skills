@@ -17,7 +17,7 @@ The whole thing serves one goal: an honest, independent read that feeds the huma
 
 ## The finding lifecycle
 
-1. **Reconcile each candidate against the live thread.** Once you have candidate findings from the checklist below, re-fetch the head (the author may have pushed, even fixed the thing) and read the existing comments and reviews. Check the commit each approval and each automated finding was made against: an approval that predates the current head is stale, so flag it, and a bot finding computed on an older commit may be moot, so verify it against the live diff before repeating it. Already raised and open? Add weight only if you have something new. Already fixed on a newer commit? Drop it. Already dispositioned by the author as by-design? Engage the specific reasoning or accept it; don't re-post it as if it were unanswered. **"Do nothing" is a valid verdict** when the thread already covers the findings.
+1. **Reconcile each candidate against the live thread.** Once you have candidate findings from the checklist below, re-fetch the head (the author may have pushed, even fixed the thing) and read the existing comments and reviews. Check the commit each approval and each automated finding was made against. Whether an earlier approval still counts is your gate's configuration, not a review finding: a gate that dismisses approvals on push has already handled it, and one that doesn't means the approval stands, so don't raise it as stale either way. What is worth raising is a *substantive* change landing after an approval, a rework rather than a rebase or a merge commit, because the approvers signed off on something else. A bot finding computed on an older commit may be moot, so verify it against the live diff before repeating it. Already raised and open? Add weight only if you have something new. Already fixed on a newer commit? Drop it. Already dispositioned by the author as by-design? Engage the specific reasoning or accept it; don't re-post it as if it were unanswered. **"Do nothing" is a valid verdict** when the thread already covers the findings.
 2. **Work it finding by finding, not as a finished solo draft.** Surface each finding as it clears the checklist: what it is, the evidence, whether it blocks. Size it there and then (drop, note as a nit or a follow-up ticket, hold, or fold into what gets posted), then the next. Do this with whoever runs the review with you, a co-reviewer or the agent's operator; the author meets it through the posted comments, downstream of this, not in the triage.
 3. **Assemble the survivors** into one consolidated read, then re-voice it in the posting reviewer's register (see [`review-voice`](review-voice.md)) before anything goes out; a neutral or machine-produced draft isn't postable as-is. By then nothing in it is new to me. If nothing survives, add nothing.
 
@@ -50,7 +50,7 @@ Start from the standard dimensions. Each is the local form of a portable princip
 ## Guardrails
 
 - **Drafting is not approving.** A request to "write a review" authorises a draft, nothing more. Every posted comment needs the reviewer's per-draft go, and the binding approval is always a human's to cast.
-- **The gate is human, not green CI.** A merge clears on the team's approval gate (two humans, for me); a passing pipeline doesn't. This read is one vote into that gate, never a substitute for it.
+- **The gate is human, not green CI.** A merge clears on the team's approval gate (an approval plus a required team review, for me); a passing pipeline doesn't. This read is one vote into that gate, never a substitute for it.
 
 ## End to end
 
@@ -61,4 +61,4 @@ branch → worktree → read cold (full context) → walk the checklist
       → a human posts, the approval gate clears, merge
 ```
 
-See also: [`review-voice`](review-voice.md) (the register findings are written in), [`code-writing`](code-writing.md) / [`test-writing`](test-writing.md) (the craft behind the checklist), [`references.md`](references.md).
+See also: [`review-voice`](review-voice.md) (the register findings are written in), [`code-writing`](code-writing.md) / [`test-writing`](test-writing.md) (the craft behind the checklist), [`mutation-testing`](mutation-testing.md) (proving a test would catch a regression), [`references.md`](references.md).
