@@ -1,6 +1,6 @@
 # References
 
-The outside sources behind the code, test, and review guides here. Most lines note the principle taken and where it shows up; a couple are general background. Books are by title and author; confirm the current edition when buying. Links verified 2026-07-30.
+The outside sources behind the code, test, and review guides here. Most lines note the principle taken and where it shows up; a couple are general background. Books are by title and author; confirm the current edition when buying. Links verified 2026-08-19; the Jia & Harman entry links to the ACM record, which refuses automated requests, so check it in a browser rather than a script.
 
 ## Code quality and design
 

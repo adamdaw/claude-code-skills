@@ -1,6 +1,6 @@
 # Running a review
 
-How I run a review of a change. This is the human companion to [`senior-code-review.skill.md`](../skills/senior-code-review/SKILL.md); it covers *how the review runs* and *what it looks for*. The register findings get written in lives in [`review-voice.md`](review-voice.md), and the craft the review holds a change to lives in [`code-writing`](code-writing.md) and [`test-writing`](test-writing.md).
+How I run a review of a change. This is the human companion to [`senior-code-review`](../skills/senior-code-review/SKILL.md); it covers *how the review runs* and *what it looks for*. The register findings get written in lives in [`review-voice.md`](review-voice.md), and the craft the review holds a change to lives in [`code-writing`](code-writing.md) and [`test-writing`](test-writing.md).
 
 The whole thing serves one goal: an honest, independent read that feeds the human decision without standing in for it. The reviewer reads cold and reports. It never casts a binding approval. The team's approval gate is what clears a merge.
 

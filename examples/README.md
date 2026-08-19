@@ -1,6 +1,6 @@
 # Runnable examples
 
-The three cases in [`../mutation-testing.md`](../guides/mutation-testing.md), as code you can run. Every figure quoted on that page comes from the run recorded below. Nothing there is illustrative.
+The three cases in [`mutation-testing.md`](../guides/mutation-testing.md), as code you can run. Every figure quoted on that page comes from the run recorded below. Nothing there is illustrative.
 
 ## Reproduce it
 
@@ -12,7 +12,7 @@ npm run mutation            # the full operator set
 npm run mutation:reduced    # the equality operator alone
 ```
 
-Those last three produce every figure quoted in [`../mutation-testing.md`](../guides/mutation-testing.md) between them: coverage from the first, the full-set scores from the second, and the reduced-set score from the third.
+Those last three produce every figure quoted in [`mutation-testing.md`](../guides/mutation-testing.md) between them: coverage from the first, the full-set scores from the second, and the reduced-set score from the third.
 
 Node's built-in test runner does the testing, so the mutation tool is the only dependency.
 
@@ -68,7 +68,7 @@ Those are whole-command times with npm and Stryker startup included, and they ar
 
 ## What each file is for
 
-One line of purpose each, then the survivors from the full run as the report records them. The reading of those survivors is on [`../mutation-testing.md`](../guides/mutation-testing.md); what is here is the evidence that page reads.
+One line of purpose each, then the survivors from the full run as the report records them. The reading of those survivors is on [`mutation-testing.md`](../guides/mutation-testing.md); what is here is the evidence that page reads.
 
 **`src/discount.js`** — a percentage cap the two tests execute without exercising. Nine mutants, three survivors:
 
