@@ -1,0 +1,3 @@
+# The examples are teaching material, not the substance of this repo. Keep them
+# out of the language statistics so it doesn't present as a JavaScript project.
+examples/** -linguist-detectable

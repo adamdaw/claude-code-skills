@@ -65,8 +65,8 @@ check("backslash first", pn.quote(["a\\b"]), "'a\\\\b'")
 LIST_FIXTURE = """
   Indexed Repositories (2)
 
-  SalesforceDX
-    Path:    /repo/SalesforceDX
+  main-repo
+    Path:    /repo/main-repo
     Indexed: 2026-08-07, 9:05:29 a.m.
     Commit:  526838b
     Branch:  main
@@ -74,7 +74,7 @@ LIST_FIXTURE = """
     Clusters:   1539
     Processes:  300
 
-  salesforcedx-pr1278
+  main-repo-pr1278
     Path:    /repo/wt-pr1278
     Indexed: 2026-08-07, 6:12:00 p.m.
     Commit:  abc1234
@@ -83,14 +83,14 @@ LIST_FIXTURE = """
 # index_info shells out, so its parsing is exercised via a stubbed run().
 pn.run = lambda cmd, **kw: (0, LIST_FIXTURE, "")
 parsed = pn.index_info()
-check("parses both indexes", sorted(parsed), ["SalesforceDX", "salesforcedx-pr1278"])
-check("captures commit", parsed["SalesforceDX"]["commit"], "526838b")
-check("captures path", parsed["salesforcedx-pr1278"]["path"], "/repo/wt-pr1278")
+check("parses both indexes", sorted(parsed), ["main-repo", "main-repo-pr1278"])
+check("captures commit", parsed["main-repo"]["commit"], "526838b")
+check("captures path", parsed["main-repo-pr1278"]["path"], "/repo/wt-pr1278")
 check("stats line is not a repo name", "Stats" in parsed, False)
-check("lookup by name", sorted(pn.index_info("salesforcedx-pr1278")),
-      ["salesforcedx-pr1278"])
-check("lookup by path", sorted(pn.index_info("/repo/SalesforceDX")),
-      ["SalesforceDX"])
+check("lookup by name", sorted(pn.index_info("main-repo-pr1278")),
+      ["main-repo-pr1278"])
+check("lookup by path", sorted(pn.index_info("/repo/main-repo")),
+      ["main-repo"])
 check("unknown name yields nothing", pn.index_info("nope"), {})
 pn.run = REAL_RUN
 
@@ -100,10 +100,10 @@ pn.run = REAL_RUN
 # the skill instructs.
 pn.run = lambda cmd, **kw: (0, LIST_FIXTURE, "")
 pn.WARNINGS.clear()
-check("explicit index wins", pn.resolve_index("chosen", "/repo/SalesforceDX"), "chosen")
+check("explicit index wins", pn.resolve_index("chosen", "/repo/main-repo"), "chosen")
 check("explicit index needs no warning", len(pn.WARNINGS), 0)
 check("picks the index matching --repo-path",
-      pn.resolve_index(None, "/repo/wt-pr1278"), "salesforcedx-pr1278")
+      pn.resolve_index(None, "/repo/wt-pr1278"), "main-repo-pr1278")
 check("auto-pick is disclosed", len(pn.WARNINGS), 1)
 pn.WARNINGS.clear()
 import contextlib as _ctx
@@ -214,7 +214,7 @@ import io
 import contextlib
 
 shared = {"z/Shared.cls"}
-hubfile = "a/BaseRepo.cls"
+hubfile = "a/Gateway.cls"
 files = shared | {hubfile, "m/Mid.cls"}
 buf = io.StringIO()
 with contextlib.redirect_stdout(buf):
