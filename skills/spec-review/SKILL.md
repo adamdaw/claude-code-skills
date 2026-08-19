@@ -203,5 +203,9 @@ to proceed — that decision is the Architect's.
 
 The cold-read independence rule, the finding lifecycle, and the rule against
 tuning a trigger for a cleaner result are shared with the `senior-code-review`
-skill in this plugin. What a compliant SDD contains, and the altitude fence the
-reviewer honours, come from the team's SDD authoring guide.
+skill in this repo, and with `claims-verifier`, which does the same job for a
+document's factual claims. What a compliant SDD contains and the altitude fence
+the reviewer honours are both stated in the prompt above, so the skill is
+self-contained; where your team has its own spec-authoring guide, that guide
+sets the house form of the skeleton and this file is the review procedure under
+it.
