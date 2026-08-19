@@ -26,7 +26,7 @@ The method comes out of everyday practice and the better writing on the subject 
 
 ### The one idea
 
-The reviewer, whether it's a person or a model, reads the change cold and reports. It doesn't approve. A human posts the review, and the team's approval gate (two humans, in my case) is what clears a merge. Everything else follows from that: the goal is to get the most honest, independent read possible *into* a human decision, never to replace it.
+The reviewer, whether it's a person or a model, reads the change cold and reports. It doesn't approve. A human posts the review, and the team's approval gate (an approval plus a required team review, in my case) is what clears a merge. Everything else follows from that: the goal is to get the most honest, independent read possible *into* a human decision, never to replace it.
 
 If you take one thing from this repo, take that. The rest is just how to make the read honest, how to keep the output kind, and how to stop at the gate.
 
@@ -36,6 +36,7 @@ If you take one thing from this repo, take that. The rest is just how to make th
 - **[`running-a-review.md`](guides/running-a-review.md)**, the same procedure for a human, plus the checklist of what a review looks for, dimension by dimension. Each dimension is a portable principle you fill in with your own stack's rules.
 - **[`review-voice.md`](guides/review-voice.md)**, how a finding gets written: collaborative, inquisitive, terse. The register is the part most people skip, and it's what separates a review that helps from one that merely corrects.
 - **[`code-writing.md`](guides/code-writing.md)** / **[`test-writing.md`](guides/test-writing.md)**, the craft principles a review holds a change to. The review checks the code against these, so they're worth stating on their own.
+- **[`mutation-testing.md`](guides/mutation-testing.md)**, how to check that a test would actually catch a regression: break the line on purpose and see whether anything goes red. A five-minute explainer with a worked example and a five-step manual loop you can run without installing anything. It's what turns "that assertion looks thin" from an opinion into a fact. Its figures come from [`examples/`](examples/), three small files you can run yourself; they carry 100% line and branch coverage and mutation scores of 0%, 81.82% and 66.67%.
 - **[`references.md`](guides/references.md)**, the outside sources behind all of it, with what each one contributes.
 
 ### Using it

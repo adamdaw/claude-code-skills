@@ -1,0 +1,17 @@
+{
+  "name": "mutation-testing-examples",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Runnable examples for mutation-testing.md. Tests use Node's built-in runner, so the only dependency is the mutation tool itself.",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test 'test/*.test.js'",
+    "coverage": "node --test --experimental-test-coverage 'test/*.test.js'",
+    "mutation": "stryker run",
+    "mutation:reduced": "stryker run stryker.reduced.conf.json"
+  },
+  "devDependencies": {
+    "@stryker-mutator/core": "^10.0.0"
+  }
+}

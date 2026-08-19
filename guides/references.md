@@ -16,6 +16,12 @@ The outside sources behind the code, test, and review guides here. Most lines no
 - **Test-Driven Development by Example**, Kent Beck (2002). Red, green, refactor. Behind `test-writing`'s tests-first.
 - **Growing Object-Oriented Software, Guided by Tests**, Freeman & Pryce (2009). Tests as design pressure: hard-to-test is a design signal, and the tests drive the object design. Behind `test-writing`'s "tests are design pressure." (It makes the mockist / London-school case; the prefer-a-real-collaborator stance here is the classicist counterview, not GOOS's own.)
 
+## Mutation testing
+
+- **An Analysis and Survey of the Development of Mutation Testing**, Jia & Harman (IEEE TSE 37(5), 2011). The standard survey: operator families, the equivalent-mutant problem, and the cost-reduction strategies. Source of the vocabulary in `mutation-testing`: a mutant is killed when it gives a different output, and "otherwise it is said to have survived". It defines the mutation score over *non-equivalent* mutants, so on its definition a score of 1 is the goal, and it cites Budd and Angluin for the proof that deciding equivalence is undecidable. Both halves are behind this page's two-definitions paragraph.
+- **State of Mutation Testing at Google**, Petrović & Ivanković (ICSE-SEIP 2018; free PDF). Mutation analysis made affordable on a very large repo by mutating only changed lines, omitting lines without statement coverage, and suppressing "arid" lines that yield uninteresting mutants. They define the mutation score over the total number of mutants, which is the tool-reported form this page uses, and then decline to surface it: computing it across the repo is infeasible and they "were also unable to find a good way to surface it to the engineers in an actionable way". Survivors go to code review instead, where a developer can dismiss one as not useful in a click. Behind `mutation-testing`'s "read the survivors, not the score."
+- **PIT** (pitest.org). The long-established mutation tool for the JVM, and the reference implementation of the tool-driven form.
+
 ## Code review
 
 - **Google's Code Review Developer Guide** (google.github.io/eng-practices). The approve standard: improve the overall health of the system, not chase perfection. Behind the verdict rule. (The collaborative, inquisitive register in `review-voice` is my own, not Google's.)
@@ -24,4 +30,4 @@ The outside sources behind the code, test, and review guides here. Most lines no
 
 ## Links
 
-[A Philosophy of Software Design, 2nd ed.](https://www.amazon.com/Philosophy-Software-Design-2nd/dp/173210221X) · [Google eng-practices (reviewer)](https://google.github.io/eng-practices/review/reviewer/) · [Best Kept Secrets of Peer Code Review (free PDF chapter)](https://static0.smartbear.co/support/media/resources/cc/book/code-review-cisco-case-study.pdf) · [Conventional Comments](https://conventionalcomments.org/)
+[A Philosophy of Software Design, 2nd ed.](https://www.amazon.com/Philosophy-Software-Design-2nd/dp/173210221X) · [State of Mutation Testing at Google (PDF)](https://research.google.com/pubs/archive/46584.pdf) · [Jia & Harman survey](https://dl.acm.org/doi/10.1109/TSE.2010.62) · [PIT](https://pitest.org/) · [Google eng-practices (reviewer)](https://google.github.io/eng-practices/review/reviewer/) · [Best Kept Secrets of Peer Code Review (free PDF chapter)](https://static0.smartbear.co/support/media/resources/cc/book/code-review-cisco-case-study.pdf) · [Conventional Comments](https://conventionalcomments.org/)
