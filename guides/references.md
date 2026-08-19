@@ -14,7 +14,8 @@ The outside sources behind the code, test, and review guides here. Most lines no
 ## Testing
 
 - **Test-Driven Development by Example**, Kent Beck (2002). Red, green, refactor. Behind `test-writing`'s tests-first.
-- **Growing Object-Oriented Software, Guided by Tests**, Freeman & Pryce (2009). Tests as design pressure: hard-to-test is a design signal, and the tests drive the object design. Behind `test-writing`'s "tests are design pressure." (It makes the mockist / London-school case; the prefer-a-real-collaborator stance here is the classicist counterview, not GOOS's own.)
+- **Growing Object-Oriented Software, Guided by Tests**, Freeman & Pryce (2009). Tests as design pressure: hard-to-test is a design signal, and the tests drive the object design. Behind `test-writing`'s "tests are design pressure." (It makes the mockist / London-school case, outside-in; the prefer-a-real-collaborator stance here is the classicist counterview, not GOOS's own.)
+- **Mocks Aren't Stubs**, Martin Fowler (2007, martinfowler.com, free). Meszaros's double taxonomy (dummy, fake, stub, spy, mock), state verification against behaviour verification, and the classical / mockist split with its real tradeoffs. Behind `test-writing`'s Test doubles section, including the classical default and the instruction to name the double rather than calling everything a mock.
 
 ## Mutation testing
 
@@ -30,4 +31,4 @@ The outside sources behind the code, test, and review guides here. Most lines no
 
 ## Links
 
-[A Philosophy of Software Design, 2nd ed.](https://www.amazon.com/Philosophy-Software-Design-2nd/dp/173210221X) · [State of Mutation Testing at Google (PDF)](https://research.google.com/pubs/archive/46584.pdf) · [Jia & Harman survey](https://dl.acm.org/doi/10.1109/TSE.2010.62) · [PIT](https://pitest.org/) · [Google eng-practices (reviewer)](https://google.github.io/eng-practices/review/reviewer/) · [Best Kept Secrets of Peer Code Review (free PDF chapter)](https://static0.smartbear.co/support/media/resources/cc/book/code-review-cisco-case-study.pdf) · [Conventional Comments](https://conventionalcomments.org/)
+[A Philosophy of Software Design, 2nd ed.](https://www.amazon.com/Philosophy-Software-Design-2nd/dp/173210221X) · [Mocks Aren't Stubs](https://martinfowler.com/articles/mocksArentStubs.html) · [State of Mutation Testing at Google (PDF)](https://research.google.com/pubs/archive/46584.pdf) · [Jia & Harman survey](https://dl.acm.org/doi/10.1109/TSE.2010.62) · [PIT](https://pitest.org/) · [Google eng-practices (reviewer)](https://google.github.io/eng-practices/review/reviewer/) · [Best Kept Secrets of Peer Code Review (free PDF chapter)](https://static0.smartbear.co/support/media/resources/cc/book/code-review-cisco-case-study.pdf) · [Conventional Comments](https://conventionalcomments.org/)
