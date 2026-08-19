@@ -257,9 +257,9 @@ def dependents(paths, index=None):
 
     Matched on exact path rather than a `.*Name.cls` regex. The regex form would
     also match any file whose name merely *ends* with the target's name --
-    `ContractBaseRepo.cls` for a `BaseRepo.cls` target. No such collision exists
-    in this repo today, so this is a latent correctness fix, not an observed
-    one: both forms currently return the same counts.
+    `PaymentGateway.cls` for a `Gateway.cls` target. No such collision existed in
+    the codebase this was written against, so it is a latent correctness fix
+    rather than an observed one: both forms returned the same counts there.
     """
     out = {p: 0 for p in paths}
     paths = sorted(paths)

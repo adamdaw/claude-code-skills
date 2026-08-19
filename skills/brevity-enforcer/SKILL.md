@@ -260,9 +260,9 @@ Do the move in the same pass. Write the sibling doc, put the displaced content i
 and add a bare link under References. A cut that leaves a dangling reference to a doc nobody
 wrote is worse than the original length.
 
-The sibling lands wherever the parent doc lives — beside it, sharing its path convention. In
-the SalesforceDX repo that means specs at `docs/specs/YYYY-MM-DD-<topic>-design.md` and plans
-at `docs/plans/YYYY-MM-DD-<feature>.md`. A doc drafted outside the repo gets a sibling beside
+The sibling lands wherever the parent doc lives — beside it, sharing its path convention. Where
+a repo dates its design docs that means specs at `docs/specs/YYYY-MM-DD-<topic>-design.md` and
+plans at `docs/plans/YYYY-MM-DD-<feature>.md`. A doc drafted outside the repo gets a sibling beside
 it and a bare filename in References; note in the report that the reference needs the repo
 prefix if the pair later moves into the repo, since a link that resolves in one location and
 not the other is the failure this causes.

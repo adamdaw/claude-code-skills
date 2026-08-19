@@ -77,7 +77,7 @@ The script checks whether the indexed commit **contains this PR's head**, and
 says so when it does not:
 
 ```
-⚠  Index 'SalesforceDX' (commit 526838b, 2026-08-07) does NOT contain this PR's
+⚠  Index 'main-repo' (commit 526838b, 2026-08-07) does NOT contain this PR's
    head — 17 commits of this PR are missing from it.
    Layer 2 cannot see symbols the PR introduces.
 ```
