@@ -2,7 +2,7 @@
 
 What it is, why it is worth the time, and how to run one by hand with no tooling to install. The vocabulary and the manual loop are portable; the operators, the tool, and the cost of a test run belong to your stack, so translate those. Sources are in [`references.md`](references.md).
 
-The examples are ours rather than borrowed from somebody's real codebase, but they are real code, not illustrations. They live in [`examples/`](../examples/), and every number on this page comes from a recorded run. Three commands produce them between them, one for coverage and two for the two operator sets; [`examples/README.md`](../examples/README.md) lists all three against the figures each one produces.
+The examples are ours rather than borrowed from somebody's real codebase, but they are real code, not illustrations. They live in [`examples/`](../examples/), and every score, count and timing on this page comes from a recorded run. Three commands produce them between them, one for coverage and two for the two operator sets; [`examples/README.md`](../examples/README.md) lists all three against the figures each one produces.
 
 ## The one-sentence version
 
@@ -33,7 +33,7 @@ test('handles a large percentage', () => {
 });
 ```
 
-Every line of the method runs, and so do both branches of the guard. Measured, that is 100% of lines, 100% of branches and 100% of functions, which is every dimension the runner reports.
+Every line of the method runs, and so do both branches of the guard. Measured, that is 100% of lines, 100% of branches and 100% of functions.
 
 Now delete the cap:
 
@@ -53,7 +53,7 @@ Coverage measures which lines ran. It has no opinion on whether anything checked
 
 Mutation testing measures something different. Take a change to this code and ask whether some test notices. That is the question you care about, whether the suite would catch a regression. Note what it is not: the changes that get tried are not every change you could make. A tool works from a fixed set of operators, over the files you point it at. Both bounds come up further down, and both matter when you read a score.
 
-The number it produces is the **mutation score**, mutants killed divided by mutants attempted. That is what a tool reports, and it is not the only definition in use. The standard survey of the field puts *non-equivalent* mutants in the denominator instead, and on that definition a perfect score is both attainable and the goal. A tool cannot compute that denominator, because deciding whether a mutant is equivalent is undecidable, so it leaves the unkillable ones in and its score cannot reach 100%. Two definitions, one word: treat the number as the least portable thing on this page. The date helper in `examples/` scores 81.82% across eleven mutants under the full operator set, and 50.00% across four when only the equality operator runs. Same code, same tests, a swing of nearly 32 points. Narrowing the operators did not make the suite worse, it shrank the denominator, and the two unkillable mutants in it went from a fifth of the total to half. A score is comparable only against another score from the same operator set, so read the mutant count before you read the score.
+The number it produces is the **mutation score**, mutants killed divided by mutants attempted. That is what a tool reports, and it is not the only definition in use. The standard survey of the field puts *non-equivalent* mutants in the denominator instead, and on that definition a perfect score is the goal, though the same survey notes it stays out of reach while equivalence detection is incomplete. A tool cannot compute that denominator, because deciding whether a mutant is equivalent is undecidable, so it leaves any unkillable ones in, and wherever they exist its score cannot reach 100%. Two definitions, one word: treat the number as the least portable thing on this page. The date helper in `examples/` scores 81.82% across eleven mutants under the full operator set, and 50.00% across four when only the equality operator runs. Same code, same tests, a swing of nearly 32 points. Narrowing the operators did not make the suite worse, it shrank the denominator, and the two unkillable mutants in it went from a fifth of the total to half. A score is comparable only against another score from the same operator set, so read the mutant count before you read the score.
 
 ## Why it is worth the time
 
@@ -93,7 +93,7 @@ By hand: two test runs, one mutated and one restored, plus the few seconds of th
 
 By tool, the default cost model is one test run per mutant. Code producing 100 mutants costs 100 test runs unless the tool groups them, and where a run means deploying the mutated code and waiting, that should land hardest on suites with expensive shared setup, though I have not timed it. Do not read the second here as typical: 30 mutants across three tiny files finish in about a second, because there is nothing to set up. The manual form is targeted and cheap, the automated form broad and expensive. They do not compete, and you do not need the second one to start.
 
-The examples here use Stryker, for JavaScript. PIT is the long-established one for the JVM, and most ecosystems now have an equivalent. They work the same way: parse the code, generate mutants across the files you point them at, run the suite against each one, and score the results. Coverage data, where a tool uses it, narrows which tests run per mutant rather than which lines get mutated, and the runs behind this page have that analysis switched off.
+The examples here use Stryker, for JavaScript. PIT is the long-established one for the JVM, and most ecosystems now have an equivalent. The loop is the same in each: parse the code, generate mutants, run the suite against them, and score the results. How much of a codebase a tool mutates, and how many tests it runs per mutant, vary a great deal between them. Coverage data, where a tool uses it, can narrow both which tests run per mutant and which lines get mutated at all; the runs behind this page have that analysis switched off.
 
 ## What a survivor looks like
 
@@ -101,7 +101,7 @@ Two of the three files under [`examples/src/`](../examples/src) exist for this s
 
 **A score below 100 is not a defect list.** `dates.js` clamps a day number into the range 1 to 31 and scores 81.82%: eleven mutants, nine killed, two survivors. Both survivors are the same operator change, `day > 31` widened to `day >= 31` and `day < 1` to `day <= 1`, and both are equivalent mutants. At exactly 31 the mutated guard fires and assigns 31, which `day` already held. Correct result, nothing to fix.
 
-Note the split of labour there. Stryker reported those two as *survived*. That they are *equivalent* is the reading you do afterwards, by arguing about the code. No mutation tool decides equivalence for you, which is most of why the survivor list matters more than the number does.
+Note the split of labour there. Stryker reported those two as *survived*. That they are *equivalent* is the reading you do afterwards, by arguing about the code. No tool decides equivalence for all mutants, the general problem being undecidable and the published detectors catching only a fraction, which is most of why the survivor list matters more than the number does.
 
 **A suite can assert, pass, and still detect nothing.** `alerts.js` hands an alert message to an injected mailer when a critical event arrives, and it scores 0%: ten mutants, ten survivors, nothing killed. Its two tests carry real equality assertions with messages, and they pass. Delivery is deferred to a microtask, so the mailer's sent count still reads 0 when the assertion runs, whether or not anything was sent, and asserting 0 was a deliberate choice to keep the test deterministic. Deleting the send outright, inverting the guard, emptying the guard body, blanking the alert string: all ten changes pass unnoticed.
 
