@@ -26,9 +26,11 @@ The method comes out of everyday practice and the better writing on the subject 
 
 ### The one idea
 
-The reviewer, whether it's a person or a model, reads the change cold and reports. It doesn't approve. A human posts the review, and the team's approval gate (an approval plus a required team review, in my case) is what clears a merge. Everything else follows from that: the goal is to get the most honest, independent read possible *into* a human decision, never to replace it.
+The reviewer, whether it's a person or a model, reads the change cold and reports. It doesn't approve. A human posts the review, and the team's approval gate (an approval plus a required team review, in my case) is what clears a merge. Find out what your own gate is before you lean on this, because it changes what an approval means: where one is required, yours is the last independent check and "someone else will catch it" is false. Everything else follows from that: the goal is to get the most honest, independent read possible *into* a human decision, never to replace it.
 
-If you take one thing from this repo, take that. The rest is just how to make the read honest, how to keep the output kind, and how to stop at the gate.
+And one idea underneath that one, about what the read is for. A program is not its text, it's the theory in the builders' heads (Naur), so the primary product of a review is a second person who holds that theory, and the defects are a valuable by-product. That's why a review that finds nothing still worked, why "I can't follow this" is a finding about the change rather than about you, and why the register in [`review-voice.md`](guides/review-voice.md) asks instead of instructing.
+
+If you take those two from this repo, take them. The rest is just how to make the read honest, how to keep the output kind, and how to stop at the gate.
 
 ### The pieces
 
