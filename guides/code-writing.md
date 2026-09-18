@@ -22,7 +22,8 @@ Portable principles for writing code well. Each has a house form in your own sta
 ## Don't repeat, don't speculate
 
 - **DRY the knowledge, not just the text.** The duplication that hurts is two places that must change together. Extract those; leave coincidental similarity alone.
-- **YAGNI: build for the requirement in front of you.** Speculative generality is complexity you pay for now and rarely use. Delete a dead option rather than keeping it against a someday.
+- **YAGNI: build for the requirement in front of you.** Speculative generality is complexity you pay for now and rarely use. Delete a dead option rather than keeping it against a someday. Every abstraction is a guess about what will vary, made at the moment you know least, and a wrong guess isn't neutral: it puts the seams in the wrong places and makes the change you do need harder.
+- **But don't over-apply it. Rule of three, and duplication is cheaper than the wrong abstraction.** Write it, notice it the second time, abstract on the third; two call sites rarely tell you what actually varies. You can always merge two similar things later, where un-picking a bad abstraction six files depend on is a project. Abstraction is earned early in two cases that aren't speculation: a boundary you must genuinely swap (a test double, a vendor you might replace, a platform API you're isolating) and a published interface others already depend on.
 - **Reach for the least code that works, once you understand the problem.** Read the task and trace the real flow end to end, then take the lowest rung that holds: does it need to exist at all (YAGNI), is it already in the codebase (reuse the helper or pattern, don't rewrite), does the standard library or platform do it, does an installed dependency, can it be one line, and only then the minimum that works. Deletion over addition, boring over clever, fewest files. A small diff in the wrong place isn't lazy, it's a second bug.
 - **Fix the root cause, not the symptom.** A report names a symptom. Find every caller of the function you touch and fix the shared function once; patching only the path the ticket names leaves a sibling caller broken.
 
@@ -32,6 +33,7 @@ Portable principles for writing code well. Each has a house form in your own sta
 
 - **Never swallow an error.** Surface it, or propagate it to a boundary that will. Log it once, at that boundary, through the application's logging path, not with an ad-hoc print and not re-logged at every frame as it unwinds. No bare catch that hides the cause.
 - **Validate inputs at the edge.** Normalize an expected-absent value early (a null to an empty collection) so it doesn't propagate downstream. An actual error is not an absent value, though: surface it rather than papering over it with a default, per "never swallow an error" above.
+- **Validate against an allowlist, not a denylist.** Enumerate what is permitted and reject everything else: a role is one of these two, a sort column is one of these four names. A denylist requires you to have thought of every bad input in advance, and whoever is calling you needs one you missed. You already know the good values; they're your own domain.
 
 ## Leave it cleaner
 
@@ -41,5 +43,6 @@ Portable principles for writing code well. Each has a house form in your own sta
 ## Respect the machine
 
 - **Batch the work; assume the collection is large.** Do the work in a set rather than a call or query per element in a loop (the N+1 trap), keep queries bounded, and stay inside whatever limits the runtime enforces. Realistic data volume is a requirement in front of you, not the speculative someday YAGNI warns against.
+- **What's inside the loop matters more than the loop.** An in-memory operation, a local database round trip and a call across the network are orders of magnitude apart, so a thousand iterations of arithmetic is instant and a thousand network calls is an incident. Big-O is worth knowing for one question, whether a loop is nested inside a loop over the same data, but it discards the constant, and for I/O the constant is the whole story. Two O(n) loops can differ by minutes. Never let "it's only linear" settle an argument about something that makes a network call.
 
 See also: [`test-writing`](test-writing.md) (tests as design pressure) and [`references.md`](references.md) for the sources behind each principle.
