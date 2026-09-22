@@ -5,6 +5,10 @@ live in [`skills/`](skills/), one directory each, in the Agent Skills format any
 that loads Markdown skills can read. The craft guides they defer to live in
 [`guides/`](guides/).
 
+Take the repo whole rather than lifting a single skill directory out of it. The skills
+link into `guides/` by relative path, and the guides link into `examples/`, so a skill
+installed on its own loses the material it defers to.
+
 | Skill | What it does |
 | --- | --- |
 | [`senior-code-review`](skills/senior-code-review/SKILL.md) | Reviews a PR, a diff, or a change. Reads cold, reads the checked-out code rather than the patch, walks four passes, reconciles against the live thread, works it finding by finding to a hold-or-approve recommendation. Never posts a binding approval. |
