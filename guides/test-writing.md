@@ -14,7 +14,8 @@ Portable principles for writing tests well. Each has a house form in your own st
 
 ## Cover what matters, not what's easy
 
-- **The negative paths are the point.** Null and empty inputs, the error branch, both sides of every permission or feature gate. Exercise the branch, not just the happy path.
+- **The negative paths are the point.** Null and empty inputs, the error branch, both sides of every permission or feature gate. Exercise the branch, not just the happy path. A gate with only its happy path tested is a gate nobody has ever watched close.
+- **Four edge families, and naming them is most of spotting them.** *Zero, one, many*: the three cardinalities that behave differently, and most loops are written with many in mind and break quietly on zero. *Boundaries*: for a rule of "up to 10" the interesting inputs are 9, 10 and 11, never the comfortable middle. *Absent versus empty versus zero*: a missing field, a present but empty one, and one set to `0` or `false` are three states code routinely conflates, and `if (!discount)` treating "no discount recorded" the same as "a discount of zero" is a real bug with money behind it. *The refusal*: a new `if` that guards something wants two tests, not one.
 - **Coverage is a floor, not a target.** A percentage bar is a floor to clear, not the goal; a green number laid over untested branches is worse than an honest gap.
 
 ## Test doubles: name it, then pick one
@@ -24,6 +25,7 @@ Portable principles for writing tests well. Each has a house form in your own st
 - **Classical by default: use the real collaborator unless it is slow, unbuilt, or awkward to construct.** A double only returns what you told it to, so when the behaviour under test is the real shape (a query's fields, a collection's contents), exercise the real thing. Guard that shape in the test that owns it, not in a downstream consumer's double, because a double hides a dropped field the consumer would fail on at runtime.
 - **Classical costs bigger fixtures. Pay that with factories, not with more doubles.** Reaching for a double to dodge setup trades a bug-catching test for a fast one.
 - **The mockist style earns its keep designing outside-in.** When the collaborator does not exist yet, letting the test name the interface you wish you had is real design pressure. Swap in the actual collaborator once it exists; the scaffolding is not the permanent test.
+- **Don't double what you don't own.** A hand-written stand-in for a third-party client encodes your belief about how that library behaves, and your belief is exactly what's wrong when the library surprises you. Wrap it in a thin interface of your own and fake that instead, so the thing you're pretending about is code you control.
 - **Neither style proves the system works.** Both still need a coarser end-to-end pass over the assembled thing before you believe it.
 
 ## Tests are design pressure

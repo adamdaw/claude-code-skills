@@ -13,9 +13,9 @@ My default register is questions and suggestions, not imperatives or hard verdic
 The register isn't decoration; each part earns its place:
 - **A review is a progression, not a pass/fail gate.** Framing findings as open questions keeps default-to-hold from curdling into perfectionism: you hold on a genuine gap, not on polish.
 - **Ask, don't declare.** An open-ended question teaches better than a prescribed fix, and the author keeps ownership of the solution.
-- **Comment on the code, not the developer, and say why.** Naming the problem and its reason is what makes a review useful rather than a list of orders.
+- **Comment on the code, not the developer, and say why.** Naming the problem and its reason is what makes a review useful rather than a list of orders. In practice that is a grammatical choice as much as a moral one: "this function assumes the caller checked", not "you forgot to check". Make the code the subject and the sentence stops being about a person.
 - **Tone sets the team's temperature.** A harsh review builds a hostile environment; a considered one builds an inclusive one, and knowing a change will be read this way tends to raise quality before it's ever submitted.
-- **Nitpicks are a systemic problem, not a per-comment one.** Push formatting and style into automation (a formatter on commit, static analysis in CI) so human attention goes to correctness and design.
+- **Nitpicks are a systemic problem, not a per-comment one.** Push formatting and style into automation (a formatter on commit, static analysis in CI) so human attention goes to correctness and design. **If a tool can catch it, a human comment about it wastes attention on both sides:** an automated finding is free and arrives before anyone reads the code, where a comment costs a round trip, some of the author's goodwill, and a slot in their attention they could have spent on the finding that mattered. Every class of defect you push down into CI buys room for the ones that need a person. What survives that is a budget, so spend it: one naming nit per review, not six.
 
 ## The shape of a finding
 
