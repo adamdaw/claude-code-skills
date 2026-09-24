@@ -9,7 +9,7 @@ A checklist for someone who already holds the principles. Each line has a house 
 - **Build the walking skeleton first.** The thinnest version that runs end to end through every layer, before any part is elaborated. It includes what makes the feature reachable (configuration, permissions, deployment, navigation), not only the code. Exercise it as an ordinary user, not an administrator.
 - **Its first passenger is one failing test at the outside.** See T-guide §1 (Start at the outside).
 - **Estimate before you build.** Work out the order of magnitude (rows, calls, bytes, time) before choosing the approach. When the estimate is inconclusive, assume the collection is large: the realistic worst case. Estimating chooses the design; it isn't optimising. Optimise only what you have measured.
-- **Reach for the least code that works, after you understand the problem.** Take the lowest rung that holds: nothing, existing code, the standard library or platform, an installed dependency, one line, then the minimum. Deletion over addition, boring over clever.
+- **Reach for the least code that works, after you understand the problem.** Trace the real flow end to end, then take the lowest rung that holds: nothing, existing code, the standard library or platform, an installed dependency, one line, then the minimum. Deletion over addition, boring over clever, fewest files.
 
 ## 2. Manage complexity
 
@@ -83,7 +83,7 @@ A repo's own commit and PR conventions win over these.
 Your own change, before anyone else reads it. Self-review is not cold: you hold the theory, so it finds what is visible from inside it. It never replaces code review: R-guide §1 (What a review is for).
 
 - **Code you didn't build line by line (from a model, a snippet, a similar class): explain it first.** What it does, why it's shaped this way ("I can't tell" is a valid answer), what it assumes, what would break it, and what you must do to own it. The procedure is F-guide §1 (Explain before you edit).
-- **Walk the eight dimensions.** The same eight a code reviewer checks: R-guide §7 (The eight dimensions).
+- **Walk the eight dimensions.** The same eight a code reviewer checks: R-guide §7 (What to look for: the eight dimensions).
 - **List every candidate, then decide.** Write down each candidate, name the dimensions that came up clean, and decide each one yourself. When an agent runs the pass, it lists and you decide.
 - **Hold your own standard, which is higher than the team's.** Include analyzer findings below the team's threshold.
 - **Resolve what you'd have annotated.** Find out, test it, fix it, or rename it. What stays unresolved goes in the PR body as state (§8); a lasting why goes in a code comment or the commit message.
@@ -97,7 +97,7 @@ Your own change, before anyone else reads it. Self-review is not cold: you hold 
 | 4 | Failure | What happens when this doesn't work? | Each failure point handled, propagated with context, or refused. Nothing swallowed; logged once (§6). No later write assuming an earlier one worked. |
 | 5 | Trust boundary | Where did this value come from, and who controls it? | Trust established on the side you own. Anything reaching a query, a file path or a permission checked against an allowlist (§6). |
 | 6 | Scale | What happens at ten thousand instead of ten? | Estimated (§1). No per-item call where a batch exists. Results bounded (§7). |
-| 7 | Structure | Is this simpler or more complicated than what was here? | One responsibility and one level of abstraction (§3). Coupling (§2). Duplicated knowledge (§4). Few arguments, no flag arguments, no dead code. The least-code ladder (§1); no new dependency for something small. |
+| 7 | Structure | Is this simpler or more complicated than what was here? | One responsibility and one level of abstraction (§3). Coupling (§2); no hidden ordering between calls. Duplicated knowledge (§4); values that always travel together grouped as one concept. Few arguments, no flag arguments, no output arguments, no dead code. The least-code ladder (§1); no new dependency for something small; dependencies point toward more stable modules. |
 | 8 | Legibility | Can the next person change it without asking me? | Names say intent and side effects; no `data` or `temp`; similar things named alike; nothing clever at the cost of reading (§3). No magic numbers. Comments say why; no commented-out code; no stale comment. Standards: analyzer findings triaged, formatting automated, public interfaces documented. |
 
 ## 10. Code that goes out under your name
