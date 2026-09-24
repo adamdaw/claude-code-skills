@@ -44,7 +44,7 @@ Vocabulary used throughout:
 - Every SDD line is attack surface. Write only what a fidelity review or a test will hold the code to.
 - Each line must be **traced**: it serves a named SRS requirement.
 - Each line must be **checkable**: an interface, a precondition or postcondition, an invariant, a boundary behaviour, or an error the caller can see.
-- A line that fails either test is a finding. A checkable line with no trace is still inflation; a traced line that can't be checked is still exposition or design:
+- A line that fails either test is a finding. A checkable line with no trace is still inflation; a traced line that can't be checked is either a vague commitment to restate so it can be checked, or exposition or design to cut:
   - **Inflation** (untraced: a new commitment the SRS doesn't make): cut it, or take it back to the SRS through its owner and SRS review. Never keep it in place.
   - **Derivation, justification or exposition**: cut it. The reason goes in the decision register (§6).
   - **Design or implementation** (the how): cut it. It belongs in the code.
