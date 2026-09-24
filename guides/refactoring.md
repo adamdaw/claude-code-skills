@@ -1,8 +1,7 @@
 # Refactoring: changing existing code
 
 A checklist for changing structure while preserving behaviour, and for getting
-untested code ready to change. For the reasoning, see *On Refactoring Code*;
-for scope decisions, see *On Writing Code*.
+untested code ready to change. For the reasoning, see *On Refactoring Code*.
 
 ## 1. Explain before you edit
 
@@ -30,11 +29,13 @@ Apply this table when you discover work beyond the task's wording.
 
 | Choice | When | Action |
 | --- | --- | --- |
-| **Build** | Correctness requires it: a guard, a known error path, or a fix shared by other callers. | Include the necessary code and tests. Check every affected caller. |
+| **Build** | Correctness requires it: a guard, a known error path, or a fix in shared code that every caller needs. | Include the necessary code and tests. Check every affected caller. |
 | **Ask** | Someone else owns the decision: unspecified behaviour, an architectural choice, or a reduction in the requirement. | State the missing decision and its consequence. Resolve it with that owner before implementing the dependent work. |
 | **Defer** | A real defect is unrelated to this change. | Record a follow-up ticket and link it from the PR. |
 | **Don't** | Speculative structure, a rewrite of code you only passed, or a fixture refactor for appearance alone. | Leave it alone. |
 
+- An unrelated problem that is not a defect is **Don't**. Mention it in the PR
+  description if it matters.
 - An unspecified failure or missing-value meaning is **Ask**. Handling a
   missing value with an already established meaning is **Build**.
 - If part of the requirement is harder than expected, ask; don't silently omit it.
@@ -72,7 +73,8 @@ Apply this table when you discover work beyond the task's wording.
   Restore the fix and confirm green. Keep the behaviour change separate from refactoring.
 - Check that the characterization assertions detect a deliberate change to the
   behaviour they preserve. Restore the code and rerun; initial green alone is
-  not evidence that the test detects a regression.
+  not evidence that the test detects a regression. For the mutation test kind, see
+  T-guide §2 (Choose the kind of test).
 
 ## 5. Trace effects and choose test points
 
@@ -126,8 +128,9 @@ Apply this table when you discover work beyond the task's wording.
   Record commands, results and any untested paths in the PR. If no test framework
   exists, state that gap and the checks you could perform.
 - In self-review, check that the structural commit preserves behaviour and that
-  the functional commit meets the requirement. Record unresolved limitations as
-  state in the PR; retain lasting reasons in comments or commit messages.
+  the functional commit meets the requirement. Record unresolved limitations
+  as known limitations in the PR description; retain lasting reasons in comments
+  or commit messages.
 
 The named legacy-code techniques come from Michael Feathers,
 [*Working Effectively with Legacy Code*](https://www.informit.com/store/working-effectively-with-legacy-code-9780132931779).
