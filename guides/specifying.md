@@ -28,7 +28,7 @@ Vocabulary used throughout:
   - **State-driven**: While \<state\>, the \<system\> shall \<response\>.
   - **Unwanted behaviour**: If \<condition\>, then the \<system\> shall \<response\>.
   - **Optional feature**: Where \<feature is included\>, the \<system\> shall \<response\>.
-  - **Complex**: a combination of the preceding clauses, in the order where, while, when, if-then.
+  - **Complex**: a combination of the preceding keywords, such as "While \<state\>, when \<trigger\>, the \<system\> shall \<response\>."
 - Put refusals in the unwanted-behaviour form. That is where the negative side of a rule lives, and where a requirement is most often silent.
 - A local variant of EARS folds into the canonical forms. If a variant seems to express something the six forms can't, raise it as a question; don't keep the variant.
 
