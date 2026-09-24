@@ -1,6 +1,6 @@
 # Specifying: writing and reviewing SRS, SDD and tickets
 
-A checklist for writing a spec and for reviewing one. It assumes you already hold the principles; the reasoning is in *On Specifying Software*. Terse by design: read it as a checklist, not an essay. Cite a line as "S-guide §N".
+A checklist for writing a spec and for reviewing one. It assumes you already hold the principles; the reasoning is in *On Specifying Software*. Cite a line as "S-guide §N".
 
 Vocabulary used throughout:
 
@@ -16,20 +16,20 @@ Vocabulary used throughout:
 - State each requirement positively. Turn a prohibition into an allowlist: "The system shall log only the request ID and status", not "shall not log personal data".
 - Use "shall not" only when no positive form exists.
 - One requirement per sentence, one reading per requirement.
-- State the need, not the design. How it is built belongs in the SDD, or in the code.
+- State the need, not the design. How it is built belongs in the code; the SDD holds only traced, checkable commitments (§4).
 - Write acceptance criteria as observed outcomes in the plain present tense: "The export contains one row per active account."
 - Two requirements that contradict each other are a finding, however far apart they sit.
 
 ## 2. Use canonical EARS
 
-- Write every requirement in one of the six EARS forms:
+- Write every requirement in one of the six EARS forms. Source: Alistair Mavin, Philip Wilkinson, Adrian Harwood and Mark Novak, "Easy Approach to Requirements Syntax (EARS)", IEEE International Requirements Engineering Conference, 2009.
   - **Ubiquitous**: The \<system\> shall \<response\>.
   - **Event-driven**: When \<trigger\>, the \<system\> shall \<response\>.
   - **State-driven**: While \<state\>, the \<system\> shall \<response\>.
   - **Unwanted behaviour**: If \<condition\>, then the \<system\> shall \<response\>.
   - **Optional feature**: Where \<feature is included\>, the \<system\> shall \<response\>.
   - **Complex**: a combination of the preceding keywords, such as "While \<state\>, when \<trigger\>, the \<system\> shall \<response\>."
-- Put refusals in the unwanted-behaviour form. That is where the negative side of a rule lives, and where a requirement is most often silent.
+- Write each refusal in the unwanted-behaviour form: the condition the system refuses, and what it does instead.
 - A local variant of EARS folds into the canonical forms. If a variant seems to express something the six forms can't, raise it as a question; don't keep the variant.
 
 ## 3. Say what a missing value means
@@ -44,8 +44,8 @@ Vocabulary used throughout:
 - Every SDD line is attack surface. Write only what a fidelity review or a test will hold the code to.
 - Each line must be **traced**: it serves a named SRS requirement.
 - Each line must be **checkable**: an interface, a precondition or postcondition, an invariant, a boundary behaviour, or an error the caller can see.
-- A line that is neither traced nor checkable is a finding:
-  - **Inflation** (a new commitment the SRS doesn't make): cut it, or take it back to the SRS through its owner and SRS review. Never keep it in place.
+- A line that fails either test is a finding. A checkable line with no trace is still inflation; a traced line that can't be checked is still exposition or design:
+  - **Inflation** (untraced: a new commitment the SRS doesn't make): cut it, or take it back to the SRS through its owner and SRS review. Never keep it in place.
   - **Derivation, justification or exposition**: cut it. The reason goes in the decision register (§6).
   - **Design or implementation** (the how): cut it. It belongs in the code.
 - Don't restate the SRS in the SDD. Trace to it by ID.
@@ -92,7 +92,7 @@ Normative documents are what reviewers see and what gets built. Non-normative do
 - Record it as a D-entry, and send a question to the person who asked. Batch it with the others, in writing.
 - Record their answer as an F-entry.
 - Then either amend the SRS through SRS review, or defer the case by their decision.
-- The SDD never absorbs the case on its own authority, and never waits on the answer indefinitely.
+- Don't add the case to the SDD without the requester's decision, and don't hold the SDD indefinitely waiting for it.
 - Going back to SRS review is costly. Do it anyway, and count it.
 
 ## 10. Spec review
