@@ -4,11 +4,12 @@ P-guide. A checklist for drafting and editing; choose the register before writin
 Clarity outranks brevity. For the reasoning, see [How I Use AI](https://adamdaw.com/ai/)
 and the future essay *On Writing*.
 
-## 1. Writing that goes out under my name
+## 1. Writing under Adam's name
 
 - Follow the standard in [How I Use AI](https://adamdaw.com/ai/): help Adam reason;
   don't reason for him. Express ideas he understands and positions he has formed.
-- Every substantive claim must be one Adam can explain and defend without AI.
+- Everything that goes out under Adam's name must be something he can explain and defend
+  without AI assistance.
   Surface missing reasoning as a question; don't supply an argument in his voice.
 - Use primary sources only for factual claims. Locate the source, check the claim
   against it, and give Adam the source to read before publication.
@@ -27,8 +28,7 @@ and the future essay *On Writing*.
   the decision, the obligation and the weight of a finding.
 - Choose the shape before drafting. Fit the material to the reader's task; a word-count
   target cannot decide which facts matter.
-- These are the common rules for colleague-facing writing; `public-writing` supplies
-  the procedure that applies them.
+- `public-writing` applies these rules to colleague-facing text.
 
 ## 3. Keep the lexicon; explain it
 
@@ -49,28 +49,28 @@ and the future essay *On Writing*.
 
 ## 4. Choose the register
 
-Lead task writing with the answer in the form its reader needs. The following table
-sets the opening and shape for each register.
+Lead task writing with the answer in the form its reader needs. Choose the opening
+and shape for each register from the following table.
 
 | Register | Opening and shape |
 | --- | --- |
 | Claude's prose to Adam | Answer, then only context that changes the next action; follow P-guide §5 (Claude to Adam). |
 | Vault notes | Outcome or state first. Name the actor and identifier every time; keep searchable lexicon. Preserve the note's required structure and metadata. |
-| Reviews | Finding first, never a verdict word or status recap. Give the observation, invite correction, then ask about a possible fix. Keep one finding per comment. |
+| Reviews | Finding first, never a verdict word or status recap. Give the observation, invite correction, then ask about a possible fix. Keep one finding per comment. See R-guide §11 (Writing a finding). |
 | PR descriptions | Concrete problem and resulting behaviour, then scope, verification and material limits. Scale detail to the change. |
 | Technical docs | Answer or task first; prerequisites, ordered actions, expected result and recovery where needed. Separate explanation from instructions. |
 | Specs and ADRs (architecture decision records) | Requirement or decision first, with scope, constraints and checkable consequences. Separate binding text from explanation. |
-| Correspondence | Purpose, request or acknowledgement first, with enough context for this recipient. For apologies, name the act and responsibility; for condolences, acknowledge the loss without inventing feelings or memories. Deliver hard news plainly and state a request with its timing. |
+| Correspondence | For email and sensitive messages, put the purpose, request or acknowledgement first, with enough context for this recipient. For apologies, name the act and responsibility; for condolences, acknowledge the loss without inventing feelings or memories. Deliver hard news plainly and state a request with its timing. |
 | Personal essays | A true scene first; never manufacture one. Develop Adam's argument from his material; follow P-guide §9 (Personal essays and fiction). |
-| Fiction | Follow only the project's `bible/` for voice and form. |
+| Fiction | Follow only the project's `bible/` for voice. |
 
-These conventions differ by register. An essay's “Adam's” entries mean preserve his
-choices in the supplied writing, subject to comprehension.
+These conventions differ by register. In the essays column, “Adam's” means keep his
+choice unless it blocks comprehension.
 
 | Rule | Claude to Adam | Reviews | Specs and ADRs | Personal essays |
 | --- | --- | --- | --- | --- |
-| “We” | Never; use “I” or “you” | “Could we…” is allowed | Name the responsible role when needed | Inclusive “we” is allowed |
-| Hedges | Cut filler; keep real uncertainty | Deliberate, to invite correction | Cut filler; state unresolved facts explicitly | Adam's |
+| “We” | Never; use “I” or “you” | “Could we…” is allowed | — | Inclusive “we” is allowed |
+| Hedges | Cut | Deliberate, to invite correction | Cut | Adam's |
 | Metaphor | None | None | None | Adam's |
 | Passive | Name the actor | Name the actor | Allowed; preserve responsibility | Adam's |
 | Em and en dashes | Allowed | None | Allowed | Adam's |
@@ -101,8 +101,8 @@ choices in the supplied writing, subject to comprehension.
 - Prefer familiar words: “use”, “start”, “because”. Remove filler such as “just”,
   “obviously” and “please note”; don't tell a reader that their task is easy.
 - Preserve precision. Use “can” for ability or permission, “might” for possibility and
-  “must” for a requirement. Explain an ambiguous “should” or “may”; never silently
-  reinterpret a contractual keyword.
+  “must” for a requirement. Avoid “should” and “may” in ordinary prose; never soften
+  or reinterpret a contractual keyword.
 - Avoid mannered contrasts, personified documents, decorative closers and emphasis for
   rhythm. Vary sentence openings without changing terms for the same thing.
 - Keep helper words and deliberate repetition when they prevent a reread or a wrong
@@ -111,7 +111,7 @@ choices in the supplied writing, subject to comprehension.
 ## 7. Apply editorial conventions
 
 Use these defaults for task writing; preserve exact literals, quotations and contractual
-notation. The linked Google style pages supply the detailed conventions.
+notation. See the linked Google style pages for detailed conventions.
 
 - **Numbers:** spell out zero through nine in ordinary prose; use numerals for 10 and
   higher, measurements and comparable data. Keep precision consistent; don't round away
@@ -164,8 +164,6 @@ Adapted from Google's [Write accessible documentation](https://developers.google
   connection to the next point explicit; retain qualifications and answer real objections.
 - Preserve Adam's flourishes, rhythm and British/Canadian spelling when editing.
   His metaphors, hedges and passive constructions can stay when readers can follow them.
-- `adam-voice` is for editing and preserving his voice only, never drafting arguments
-  in it. A rebuild starts with an inventory of his current writing as voice sources.
 - For fiction, use only the project's `bible/`. Treat the general fiction profile as
   historical; don't import it as a competing voice authority.
 - For fuller paragraph and argument development, see the future essay *On Writing*.
@@ -184,6 +182,6 @@ Adapted from Google's [Write accessible documentation](https://developers.google
 - After cutting an existing draft, use
   [cutcheck.py](../skills/brevity-enforcer/scripts/cutcheck.py) to compare original and
   edited text, including any destination documents for moved material. Investigate each
-  flagged loss; the script cannot establish semantic preservation.
+  flagged loss; compare the meaning yourself to establish semantic preservation.
 - Confirm that sources support the claims, needed terms are explained, links resolve
   and the final wording still says what the author intended. A zero-edit check is valid.
