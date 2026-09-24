@@ -2,14 +2,14 @@
 
 **Code carries your understanding to the next person, and most of what you know never reaches the code.** Write so the reader can recover it: as simple as possible, but no simpler. The reasoning is in *On Writing Code*.
 
-A checklist for someone who already holds the principles. Each line has a house form in your own stack (an API, a framework convention, a rule file); the guide states the principle and leaves the house form to you. Sources are in [`references.md`](references.md). Changing existing code is in the F-guide: leave it cleaner, build / ask / defer / don't, getting tests around untested code.
+A checklist for someone who already holds the principles. Each line has a house form in your own stack (an API, a framework convention, a rule file); the guide states the principle and leaves the house form to you. Sources are in [`references.md`](references.md). Changing existing code, including leaving it cleaner, is in the F-guide: F-guide §2 (Build, ask, defer, don't), F-guide §3 (Tidy only what you touch), F-guide §4 (Capture existing behaviour).
 
 ## 1. Start with the whole path
 
 - **Build the walking skeleton first.** The thinnest version that runs end to end through every layer, before any part is elaborated. It includes what makes the feature reachable (configuration, permissions, deployment, navigation), not only the code. Exercise it as an ordinary user, not an administrator.
-- **Its first passenger is one failing test at the outside.** See T-guide (*Start a feature with one failing test at the outside*).
+- **Its first passenger is one failing test at the outside.** See T-guide §1 (Start at the outside).
 - **Estimate before you build.** Work out the order of magnitude (rows, calls, bytes, time) before choosing the approach. When the estimate is inconclusive, assume the collection is large: the realistic worst case. Estimating chooses the design; it isn't optimising. Optimise only what you have measured.
-- **Reach for the least code that works, after you understand the problem.** Trace the real flow end to end first. Then take the lowest rung that holds: does it need to exist at all, is it already in the codebase, does the standard library or platform do it, does an installed dependency, can it be one line, and only then the minimum that works. Deletion over addition, boring over clever, fewest files.
+- **Reach for the least code that works, after you understand the problem.** Take the lowest rung that holds: nothing, existing code, the standard library or platform, an installed dependency, one line, then the minimum. Deletion over addition, boring over clever.
 
 ## 2. Manage complexity
 
@@ -22,7 +22,7 @@ A checklist for someone who already holds the principles. Each line has a house 
 - **Keep it flexible.** Small pieces that do one thing and combine, rather than one piece that does everything. Flexibility and simplicity pull against each other: get flexibility from composition, not from options nobody asked for (§4).
 - **Build on solid ground.** Prefer mature, well-understood technology with open standards to a fast-moving framework. A hard dependency on an ecosystem that changes quickly is a liability.
 - **Data outlives its software.** Store it in open, documented formats under a schema you own, so the next system can read it without this one.
-- **Hard to test means entangled.** See T-guide (*Hard to test means entangled*).
+- **Hard to test means entangled.** See T-guide §8 (Hard to test means entangled).
 
 ## 3. Say what you mean
 
@@ -38,7 +38,7 @@ A checklist for someone who already holds the principles. Each line has a house 
 - **Don't repeat knowledge.** The duplication that hurts is two places that must change together. Extract those.
 - **Leave look-alike code alone.** Coincidental similarity isn't duplication; merging it couples things that change for different reasons.
 - **Abstract on the third copy (rule of three).** Write it, notice it the second time, abstract on the third. Two call sites rarely tell you what varies.
-- **A wrong abstraction costs more than a duplicate.** You can merge two similar things later; taking apart an abstraction six files depend on is a project. Abstraction is earned early in two cases: a boundary you must genuinely swap (a test double, a vendor, a platform API you're isolating) and a published interface others already depend on.
+- **A wrong abstraction costs more than a duplicate.** Abstract early only at a boundary you must swap or a published interface others depend on.
 - **Build for the requirement in front of you (YAGNI).** Every speculative abstraction is a guess about what will vary, made when you know least. Delete a dead option rather than keeping it for a someday.
 
 ## 5. Know why it's correct
@@ -65,8 +65,9 @@ A checklist for someone who already holds the principles. Each line has a house 
 
 A repo's own commit and PR conventions win over these.
 
-- **Put each piece of reasoning where it will be read.** A name carries intent. A comment carries a local why. A commit message carries what changed and why, and the rejected alternative when it stops someone undoing the change. The PR body carries the reasoning for the change as a whole. A requirement or ticket carries a constraint that outlives this code.
-- **Commit message: what and why, present tense.** One logical change per commit; tidying in its own commit (F-guide).
+- **Put each piece of reasoning where it will be read.** Intent in a name; a local why in a comment; the reasoning for the change in the PR body; a constraint that outlives the code in the ticket.
+- **Name the rejected alternative in the commit message only when it prevents an undo.**
+- **Commit message: what and why, present tense.** One logical change per commit. Tidying: F-guide §3 (Tidy only what you touch).
 - **The PR body is a contract about the diff.** What it does, what it deliberately doesn't do, and where you're unsure.
 - **Say what you decided that the requirement didn't.** Each such decision is one the reviewer would otherwise re-derive.
 - **Say what you didn't do.** Silence reads as coverage. "Not tested at production volume" is honest.
@@ -79,24 +80,24 @@ A repo's own commit and PR conventions win over these.
 
 ## 9. Self-review
 
-Your own change, before anyone else reads it. Self-review is not cold: you hold the theory, so it finds what is visible from inside it. It never replaces code review (R-guide).
+Your own change, before anyone else reads it. Self-review is not cold: you hold the theory, so it finds what is visible from inside it. It never replaces code review: R-guide §1 (What a review is for).
 
-- **Code you didn't build line by line (from a model, a snippet, a similar class): explain it first.** What it does, why it's shaped this way ("I can't tell" is a valid answer), what it assumes, what would break it, and what you must do to own it. The procedure is in F-guide (*Explain before you change*).
-- **Walk the eight dimensions.** The same eight a code reviewer checks.
+- **Code you didn't build line by line (from a model, a snippet, a similar class): explain it first.** What it does, why it's shaped this way ("I can't tell" is a valid answer), what it assumes, what would break it, and what you must do to own it. The procedure is F-guide §1 (Explain before you edit).
+- **Walk the eight dimensions.** The same eight a code reviewer checks: R-guide §7 (The eight dimensions).
 - **List every candidate, then decide.** Write down each candidate, name the dimensions that came up clean, and decide each one yourself. When an agent runs the pass, it lists and you decide.
 - **Hold your own standard, which is higher than the team's.** Include analyzer findings below the team's threshold.
 - **Resolve what you'd have annotated.** Find out, test it, fix it, or rename it. What stays unresolved goes in the PR body as state (§8); a lasting why goes in a code comment or the commit message.
-- **Refactor-type fixes follow the F-guide.**
+- **Refactor-type fixes follow the F-guide:** F-guide §8 (Verify each step).
 
 | # | Dimension | The question | Sub-checks |
 | --- | --- | --- | --- |
 | 1 | Requirement | Did I build what was asked, or what I assumed? | Every branch the requirement names and the ones it doesn't: what absent means per field, the boundary, what to refuse. Each decision it didn't make is in the PR body. |
 | 2 | Existing behaviour | What else routes through what I changed? | Every caller read. Existing data considered, including rows written under older rules. The fix is in the shared function (§5). |
-| 3 | Tests | Would these go red if I broke it? | Each test seen red. Both sides of every gate. Hard to test means entangled: a fetched dependency, a second job, a hidden result (T-guide). |
+| 3 | Tests | Would these go red if I broke it? | New-behaviour and regression tests seen red; characterization tests are green by construction, per T-guide §2 (Choose the kind of test). Both sides of every gate. Hard to test means entangled: T-guide §8 (Hard to test means entangled). |
 | 4 | Failure | What happens when this doesn't work? | Each failure point handled, propagated with context, or refused. Nothing swallowed; logged once (§6). No later write assuming an earlier one worked. |
 | 5 | Trust boundary | Where did this value come from, and who controls it? | Trust established on the side you own. Anything reaching a query, a file path or a permission checked against an allowlist (§6). |
 | 6 | Scale | What happens at ten thousand instead of ten? | Estimated (§1). No per-item call where a batch exists. Results bounded (§7). |
-| 7 | Structure | Is this simpler or more complicated than what was here? | One responsibility per unit; one level of abstraction (§3). Coupling: Demeter, tell-don't-ask, hidden ordering between calls (§2). Duplicated knowledge named at both sites; values that always travel together named as one concept (§4). Functions: few arguments, no boolean that switches behaviour, no output arguments, no dead code. Reuse and dependencies: the least-code ladder (§1), no new dependency for something small, references pointing toward the more stable module. |
+| 7 | Structure | Is this simpler or more complicated than what was here? | One responsibility and one level of abstraction (§3). Coupling (§2). Duplicated knowledge (§4). Few arguments, no flag arguments, no dead code. The least-code ladder (§1); no new dependency for something small. |
 | 8 | Legibility | Can the next person change it without asking me? | Names say intent and side effects; no `data` or `temp`; similar things named alike; nothing clever at the cost of reading (§3). No magic numbers. Comments say why; no commented-out code; no stale comment. Standards: analyzer findings triaged, formatting automated, public interfaces documented. |
 
 ## 10. Code that goes out under your name
@@ -106,7 +107,7 @@ Your own change, before anyone else reads it. Self-review is not cold: you hold 
 - **Check behaviour against primary sources.** An API's contract, a library's semantics or a platform limit comes from its documentation or a real call, not from a model's summary or memory. Say in the PR body what you couldn't verify.
 - **Fluency is not authority.** Code that reads well, a green run and a confident explanation aren't evidence it's right. Don't ask the model that wrote it to confirm it.
 
-The prose version of these rules is in the P-guide.
+The prose version of these rules is in the P-guide (*Writing*).
 
 ## 11. When you're stuck
 
