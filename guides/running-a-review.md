@@ -17,12 +17,12 @@ Sections are numbered so a supplement can add house rules under the same numbers
 
 | Term | Means | Where |
 | --- | --- | --- |
-| **Self-review** | The author reviews their own change before anyone else reads it. | W-guide (*Self-review*) |
+| **Self-review** | The author reviews their own change before anyone else reads it. | W-guide §9 (Self-review) |
 | **Code review** | Someone reviews a change they didn't write. | This guide |
 | **Bot review** | An automated reviewer runs on the change. Its output is input to a review, never a substitute for one. | This guide, §9 |
-| **Spec review** | Someone checks a requirement, SRS, SDD or ticket for quality before anyone builds from it. | S-guide |
-| **Fidelity review** | Someone checks coverage (nothing dropped) and containment (nothing added) at a handoff: SRS to SDD, SDD to code. | S-guide |
-| **Claims audit** | Someone checks the factual claims in any prose. | P-guide |
+| **Spec review** | Someone checks a requirement, SRS, SDD or ticket for quality before anyone builds from it. | S-guide §10 (Spec review) |
+| **Fidelity review** | Someone checks coverage (nothing dropped) and containment (nothing added) at a handoff: SRS to SDD, SDD to code. | S-guide §11 (Fidelity review) |
+| **Claims audit** | Someone checks the factual claims in any prose. | P-guide (*Claims audit*; section number pending) |
 | **Cold** | Modifier: the reviewer reads the artefact before the author's account of it (§4). | All review types |
 
 Refer to a review by its name, never by a gate number.
@@ -61,7 +61,7 @@ Refer to a review by its name, never by a gate number.
 
 ## 7. What to look for: the eight dimensions
 
-The same eight dimensions, in the same order, as the W-guide's *Self-review*. A supplement adds house checks under these numbers. Hold the change to the principle and to your stack's form of it.
+The same eight dimensions, in the same order, as W-guide §9 (Self-review). A supplement adds house checks under these numbers. Hold the change to the principle and to your stack's form of it.
 
 ### 7.1 Requirement
 
@@ -81,9 +81,12 @@ The same eight dimensions, in the same order, as the W-guide's *Self-review*. A 
 - Both branches of every permission or feature gate are tested; count new guard clauses against new tests.
 - The four edge families: zero, one, many; the boundary and both sides of it; absent versus empty versus zero; the refusal.
 - Assertions are about outcomes (returned data, records written, output, events), not calls. A call assertion is fair only when the call is the outcome: an email sent, a gateway charged once.
-- The double is named (stub, spy, mock, fake) rather than called "mock". See T-guide.
+- The double is named (stub, spy, mock, fake) rather than called "mock".
 - Real shapes, not doubles that echo what the test fed them.
-- Coverage is a floor, not a target.
+- Every test carries its own assertion.
+- A test selects things by a stable, intention-revealing identifier, not a generated one.
+- Coverage is a minimum to clear, not a goal: a high percentage over untested branches is worse than an honest gap.
+- T-guide §6 (Check the edges) and T-guide §4 (Name the double; verify at most one interaction) hold the full rules.
 
 ### 7.4 Failure
 
@@ -96,6 +99,7 @@ The same eight dimensions, in the same order, as the W-guide's *Self-review*. A 
 - Trust is established on the side the code owns, never accepted from the caller. Identity and privilege are looked up, not read from the request.
 - Trace a value backwards through its callers until you reach something the system controls (a session, a stored row, config). Reaching the request first is the finding.
 - "The UI validates it" and "only admins see that screen" are not controls.
+- Access goes through the checked path, not an unchecked direct read that someone can forget to guard.
 - Values that reach a query, a file path or a permission grant are checked against an allowlist.
 
 ### 7.6 Scale
@@ -105,17 +109,24 @@ The same eight dimensions, in the same order, as the W-guide's *Self-review*. A 
   - The caller decides and nothing limits it: **Block**, and cap it at the boundary.
 - No per-item call where a batch form exists.
 - Results bounded, not loaded whole into memory. Caches have a sensible lifetime.
+- The code stays inside the limits the runtime enforces (W-guide §7, Respect the machine).
 - The cost of one trip round the loop matters more than the loop. Memory, a local database and a network call differ by orders of magnitude each.
 
 ### 7.7 Structure (including reuse and dependencies)
 
 - Does the change remove complexity or add it? Default to removing.
-- Run each new thing up the ladder: does it need to exist, is it already in the codebase, does the standard library or platform do it, can it be one line.
+- Deep modules: a small interface over a substantial implementation, not a shallow wrapper (W-guide §2, Manage complexity).
+- Collaborators come in through a substitutable seam, not a hard-wired static or singleton.
+- Logic stays out of framework entry points and glue code.
+- A long, growing type switch becomes polymorphism. A two-case conditional is usually simpler left alone.
+- Ask four questions of each new thing, in order: does it need to exist, is it already in the codebase, does the standard library or platform do it, can it be one line.
 - Deletion is a valid outcome. Never at the cost of validation, error handling, security or the one check that proves the logic.
-- Rule of three: raise speculative generality once, accept the answer, and never aim it at code the change only touched.
+- Deduplicate knowledge (two places that must change together), not code that only looks alike (W-guide §4, Duplication and speculation).
+- Rule of three: abstract on the third copy. Raise speculative generality once, accept the answer, and never aim it at code the change only touched.
+- Two cases earn an abstraction early: a boundary you must substitute (a test double, a replaceable vendor, an isolated platform API) and a published interface others already depend on.
 - An interface with one implementation is a nit unless it is load-bearing.
 - Dependencies point toward more stable modules, never into a cycle. A forked or patched dependency is committed as readable source.
-- Refactoring moves belong to the F-guide; name the move rather than restating it.
+- When a finding needs a structural change, name the move and point to it: F-guide §6 (Open a seam), F-guide §7 (Sprout or wrap when adding behaviour).
 
 ### 7.8 Legibility (including standards and docs)
 
@@ -127,10 +138,10 @@ The same eight dimensions, in the same order, as the W-guide's *Self-review*. A 
 
 ## 8. When you can't follow it
 
-- **Spend your time before the author's.** Read the code, its callers, its tests and the file's history. To build the understanding in a structured way, use the F-guide's *explain* step.
-- **"I couldn't tell why" is a real finding after you have genuinely tried.** Say what you traced and where you lost the thread.
+- **Spend your time before the author's.** Read the code, its callers, its tests and the file's history. To build the understanding step by step, use F-guide §1 (Explain before you edit).
+- **"I couldn't tell why" is a real finding after you have genuinely tried.** Say what you traced and the point where you stopped understanding it.
 - **A preference is not a finding.** "I'd have done it differently" is a drop.
-- **Make sure the answer lands in the thread.** An answer given on a call is lost again. If it is non-obvious, a code comment is a fair ask.
+- **Make sure the answer lands in the thread.** An answer given only on a call leaves no record. If it is non-obvious, a code comment is a fair ask.
 - **Too large to hold in your head is itself the finding.** Ask for a split.
 - **Scope a partial review honestly.** "I've read the API layer; someone who knows billing should read the rest" is a real review. Never approve to avoid looking slow.
 
@@ -157,15 +168,17 @@ The same eight dimensions, in the same order, as the W-guide's *Self-review*. A 
 | **Nit** | Correct but minor. Label it; the author can decline, and that is a complete answer. |
 | **Drop** | Taste or preference. Already raised. Explained as by design. A rewrite of code the change only touched. Below the team's threshold. You checked and were wrong. |
 
-- **Ask is the weight that gets skipped.** Skipping it makes a reviewer either a rubber stamp or a blocker.
-- **Split a finding that carries two weights.** Post each part as its own finding with its own weight. One loop over a caller-supplied list can be an Ask (a realistic bound) and a Block (no cap at the boundary).
-- **Post only findings at or above the team's threshold**, analyzer findings included. The author's self-review holds a higher bar (W-guide, *Self-review*); code review doesn't.
+- **Ask is the weight that gets skipped.** Without it, a reviewer either approves what they can't judge or blocks it.
+- **Split a finding that carries two weights.** Post each part as its own finding with its own weight, so an answer to one can't read as settling the other. Example, one loop over a caller-supplied list:
+  - Ask: what is a realistic size for this list? The answer sets whether per-item calls are acceptable.
+  - Block: nothing caps the list at the boundary. A realistic-size answer doesn't fix this; only a cap does.
+- **Post only findings at or above the team's threshold**, analyzer findings included. The author's self-review holds a higher bar (W-guide §9, Self-review); code review doesn't.
 - **Cite the dimension and the weight** when you record a finding for the operator.
-- **Watch for the two failure modes in yourself.** Rubber-stamping: approving because it looks fine, or the author is senior; if you can't say what the change does, you didn't review it. Perfectionism: blocking on taste, or fourteen naming comments that bury the two that matter.
+- **Watch for the two failure modes in yourself.** Approving without reviewing: approving because it looks fine, or the author is senior; if you can't say what the change does, you didn't review it. Perfectionism: blocking on taste, or fourteen naming comments that bury the two that matter.
 
 ## 11. Writing a finding
 
-The register for anything drafted to post: review comments, questions to an author, and comments on tickets.
+The register for anything drafted to post: review comments, questions to an author, comments on tickets, and chat replies about a review.
 
 ### 11.1 Findings, not the journey
 
@@ -188,8 +201,10 @@ The register for anything drafted to post: review comments, questions to an auth
 - **Never open with a verdict word.** No "Approving." or "Needs changes." Open with the finding.
 - **No preamble or recap.** Not even "the fix looks right, but…".
 - **End on the question.** No trailing "LGTM" or "otherwise fine".
-- **Hedge on purpose, and only where you are inferring.** "If I'm reading it right" marks an inference as yours. Vary it; the same hedge on every finding is a tell.
+- **Frame the mechanics as your reading, even when you are confident.** "If these share one transaction, they roll back together", not "This rolls back as a unit". Mark inferences as yours: "if I'm reading it right". Vary the hedge; the same one on every finding is a tell.
 - **Vary the phrasing.** A stock opener on every comment reads like a form letter.
+- **Prose, not formatting.** No bold, no wall of bullets; put the evidence inline.
+- **Plain verbs.** "Use", not "leverage"; "check", not "validate the correctness of".
 - **No dashes, no metaphor, a named actor.** Use a period, comma, colon or parentheses. Hyphens in compound words are fine.
 - **Don't code-format every identifier.** Let some names sit in the prose.
 - **Label a non-blocking point only when its weight isn't obvious.** A bare `nit:` or `Optional:` (Conventional Comments, see [`references.md`](references.md)). A label is a signal, not a template.
@@ -226,4 +241,4 @@ ticket → code (worktree, three-dot diff) → PR body → the eight dimensions
   → a human casts the verdict; the approval gate clears the merge
 ```
 
-Not in this guide: self-review of your own change (W-guide, *Self-review*); building an explanation of unfamiliar code (F-guide, *explain*); test design (T-guide); spec and fidelity review (S-guide); claims audit (P-guide). Sources: [`references.md`](references.md).
+Not in this guide: self-review of your own change (W-guide §9, Self-review); building an explanation of unfamiliar code (F-guide §1, Explain before you edit); choosing and designing tests (T-guide §2, Choose the kind of test); spec and fidelity review (S-guide §10, Spec review; S-guide §11, Fidelity review); claims audit (P-guide, *Claims audit*, section number pending). Sources: [`references.md`](references.md).
