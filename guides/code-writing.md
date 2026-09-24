@@ -6,6 +6,12 @@ A checklist for someone who already holds the principles. Each line has a house 
 
 ## 1. Start with the whole path
 
+Essay: *On Writing Code* P2; §3 steps 01–05 and *Find out what happens after merge*; opening point 03; §9 (Freeman and Pryce, the walking skeleton).
+
+- **Ask before you build.** List the branches the requirement doesn't cover: what absent, empty and zero mean; what happens on failure; what to refuse; how many, realistically. Ask their owner, together and in writing. A missing value's meaning isn't yours to decide.
+- **Sort what you find mid-change** with F-guide §2 (Build, ask, defer, don't).
+- **Find out what happens when it fails in production:** where the error goes, who learns of it, what the user sees.
+- **Find out how it reaches production and how it comes back.** When rollback is hard or a write can't be undone, ship it dormant and turn it on deliberately.
 - **Build the walking skeleton first.** The thinnest version that runs end to end through every layer, before any part is elaborated. It includes what makes the feature reachable (configuration, permissions, deployment, navigation), not only the code. Exercise it as an ordinary user, not an administrator.
 - **Its first passenger is one failing test at the outside.** See T-guide §1 (Start at the outside).
 - **Estimate before you build.** Work out the order of magnitude (rows, calls, bytes, time) before choosing the approach. When the estimate is inconclusive, assume the collection is large: the realistic worst case. Estimating chooses the design; it isn't optimising. Optimise only what you have measured.
@@ -13,7 +19,9 @@ A checklist for someone who already holds the principles. Each line has a house 
 
 ## 2. Manage complexity
 
-- **Every change adds or removes complexity. Default to removing it.** The measure of a design is how much you have to hold in your head to change it safely.
+Essay: *On Writing Code* P3, P4, P6; §9 (Parnas; Brooks).
+
+- **Every change adds or removes complexity. Default to removing the avoidable kind.** The domain's own complexity stays; deletion applies to speculative structure only.
 - **Prefer deep modules: a small interface over a substantial implementation.** A module that exposes a lot to save a little inside is shallow, and the cost reaches every caller.
 - **Hide how, show what.** A module hides its implementation decisions; callers never need its internals. What it does stays visible: its effects, its failures, its costs. No hidden work, no silent fallback, nothing a caller has to discover in production.
 - **Depend on the narrowest thing that works:** an interface or a small port, not a whole object graph. Hand collaborators in rather than letting the code reach out for them.
@@ -26,6 +34,8 @@ A checklist for someone who already holds the principles. Each line has a house 
 
 ## 3. Say what you mean
 
+Essay: *On Writing Code* P1; §4.8.
+
 - **One level of abstraction per function.** The reader follows the reasoning step by step without dropping into detail and climbing out again. Aim for clarity, not brevity.
 - **Name non-obvious conditions.** A compound or surprising boolean becomes a named function or variable that says what it means (`isRenewalEligible`, not three clauses inline).
 - **A name admits what the function does, side effects included.** `getCustomer` that also creates one is `getOrCreateCustomer`. A name that hides a write is a defect.
@@ -35,6 +45,8 @@ A checklist for someone who already holds the principles. Each line has a house 
 
 ## 4. Duplication and speculation
 
+Essay: *On Writing Code* P6; §9 (*The Pragmatic Programmer*, DRY).
+
 - **Don't repeat knowledge.** The duplication that hurts is two places that must change together. Extract those.
 - **Leave look-alike code alone.** Coincidental similarity isn't duplication; merging it couples things that change for different reasons.
 - **Abstract on the third copy (rule of three).** Write it, notice it the second time, abstract on the third. Two call sites rarely tell you what varies.
@@ -43,12 +55,18 @@ A checklist for someone who already holds the principles. Each line has a house 
 
 ## 5. Know why it's correct
 
+Essay: *On Writing Code* P3, P4, P5, P6; §7.
+
 - **Know why it works.** Predict a change's effect before you keep it. If it started working and you can't say why, you haven't finished.
 - **State invariants in code.** Assert your own assumptions (a total is never negative, a list is sorted by now) where they are relied on. This is for your own code's assumptions; input from outside is validated at the edge (§6), not asserted.
-- **Fix the root cause, not the symptom.** Find every caller of the function you touch and fix the shared function once. Patching only the reported path leaves the sibling callers broken.
+- **Fix the root cause, not the symptom.** Read every caller of the function you touch.
+- **A shared defect is fixed once, in the shared function. A special case one caller needs belongs to that caller.**
+- **Break it on purpose.** Where the code guards money, permissions or data integrity, break the line and confirm a test fails. The systematic form is mutation testing: T-guide §2 (Choose the kind of test).
 - **Minimalism never cuts the guardrails.** Input validation at trust boundaries, error handling that prevents data loss, security and accessibility aren't where you save lines. Non-trivial logic leaves one runnable check behind. Mark a deliberate corner-cut with a comment naming the limit and the upgrade path.
 
 ## 6. Fail loudly, at the boundary
+
+Essay: *On Writing Code* P5; §4.4, §4.5.
 
 - **Never swallow an error.** No empty catch, no catch that hides the cause.
 - **Catch only to handle it, or to add context and rethrow.** Catch the specific failure you expect, not everything.
@@ -58,10 +76,14 @@ A checklist for someone who already holds the principles. Each line has a house 
 
 ## 7. Respect the machine
 
+Essay: *On Writing Code* P2; §4.6.
+
 - **Batch the work.** Do it for the set, not with a call or query per element (the N+1 trap). Keep results bounded, and stay inside the limits the runtime enforces. Realistic volume is a requirement (§1), not the speculation YAGNI warns against.
 - **What's inside the loop matters more than the loop.** An in-memory operation, a local database round trip and a network call are orders of magnitude apart. Big-O is worth one question, whether a loop is nested over the same data; for I/O the constant it discards is the whole cost.
 
 ## 8. Writing it up
+
+Essay: *On Writing Code* §8; P1, P7.
 
 A repo's own commit and PR conventions win over these.
 
@@ -77,8 +99,11 @@ A repo's own commit and PR conventions win over these.
 - **Describe the work, not the people.** No "as discussed with", no credit for who suggested what, no note about which tool helped. Provenance lives in commit metadata.
 - **Don't defend it pre-emptively.** Explaining why something is fine before anyone asks usually means you doubt it: act on that instead.
 - **Keep it reviewable: aim under 200 lines, never past 400.** Past that, reviewers stop finding defects.
+- **When a reviewer misreads the change, the code was unclear.** Fix the code, its names or its comments, not only the reply.
 
 ## 9. Self-review
+
+Essay: *On Writing Code* §4; §3 step 07 (to be revised to self-review, R11); P7.
 
 Your own change, before anyone else reads it. Self-review is not cold: you hold the theory, so it finds what is visible from inside it. It never replaces code review: R-guide §1 (What a review is for).
 
@@ -92,15 +117,17 @@ Your own change, before anyone else reads it. Self-review is not cold: you hold 
 | # | Dimension | The question | Sub-checks |
 | --- | --- | --- | --- |
 | 1 | Requirement | Did I build what was asked, or what I assumed? | Every branch the requirement names and the ones it doesn't: what absent means per field, the boundary, what to refuse. Each decision it didn't make is in the PR body. |
-| 2 | Existing behaviour | What else routes through what I changed? | Every caller read. Existing data considered, including rows written under older rules. The fix is in the shared function (§5). |
-| 3 | Tests | Would these go red if I broke it? | New-behaviour and regression tests seen red; characterization tests are green by construction, per T-guide §2 (Choose the kind of test). Both sides of every gate. Hard to test means entangled: T-guide §8 (Hard to test means entangled). |
-| 4 | Failure | What happens when this doesn't work? | Each failure point handled, propagated with context, or refused. Nothing swallowed; logged once (§6). No later write assuming an earlier one worked. |
+| 2 | Existing behaviour | What else routes through what I changed? | Every caller read. Existing data considered, including rows written under older rules. A shared defect fixed in the shared function; a caller's special case kept in that caller (§5). |
+| 3 | Tests | Would these go red if I broke it? | New-behaviour and regression tests seen red; money, permissions and data integrity broken on purpose (§5); characterization tests are green by construction, per T-guide §2 (Choose the kind of test). Both sides of every gate. Hard to test means entangled: T-guide §8 (Hard to test means entangled). |
+| 4 | Failure | What happens when this doesn't work? | Each failure point handled, propagated with context, or refused. Nothing swallowed; logged once (§6). No later write assuming an earlier one worked. Where a production error goes, who learns of it, what the user sees (§1). |
 | 5 | Trust boundary | Where did this value come from, and who controls it? | Trust established on the side you own. Anything reaching a query, a file path or a permission checked against an allowlist (§6). |
 | 6 | Scale | What happens at ten thousand instead of ten? | Estimated (§1). No per-item call where a batch exists. Results bounded (§7). |
 | 7 | Structure | Is this simpler or more complicated than what was here? | One responsibility and one level of abstraction (§3). Coupling (§2); no hidden ordering between calls. Duplicated knowledge (§4); values that always travel together grouped as one concept. Few arguments, no flag arguments, no output arguments, no dead code. The least-code ladder (§1); no new dependency for something small; dependencies point toward more stable modules. |
 | 8 | Legibility | Can the next person change it without asking me? | Names say intent and side effects; no `data` or `temp`; similar things named alike; nothing clever at the cost of reading (§3). No magic numbers. Comments say why; no commented-out code; no stale comment. Standards: analyzer findings triaged, formatting automated, public interfaces documented. |
 
 ## 10. Code that goes out under your name
+
+Essay: *On Writing Code* P1, P7; Appendix B.3. Decision 33.
 
 - **You own every line you ship.** If you can't explain why it's shaped this way without the tool that wrote it, you don't own it yet (§9).
 - **The tool implements your reasoning; it doesn't replace it.** Design decisions, trade-offs and what the requirement means stay yours.
@@ -110,6 +137,8 @@ Your own change, before anyone else reads it. Self-review is not cold: you hold 
 The prose version of these rules is in the P-guide (*Writing*).
 
 ## 11. When you're stuck
+
+Essay: *On Writing Code* §7.
 
 - **Diagnose before you add.** Find out why it fails before changing anything else. No layered workarounds, retries, delays or fallbacks over a problem you don't understand.
 - **Predict before you change.** If you can't say what a change will do, you are guessing, and a guess that works ends the investigation without answering it (§5).
