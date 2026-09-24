@@ -109,24 +109,24 @@ The same eight dimensions, in the same order, as W-guide §9 (Self-review). A su
   - The caller decides and nothing limits it: **Block**, and cap it at the boundary.
 - No per-item call where a batch form exists.
 - Results bounded, not loaded whole into memory. Caches have a sensible lifetime.
-- The code stays inside the limits the runtime enforces (W-guide §7, Respect the machine).
+- The code stays inside the limits the runtime enforces. See W-guide §7 (Respect the machine).
 - The cost of one trip round the loop matters more than the loop. Memory, a local database and a network call differ by orders of magnitude each.
 
 ### 7.7 Structure (including reuse and dependencies)
 
 - Does the change remove complexity or add it? Default to removing.
-- Deep modules: a small interface over a substantial implementation, not a shallow wrapper (W-guide §2, Manage complexity).
+- Deep modules: a small interface over a substantial implementation, not a shallow wrapper. See W-guide §2 (Manage complexity).
 - Collaborators come in through a substitutable seam, not a hard-wired static or singleton.
 - Logic stays out of framework entry points and glue code.
 - A long, growing type switch becomes polymorphism. A two-case conditional is usually simpler left alone.
 - Ask four questions of each new thing, in order: does it need to exist, is it already in the codebase, does the standard library or platform do it, can it be one line.
 - Deletion is a valid outcome. Never at the cost of validation, error handling, security or the one check that proves the logic.
-- Deduplicate knowledge (two places that must change together), not code that only looks alike (W-guide §4, Duplication and speculation).
+- Deduplicate knowledge (two places that must change together), not code that only looks alike. See W-guide §4 (Duplication and speculation).
 - Rule of three: abstract on the third copy. Raise speculative generality once, accept the answer, and never aim it at code the change only touched.
 - Two cases earn an abstraction early: a boundary you must substitute (a test double, a replaceable vendor, an isolated platform API) and a published interface others already depend on.
 - An interface with one implementation is a nit unless it is load-bearing.
 - Dependencies point toward more stable modules, never into a cycle. A forked or patched dependency is committed as readable source.
-- When a finding needs a structural change, name the move and point to it: F-guide §6 (Open a seam), F-guide §7 (Sprout or wrap when adding behaviour).
+- Background for judging structure: F-guide §6 (Open a seam) and F-guide §7 (Sprout or wrap when adding behaviour). The finding names the structural problem; the author chooses the fix (§11.2).
 
 ### 7.8 Legibility (including standards and docs)
 
@@ -172,9 +172,9 @@ The same eight dimensions, in the same order, as W-guide §9 (Self-review). A su
 - **Split a finding that carries two weights.** Post each part as its own finding with its own weight, so an answer to one can't read as settling the other. Example, one loop over a caller-supplied list:
   - Ask: what is a realistic size for this list? The answer sets whether per-item calls are acceptable.
   - Block: nothing caps the list at the boundary. A realistic-size answer doesn't fix this; only a cap does.
-- **Post only findings at or above the team's threshold**, analyzer findings included. The author's self-review holds a higher bar (W-guide §9, Self-review); code review doesn't.
+- **Post only findings at or above the team's threshold**, analyzer findings included. The author's self-review holds a higher bar, per W-guide §9 (Self-review); code review doesn't.
 - **Cite the dimension and the weight** when you record a finding for the operator.
-- **Watch for the two failure modes in yourself.** Approving without reviewing: approving because it looks fine, or the author is senior; if you can't say what the change does, you didn't review it. Perfectionism: blocking on taste, or fourteen naming comments that bury the two that matter.
+- **Watch for the two failure modes in yourself.** Approving without reviewing: approving because it looks fine, or the author is senior; if you can't say what the change does, you didn't review it. Perfectionism: blocking on taste, or fourteen naming comments posted alongside the two findings that matter, which makes those two harder to find.
 
 ## 11. Writing a finding
 
@@ -192,7 +192,7 @@ The register for anything drafted to post: review comments, questions to an auth
 
 - **Say what is wrong. The author decides the fix.**
 - **Give a fix only when it is one obvious line.**
-- **Never offer alternatives.** A list of options hands the design back in pieces.
+- **Never offer alternatives.** A list of options leaves the author to compare designs the reviewer only sketched.
 
 ### 11.3 Register
 
@@ -241,4 +241,12 @@ ticket → code (worktree, three-dot diff) → PR body → the eight dimensions
   → a human casts the verdict; the approval gate clears the merge
 ```
 
-Not in this guide: self-review of your own change (W-guide §9, Self-review); building an explanation of unfamiliar code (F-guide §1, Explain before you edit); choosing and designing tests (T-guide §2, Choose the kind of test); spec and fidelity review (S-guide §10, Spec review; S-guide §11, Fidelity review); claims audit (P-guide, *Claims audit*, section number pending). Sources: [`references.md`](references.md).
+Not in this guide:
+
+- Self-review of your own change: W-guide §9 (Self-review).
+- Building an explanation of unfamiliar code: F-guide §1 (Explain before you edit).
+- Choosing and designing tests: T-guide §2 (Choose the kind of test).
+- Spec and fidelity review: S-guide §10 (Spec review), S-guide §11 (Fidelity review).
+- Claims audit: P-guide *Claims audit* (section number pending).
+
+Sources: [`references.md`](references.md).
