@@ -1,40 +1,121 @@
 # Test writing: craft principles
 
-Portable principles for writing tests well. Each has a house form in your own stack (a test framework, an assertion library, a fixtures convention); this guide states the principle and leaves the house form to you. Sources are in [`references.md`](references.md). Terse by design: read it as a checklist, not an essay.
+The T-guide: a checklist for writing and reviewing tests. Cite sections as
+“T-guide §1 (Start at the outside)”. For the reasoning, see *On Testing Code*;
+for sources, see [`references.md`](references.md).
 
-## Tests come first
+## 1. Start at the outside
 
-- **Write the failing test before the code, then make it pass, then refactor (red, green, refactor).** The failing test proves the test can fail, so a later green means something. Show the red before the green.
-- **A test written after the fact tests what you built, not what you meant.** Prefer the order that pressures the design.
+- Start a feature with one failing acceptance test at the outside of the system.
+  Choose the smallest useful behaviour from the requirement or spec.
+- Run it against the walking skeleton: the thinnest path through the assembled
+  system. Confirm it fails because the behaviour is missing.
+- Use unit tests to drive the implementation. Watch each fail for the intended
+  reason, make it pass, then refactor against green tests.
 
-## Test behaviour, not implementation
+## 2. Choose the kind of test
 
-- **Assert observable outcomes, not internals.** Private fields and method spies couple the test to the shape of the code and break on honest refactors. Assert returned data, side effects, rendered output, and emitted events.
-- **One concept per test, named as a sentence.** Arrange, act, assert; a clear test name and assertion usually beat a custom message on every line.
+These kinds describe scope or purpose; a regression test can also be a unit test.
+Keep unit, acceptance and integration tests distinct.
 
-## Cover what matters, not what's easy
+| Kind | What to check |
+| --- | --- |
+| **Unit** | One unit of behaviour, with fast, deterministic feedback. Use real collaborators where practical; a unit need not be a single class. |
+| **Acceptance** | A requirement through the system's outside interface. Use it to define when the feature is done. |
+| **Integration** | A real connection between components or with a dependency: a database, filesystem, service or framework. Check the contract that a double cannot prove. |
+| **Regression** | A known defect. Write the test before the fix and confirm red; apply the fix and confirm green; revert only the fix and confirm red again. Restore the fix and rerun to green. |
+| **Characterization** | Existing behaviour before changing code. Observe what it does and record that result. The test is green by construction; it preserves behaviour without claiming that behaviour is correct. |
+| **Mutation** | Whether tests detect a deliberate defect. Use the procedure in [`mutation-testing.md`](mutation-testing.md). |
 
-- **The negative paths are the point.** Null and empty inputs, the error branch, both sides of every permission or feature gate. Exercise the branch, not just the happy path. A gate with only its happy path tested is a gate nobody has ever watched close.
-- **Four edge families, and naming them is most of spotting them.** *Zero, one, many*: the three cardinalities that behave differently, and most loops are written with many in mind and break quietly on zero. *Boundaries*: for a rule of "up to 10" the interesting inputs are 9, 10 and 11, never the comfortable middle. *Absent versus empty versus zero*: a missing field, a present but empty one, and one set to `0` or `false` are three states code routinely conflates, and `if (!discount)` treating "no discount recorded" the same as "a discount of zero" is a real bug with money behind it. *The refusal*: a new `if` that guards something wants two tests, not one.
-- **Coverage is a floor, not a target.** A percentage bar is a floor to clear, not the goal; a green number laid over untested branches is worse than an honest gap.
+Older guidance called tests added after green “regression tests”. Use
+*characterization* for tests that record existing behaviour. A test for a known
+defect needs the red-green-revert check even if the fix was written first.
 
-## Test doubles: name it, then pick one
+## 3. A test tells a story; tell it with real things
 
-- **"Mock" is one of five doubles, and only one of them checks calls.** A *dummy* fills a parameter slot and is never used. A *fake* is a working implementation with a shortcut that makes it unfit for production, an in-memory store standing in for a database. A *stub* returns canned answers. A *spy* is a stub that records how it was called. A *mock* carries expectations and fails when the calls don't match them. Say which one you mean, in the test name and in review: "mock" used loosely hides whether a test asserts outcomes or call sequences, which is the distinction the next two bullets turn on.
-- **Prefer state verification to behaviour verification.** Assert what the code produced, the returned data, the records written, the output rendered, rather than which methods it called. Checking calls pins the test to today's implementation, so an honest refactor reddens a correct change. The exception is a side-effect-only collaborator (an email sent, a gateway charged exactly once): there the call *is* the observable behaviour, so asserting it is the right thing to do. If your tooling offers a "all expected calls happened" assertion, treat it as bookkeeping and pair it with a real one.
-- **Classical by default: use the real collaborator unless it is slow, unbuilt, or awkward to construct.** A double only returns what you told it to, so when the behaviour under test is the real shape (a query's fields, a collection's contents), exercise the real thing. Guard that shape in the test that owns it, not in a downstream consumer's double, because a double hides a dropped field the consumer would fail on at runtime.
-- **Classical costs bigger fixtures. Pay that with factories, not with more doubles.** Reaching for a double to dodge setup trades a bug-catching test for a fast one.
-- **The mockist style earns its keep designing outside-in.** When the collaborator does not exist yet, letting the test name the interface you wish you had is real design pressure. Swap in the actual collaborator once it exists; the scaffolding is not the permanent test.
-- **Don't double what you don't own.** A hand-written stand-in for a third-party client encodes your belief about how that library behaves, and your belief is exactly what's wrong when the library surprises you. Before you write the stand-in, **make one real call and read the actual response** — the contract is the one thing a double you wrote can never check, and a suite that passes against it is confirming your reading of the docs. Then wrap the client in a thin interface of your own and fake that instead, so the thing you're pretending about is code you control.
-- **Neither style proves the system works.** Both still need a coarser end-to-end pass over the assembled thing before you believe it.
+- Give each test one behaviour to explain: arrange the situation, act, assert the
+  observable outcome. Several assertions can describe that one outcome.
+- Double things that act; build things that are. Use real values, records and
+  collections. Use factories to make those fixtures readable.
+- Prefer real collaborators. Use a double when a collaborator is slow,
+  unavailable or not yet built; do not substitute one merely to avoid setup.
+- Test a query's fields or a collection's shape where the real data is produced.
+  A downstream stub returning the expected shape cannot check that contract.
+- When designing outside-in, a double can describe an unbuilt collaborator.
+  Exercise the real collaborator when it exists.
+- Wrap a third-party client in an interface you own before doubling it. Check the
+  real client's response in an integration test; a double cannot validate it.
 
-## Tests are design pressure
+## 4. Name the double; verify at most one interaction
 
-- **Hard to test is a design smell.** Reach for a seam (inject the collaborator) before reaching for heavier setup. If a test needs elaborate scaffolding, the code wants restructuring, not the test.
+Use the Fowler/Meszaros names for the role the double plays.
 
-## Keep them trustworthy
+| Double | Role |
+| --- | --- |
+| **Dummy** | Fills a parameter slot and is never used. |
+| **Fake** | A working implementation with a shortcut, such as an in-memory store. |
+| **Stub** | Returns canned answers. |
+| **Spy** | Records calls for later inspection. |
+| **Mock** | Carries call expectations and fails when they are not met. |
 
-- **Fast, deterministic, isolated.** No order dependence, no shared mutable state, clean up what you create. Build data through factories, not a shared global fixture.
-- **A flaky test is a broken test.** Fix it or delete it (quarantine is a stopgap, not a parking spot); a test you learn to ignore protects nothing.
+- Assert returned data, stored state, rendered output or emitted events.
+- Assert a call only when it is the outcome: a side effect leaving the system,
+  such as sending an email. Never assert calls between your own objects.
+- Assert a call count only when that count is the requirement.
+- Verify one interaction per test, at most. Use as many input stubs as the
+  behaviour needs; those are not additional interactions to verify.
 
-See also: [`code-writing`](code-writing.md) (design for test) and [`references.md`](references.md) for the sources behind each principle.
+## 5. Keep the story straight
+
+- Keep logic out of assertions and expected values. Write the expected result
+  explicitly; do not calculate it with the production algorithm.
+- Use loops only in setup or to run a table of independent cases. Give each case
+  an explicit input and expected result; do not branch to decide what to assert.
+- Make every failing assertion explain what was checked, what was expected and
+  what actually happened through the library's output plus any message.
+  Add a message only where the library leaves that information out.
+
+## 6. Check the edges
+
+Walk these four families over each new behaviour or branch.
+
+| Family | Cases |
+| --- | --- |
+| **Zero, one, many** | Empty, single and multiple elements in collections or repeated work. |
+| **Boundaries** | The boundary and both sides: for “up to 10”, check 9, 10 and 11. |
+| **Absent, empty, zero** | A missing value, a present but empty value, and `0` or `false`. Keep their meanings distinct. |
+| **The refusal** | Both the allowed and rejected paths of every guard, permission check or feature gate. |
+
+- Check inverse relationships where they apply, such as decoding an encoded
+  value. State the expected relationship explicitly.
+- Cross-check against an independent source of truth: known examples, a trusted
+  implementation or independently established results.
+- Use coverage to find unexecuted paths. A percentage does not show whether an
+  assertion checks the behaviour.
+- Keep longer case catalogues in the appendix to *On Testing Code*.
+
+## 7. A bug is a symptom
+
+- Find the misunderstanding behind the reported failure.
+- Write a regression test that reproduces the defect before fixing it.
+- Trace where else that misunderstanding acted: sibling callers, nearby branches
+  and related inputs. Test those cases too.
+- Compare patterns across failures before treating each as a separate defect.
+
+## 8. Hard to test means entangled
+
+- Ask whether a well-designed version would be easy to test.
+- Undo chosen ties: pass in fetched dependencies, separate a second job, and
+  make a hidden result observable through the public behaviour.
+- Accept given ties: when the behaviour depends on a real database, framework or
+  external service, keep that check in an integration test.
+- Use a seam where behaviour can be substituted. Do not add elaborate test setup
+  to preserve an avoidable tie.
+
+## 9. A skipped test is an open question
+
+- Resolve what the skipped test leaves unanswered: fix it, delete it if the
+  behaviour no longer applies, or link the ticket that tracks the question.
+- Treat quarantine as temporary. A flaky test needs the same explicit follow-up.
+- Keep tests deterministic and independent of run order. Clean up what each
+  test creates and avoid shared mutable fixtures.
