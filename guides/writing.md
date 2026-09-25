@@ -1,12 +1,12 @@
 # Writing: professional, technical and personal
 
 P-guide. A checklist for drafting and editing; choose the register before writing.
-Clarity outranks brevity. For the reasoning, see [How I Use AI](https://adamdaw.com/ai/)
+Clarity outranks brevity. For the reasoning, see [On Agentic Tools](https://adamdaw.com/ai/)
 and the future essay *On Writing*.
 
 ## 1. Writing under Adam's name
 
-- Follow the standard in [How I Use AI](https://adamdaw.com/ai/): help Adam reason;
+- Follow the standard in [On Agentic Tools](https://adamdaw.com/ai/): help Adam reason;
   don't reason for him. Express ideas he understands and positions he has formed.
 - Everything that goes out under Adam's name must be something he can explain and defend
   without AI assistance.
