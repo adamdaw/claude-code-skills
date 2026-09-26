@@ -117,4 +117,4 @@ The technique earns its time on branching logic: guards, caps, validation, anyth
 
 Before you say a test proves something, break the thing it proves and watch it go red.
 
-See also: [`examples/`](../examples/) for the code and the recorded numbers, [`test-writing`](test-writing.md) for why coverage is a floor, and [`references.md`](references.md) for the sources behind this page.
+See also: [`examples/`](../examples/) for the code and the recorded numbers, [T-guide §6 (Check the edges)](test-writing.md#6-check-the-edges) for why coverage is a floor, and [`references.md`](references.md) for the sources behind this page.
