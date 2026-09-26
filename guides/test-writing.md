@@ -1,6 +1,6 @@
 # Test writing: craft principles
 
-The T-guide: a checklist for writing and reviewing tests. Cite sections as "T-guide §1 (Start at the outside)". For the reasoning, see *On Testing Code*; for sources, see [`references.md`](references.md).
+The T-guide: a checklist for writing tests, and the rules a self-review or code review checks tests against. Cite sections as "T-guide §1 (Start at the outside)". For the reasoning, see *On Testing Code*; for sources, see [`references.md`](references.md).
 
 ## 1. Start at the outside
 

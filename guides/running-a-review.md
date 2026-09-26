@@ -34,7 +34,7 @@ Refer to a review by its name, never by a gate number.
 
 ## 3. Who does what
 
-Essay: *On Reviewing Code*, R-essay §3.7; R-essay App. C.
+Essay: *On Reviewing Code*, R-essay §3.7; R-essay App. C. Tools: [*On Agentic Tools*](https://adamdaw.com/ai/).
 
 - **The agent drafts. The operator disposes. The author decides the fix.** The operator is the person running the review, with or without an agent.
 - **It posts only what you've approved, draft by draft, and never approves.** This applies to any agent in the loop, whatever it was asked to do.
@@ -93,18 +93,18 @@ Essay: *On Reviewing Code*, R-essay §3.3.
 
 - Every caller of a changed function still gets what it expects.
 - Existing data is considered, including rows written under older rules.
-- The fix is at the shared function, not only on the path the report named.
+- A shared defect is fixed once, in the shared function. A special case one caller needs stays with that caller. See W-guide §5 (Know why it's correct).
 
 ### 7.3 Tests
 
 Essay: *On Reviewing Code*, R-essay §4.1; R-essay §1, principles 2, 3 and 6.
 
-- Each test can fail. Break the line it guards and see whether it goes red ([`mutation-testing.md`](mutation-testing.md)).
+- Each test would detect a break in what it guards. For a doubtful assertion or a high-stakes path, break the guarded logic and confirm the test goes red. Follow [`mutation-testing.md`](mutation-testing.md), including when not to bother.
 - Both branches of every permission or feature gate are tested; count new guard clauses against new tests.
 - The four edge families: zero, one, many; the boundary and both sides of it; absent versus empty versus zero; the refusal.
 - Assertions are about outcomes (returned data, records written, output, events), not calls. A call assertion is fair only when the call is the outcome: an email sent, a gateway charged once.
 - The double is named (stub, spy, mock, fake) rather than called "mock".
-- Nothing doubles a client the team doesn't own. See T-guide §4 (Name the double; verify at most one interaction) for the one-real-call rule.
+- Nothing doubles a client the team doesn't own. See T-guide §3 (A test tells a story; tell it with real things) for the one-real-call rule.
 - Real shapes, not doubles that echo what the test fed them.
 - Every test carries its own assertion.
 - A test selects things by a stable, intention-revealing identifier, not a generated one.
@@ -117,15 +117,15 @@ Essay: *On Reviewing Code*, R-essay §4.1; R-essay §1, principles 2, 3 and 6.
 Essay: *On Reviewing Code*, R-essay §4.3.
 
 - Each failure point handles, propagates or refuses. Nothing swallowed.
-- Specific exceptions, not a blanket catch. A top-level boundary handler that logs and rethrows is the exception.
-- Logged once, where finally handled, through the application's logging path.
+- Specific exceptions, not a blanket catch. A broad catch belongs only at the top-level boundary that finally handles the error.
+- Logged once, where finally handled, through the application's logging path. That handler doesn't rethrow. Inner layers add context and rethrow without logging.
 
 ### 7.5 Trust boundary
 
 Essay: *On Reviewing Code*, R-essay §4.2; R-essay §1, principle 4.
 
 - Trust is established on the side the code owns, never accepted from the caller. Identity and privilege are looked up, not read from the request.
-- Trace a value backwards through its callers until you reach something the system controls (a session, a stored row, config). Reaching the request first is the finding.
+- Trace a value backwards through its callers until you reach something the system controls (a session, a stored row, config). Caller-controlled input that reaches this code without the required validation or an independent permission check is the finding.
 - "The UI validates it" and "only admins see that screen" are not controls.
 - Access goes through the checked path, not an unchecked direct read that someone can forget to guard.
 - Values that reach a query, a file path or a permission grant are checked against an allowlist.
@@ -152,7 +152,7 @@ Essay: *On Reviewing Code*, R-essay §4.4, §4.7; R-essay §1, principles 6 and 
 - Deep modules: a small interface over a substantial implementation, not a shallow wrapper. See W-guide §2 (Manage complexity).
 - Collaborators come in through a substitutable seam, not a hard-wired static or singleton, where a test needs one. Raise it once as Ask or Nit (§7.3), not as a redesign.
 - Logic stays out of framework entry points and glue code.
-- A long, growing type switch becomes polymorphism. A two-case conditional is usually simpler left alone.
+- A type switch becomes polymorphism at its third distinct case: act then, not at the fifth. A two-case conditional is usually simpler left alone.
 - Ask four questions of each new thing, in order: does it need to exist, is it already in the codebase, does the standard library or platform do it, can it be one line.
 - Deletion is a valid outcome. Never at the cost of validation, error handling, security or the one check that proves the logic.
 - Deduplicate knowledge (two places that must change together), not code that only looks alike. See W-guide §4 (Duplication and speculation).
@@ -169,7 +169,7 @@ Essay: *On Reviewing Code*, R-essay §4.6, §4.8.
 - Names in the domain's language. No unexplained numbers. No shadowed or colliding names.
 - The easiest dimension to over-weight: one naming nit per review, not six.
 - Static-analysis findings triaged at full severity, even when CI blocks only the worst.
-- Formatting is automated so it never reaches review. If a tool can catch it, a human comment about it wastes attention.
+- Formatting is automated so it never reaches review. A human comment on formatting a tool can catch wastes attention.
 - The public surface is documented. A committed design doc isn't a nit for existing; wrong content in one is a finding.
 
 ## 8. When you can't follow it
@@ -185,7 +185,7 @@ Essay: *On Reviewing Code*, R-essay §7.
 
 ## 9. Triage
 
-Essay: *On Reviewing Code*, R-essay §3.6; R-essay App. B.
+Essay: *On Reviewing Code*, R-essay §3.6; R-essay App. B. Tools: [*On Agentic Tools*](https://adamdaw.com/ai/).
 
 - **Verify each candidate in the code before it becomes a finding.** An unverified finding is a guess. If you were wrong, drop it silently.
 - **Tool output is evidence, never a finding by itself.** That includes bot review, analyzers, code graphs and lists of neighbouring changes.
@@ -205,10 +205,10 @@ Essay: *On Reviewing Code*, R-essay §6, and the Weight passage of each principl
 
 | Weight | When |
 | --- | --- |
-| **Block** | Data can be lost, corrupted or exposed. A permission can be bypassed. The change doesn't do what it says. A test that proves nothing is the only proof behind a permission, a money path or data integrity. A permission or validation gate has no refusal test. The caller decides how much work the code does and nothing limits it. |
+| **Block** | Data can be lost, corrupted or exposed. A permission can be bypassed. The change doesn't do what it says. A test that proves nothing is the only proof behind a permission, a money path or data integrity. A permission or validation gate has no refusal test. The caller decides how much work the code does and nothing limits it. An error is swallowed, as in an empty catch. |
 | **Ask** | A real finding whose weight turns on a fact only the author or the product has, such as how large the system's own data gets. A missing zero case in an internal helper is Ask or Nit. |
 | **Nit** | Correct but minor, including a hollow test on a low-stakes path. Label it; the author can decline, and that is a complete answer. |
-| **Drop** | Taste or preference. Already raised. Explained as by design. A rewrite of code the change only touched. Below the team's threshold. You checked and were wrong. |
+| **Drop** | Taste or preference. Already raised, with nothing new to add. Explained as by design, and the explanation accepted. A rewrite of code the change only touched. Below the team's threshold. You checked and were wrong. |
 
 - **Ask is the weight that gets skipped.** Without it, a reviewer either approves what they can't judge or blocks it.
 - **Split a finding that carries two weights.** Post each part as its own finding with its own weight, so an answer to one can't read as settling the other. Example, one loop over a caller-supplied list:
@@ -263,7 +263,7 @@ It states the observation, invites a correction, and stops. The anchor carries t
 
 ## 12. Verdict
 
-Essay: *On Reviewing Code*, R-essay §3.7, §5 (What you'd actually do), §6.
+Essay: *On Reviewing Code*, R-essay §3.7, §5 (What you'd actually do), §6. Tools: [*On Agentic Tools*](https://adamdaw.com/ai/).
 
 | Verdict | When | What goes with it |
 | --- | --- | --- |

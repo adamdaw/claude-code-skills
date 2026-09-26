@@ -8,7 +8,7 @@ A checklist for someone who already holds the principles. Each line has a house 
 
 Essay: *On Writing Code* P2; §3 steps 01–05 and *Find out what happens after merge*; opening point 03; §9 (Freeman and Pryce, the walking skeleton).
 
-- **Ask before you build.** List the branches the requirement doesn't cover: what absent, empty and zero mean; what happens on failure; what to refuse; how many, realistically. Ask their owner, together and in writing. A missing value's meaning isn't yours to decide.
+- **Ask before you build.** List the branches the requirement doesn't cover: what absent, empty and zero mean; what happens on failure; what to refuse; how many, realistically. Ask their owner: live, one question at a time; asynchronously, all together and in writing. See S-guide §6 (The elicitation record and the decision register). A missing value's meaning isn't yours to decide.
 - **Sort what you find mid-change** with F-guide §2 (Build, ask, defer, don't).
 - **Find out what happens when it fails in production:** where the error goes, who learns of it, what the user sees.
 - **Find out how it reaches production and how it comes back.** When rollback is hard or a write can't be undone, ship it dormant and turn it on deliberately.
@@ -63,16 +63,16 @@ Essay: *On Writing Code* P3, P4, P5, P6; §7.
 - **Fix the root cause, not the symptom.** Read every caller of the function you touch.
 - **A shared defect is fixed once, in the shared function. A special case one caller needs belongs to that caller.**
 - **Break it on purpose.** Where the code guards money, permissions or data integrity, break the line and confirm a test fails. The systematic form is mutation testing: T-guide §2 (Choose the kind of test).
-- **Minimalism never cuts the guardrails.** Input validation at trust boundaries, error handling that prevents data loss, security and accessibility aren't where you save lines. Non-trivial logic leaves one runnable check behind. Mark a deliberate corner-cut with a comment naming the limit and the upgrade path.
+- **Minimalism never cuts the guardrails.** Input validation at trust boundaries, error handling that prevents data loss, security and accessibility aren't where you save lines. Non-trivial logic leaves one runnable check behind. A limitation the owner has authorised and recorded on its ticket gets a comment naming the limit, the upgrade path and the ticket. See F-guide §2 (Build, ask, defer, don't) and D-guide §5 (Decide: pay it down or accept it).
 
 ## 6. Fail loudly, at the boundary
 
 Essay: *On Writing Code* P5; §4.4, §4.5.
 
 - **Never swallow an error.** No empty catch, no catch that hides the cause.
-- **Catch only to handle it, or to add context and rethrow.** Catch the specific failure you expect, not everything.
-- **Log once, where the error is finally handled,** through the application's logging path. Inner layers enrich the error with context; they don't log it on the way up.
-- **Normalize absence, surface errors.** Turn an expected-absent value into an empty collection at the edge. A failure is not an absent value: don't turn it into a default.
+- **Catch only to handle it, or to add context and rethrow.** Catch the specific failure you expect. A broad catch belongs only at the top-level boundary that finally handles the error.
+- **Log once, where the error is finally handled,** through the application's logging path. That handler doesn't rethrow. Inner layers add context and rethrow without logging.
+- **Normalise absence, surface errors.** At the edge, turn an expected-absent value into its agreed meaning (§1). Make it an empty collection only where the contract says absent and empty mean the same. A failure is not an absent value: don't turn it into a default.
 - **Validate inputs at the edge, against an allowlist.** Enumerate what is permitted and reject the rest. A denylist needs you to have thought of every bad input in advance.
 
 ## 7. Respect the machine
@@ -135,7 +135,7 @@ Essay: *On Writing Code* P1, P7; Appendix B.3. Decision 33.
 - **Check behaviour against primary sources.** An API's contract, a library's semantics or a platform limit comes from its documentation or a real call, not from a model's summary or memory. Say in the PR body what you couldn't verify.
 - **Fluency is not authority.** Code that reads well, a green run and a confident explanation aren't evidence it's right. Don't ask the model that wrote it to confirm it.
 
-The prose version of these rules is P-guide §1 (Writing under Adam's name).
+The reasoning is in [*On Agentic Tools*](https://adamdaw.com/ai/). The prose version of these rules is P-guide §1 (Writing under Adam's name).
 
 ## 11. When you're stuck
 
@@ -148,4 +148,4 @@ Essay: *On Writing Code* §7.
 - **Spend fifteen minutes before you ask.** Read the code being called, where it's called from, its tests and its history.
 - **Then ask specifically:** what you're trying to do, what you tried, what happened.
 
-See also: [`test-writing`](test-writing.md) and [`references.md`](references.md).
+See also: [`references.md`](references.md).
