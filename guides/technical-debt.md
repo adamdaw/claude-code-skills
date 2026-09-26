@@ -178,8 +178,9 @@ Essay: *On Technical Debt* P6.
 Essay: *On Technical Debt* P3, P4, P7; §2.
 
 1. **Frame.** State the scope, the decision the assessment supports, and the standard you judge
-   against: the agreement (§1). Your team's own standards are evidence of cost (§2), not
-   obligations on whoever built it, unless the agreement incorporates them. Go deep where the
+   against: the agreement (§1). Your team's own standards can suggest things to investigate
+   (§2). A departure needs evidence of cost before it becomes a debt finding; it is a failure
+   against the agreement only if the agreement incorporates the standard. Go deep where the
    business risk is and skim the rest.
 2. **Baseline.** Fix the version you assess: a commit, a tag or a snapshot of code and
    configuration. Every finding refers to it. A target that moves while you assess it
@@ -250,8 +251,9 @@ before sign-off, while you have leverage and the builders can still answer.
   - "Environment unavailable" is a different result from a failed rebuild.
   - When the documented procedure fails, report it as "not reproducible from the supplied
     instructions under the assessed conditions", and identify the step that failed and why.
-  - That is a finding about the instructions. It doesn't establish that the work can't be
-    rebuilt; claim that only when the evidence goes further than one failed procedure.
+  - That records a failed reproduction attempt; establish whether the cause is the
+    instructions, the environment or the implementation. It doesn't establish that the work
+    can't be rebuilt; claim that only when the evidence goes further than one failed procedure.
   - Many manual steps alone establish neither.
 - **Check conformance.** Walk every acceptance criterion against the running system: met,
   partly met, not met or not assessed, with evidence and confidence.
