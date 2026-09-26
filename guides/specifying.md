@@ -12,7 +12,7 @@ Vocabulary used throughout:
 
 ## 1. Write requirements with SHALL, stated positively
 
-- Use SHALL only in requirements and SDD contract lines. SHALL binds; *should*, *will* and *may* bind nothing, so keep them out of anything normative.
+- Use SHALL only in requirements and SDD contract lines. SHALL binds; *should*, *will* and *may* bind nothing, so don't use them to express an obligation.
 - State each requirement positively. Turn a prohibition into an allowlist: "The system shall log only the request ID and status", not "shall not log personal data".
 - Use "shall not" only when no positive form exists.
 - One requirement per sentence, one reading per requirement.
@@ -106,7 +106,7 @@ Normative documents are what reviewers see and what gets built. Non-normative do
   - The SDD against §4: every line traced and checkable.
   - No deviation from the constitution or a constraint in scope (§8).
   - Each acceptance criterion observable without reading the code.
-  - Reliance on outside behaviour (a vendor API, a platform quirk) marked as a reliance to verify, not stated as settled.
+  - Outside behaviour (a vendor API, a platform quirk) that has been verified records its source and date. Outside behaviour that is assumed is marked as an assumption to verify, not stated as settled.
 - It judges whether the spec is fit to build from. It doesn't propose a design.
 - Spec review is judgement work. Give it a strong model or an experienced reader.
 
@@ -114,12 +114,12 @@ Normative documents are what reviewers see and what gets built. Non-normative do
 
 - Fidelity = **coverage** (nothing dropped) + **containment** (nothing added).
 - Run it at each handoff: SRS→SDD, then SDD→code.
-- Same inputs rule as §10: handed in, normative only, findings returned, no files written.
+- Hand in both artefacts being compared (the SRS and the SDD, or the SDD and the code), plus the constitution and the constraints in scope. Supporting rationale stays out. Otherwise the §10 rules hold: findings returned, no files written.
 - Start with ID matching, which is cheap and mechanical:
   - Every requirement ID in the upstream layer has at least one downstream line that traces to it. A requirement with no trace is a coverage finding.
   - Every downstream line traces to an upstream ID. A line with no trace is a containment finding (inflation, §4).
 - Hand only what the matching can't settle to a strong model or a person: a line that traces but doesn't say what the requirement says, or code that doesn't do what the line says.
-- A script or a cheap model does the matching; save judgement for the non-matches.
+- A script or a cheap model does the matching. Keep judgement for what matching can't settle, including a line whose ID matches but which says the wrong thing.
 
 ## 12. Reconciliation
 
