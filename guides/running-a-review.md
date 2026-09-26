@@ -1,103 +1,300 @@
 # Running a review
 
-How I run a review of a change. This is the human companion to [`senior-code-review`](../skills/senior-code-review/SKILL.md); it covers *how the review runs* and *what it looks for*. The register findings get written in lives in [`review-voice.md`](review-voice.md), and the craft the review holds a change to lives in [`code-writing`](code-writing.md) and [`test-writing`](test-writing.md).
+A checklist for code review: someone else's change, read and reported on. It assumes you already hold the principles; the reasoning behind each line is in the essay *On Reviewing Code*. The agent form of this procedure is [`senior-code-review`](../skills/senior-code-review/SKILL.md). Cite a line as "R-guide §N".
 
-## What a review is for
+Sections are numbered so a supplement can add house rules under the same numbers without forking the guide.
 
-Two things, and the first is the one that gets forgotten.
+## 1. What a review is for
 
-- **A second person who holds the theory.** A program is not the text in the repository; it is the theory in the builders' heads, what the world is assumed to look like, why the code has this shape rather than a simpler one, what was tried and abandoned, which parts are load-bearing and which are just how it ended up (Naur, see [`references.md`](references.md)). The text is a lossy recording of that, which is why a codebase whose authors have left is hard to change though it builds fine. So the primary product of a review is a second person who holds the theory. Defects are a by-product, a valuable one.
-- **An honest, independent read that feeds the human decision without standing in for it.** The reviewer reads cold and reports. It never casts a binding approval. The team's approval gate is what clears a merge.
+Essay: *On Reviewing Code*, R-essay §1, principle 1; R-essay §6.
 
-Four things follow from the first, and they run through the rest of this guide.
+- **Code carries understanding to the next person. A reviewer genuinely rebuilds that understanding before judging the change.** A program is the theory in its builders' heads, and the text records only part of it (Naur, see [`references.md`](references.md)).
+- **The main product is a second person who holds the theory.** Defects are a by-product, a valuable one.
+- **Finish able to say, in one sentence, what the change does and why it has this shape.** Saying the first but not the second is a finding (§8).
+- **A review that finds nothing still did the job.** Don't invent nits to justify the hour.
+- **"I can't follow this" is a finding about the change, not about you** (§8).
+- **Ask rather than instruct.** A question moves understanding both ways; an imperative moves a patch one way (§11).
+- **The bar is a healthier system, not a flawless one.** Most findings are not blockers (§10).
 
-- **A review that finds nothing still did the job.** Treat review as defect-hunting and an empty review reads as failure, which is where invented nits come from.
-- **"I can't follow this" is a finding about the artefact, not a verdict on you.** If the theory can't be transferred through the change, the change is inadequate. Confusion is evidence.
-- **"Why is it done this way?" outranks most defects you could report.** It asks for the part that isn't in the text. A review thread is durable and searchable, so an answered why files a piece of the theory where the next person can find it. Make sure the answer lands in the thread: given on a call or in a DM, it is theory lost again, and if it turns out to be genuinely non-obvious, asking for a line of comment in the code is fair.
-- **It is why you ask rather than instruct.** A question moves understanding in both directions. An imperative moves a patch in one. The register in [`review-voice`](review-voice.md) rests on this, not on politeness.
+## 2. Vocabulary
 
-## Read cold (independence)
+Essay: *On Reviewing Code*, none. The vocabulary is decided for all guides, not taken from the essay.
 
-- **The review is independent.** I form the read with nobody else's findings in front of me and no conclusion pre-loaded, no statement of what I'm supposed to confirm. Hand the reviewer a conclusion and the conclusion is all it hands back.
-- **The context lives in the artefact, not the ask.** The reviewer reads the diff and the checked-out code cold. Understanding comes from the code and from what the change says about itself, its description and ticket included. The author's own statement of intent, acceptance criteria and all, is fair to read: it is a claim to verify, not an instruction on what to conclude. What the reviewer refuses is a separate briefing that pre-loads the verdict. The line is who is talking: the change describing itself is context; a third party telling the reviewer what to find is a steer.
-- **Converge by revising the artefact, not steering the reviewer.** In a review loop I want the code and its docs fixed so the *next* cold read doesn't surface the finding again. I don't tune the prompt to get a cleaner result; that just launders my own assumptions back to me.
+| Term | Means | Where |
+| --- | --- | --- |
+| **Self-review** | The author reviews their own change before anyone else reads it. | W-guide §9 (Self-review) |
+| **Code review** | Someone reviews a change they didn't write. | This guide |
+| **Bot review** | An automated reviewer runs on the change. Its output is input to a review, never a substitute for one. | This guide, §9 |
+| **Spec review** | Someone checks a requirement, SRS, SDD or ticket for quality before anyone builds from it. | S-guide §10 (Spec review) |
+| **Fidelity review** | Someone checks coverage (nothing dropped) and containment (nothing added) at a handoff: SRS to SDD, SDD to code. | S-guide §11 (Fidelity review) |
+| **Claims audit** | Someone checks the factual claims in any prose. | P-guide (*Claims audit*; section number pending) |
+| **Cold** | Modifier: the reviewer reads the artefact before the author's account of it (§4). | All review types |
 
-## Read the checked-out code, not the diff
+Refer to a review by its name, never by a gate number.
 
-- **Anchor on the live diff first.** Confirm what actually changed against the base before reading, so you aren't reviewing already-merged or phantom content. A rebased-empty branch reads as real files but is a no-op diff; `git diff --quiet <base>...<branch>` answers that in one call, exit 0 meaning there is nothing there. Use the three-dot form for review: `A...B` is what B added since the two diverged, where `A..B` is what's in B and not A right now, which moves as A moves and blames the author for everything that landed while they were working.
-- **On a branch that has fallen behind, run the two-dot form too, scoped to the PR's own files.** Three-dot answers *what did this branch change*. It cannot answer *what would merging it undo*, and on an old PR the second question is the one that matters. Take the paths from the three-dot diff, then re-run two-dot against only those: `git diff <base>..<branch> -- <those paths>`. That strips out the unrelated commits that have landed on the base since, which are what make a bare two-dot diff unreadable, and leaves exactly what the merge would revert. One PR read as a live fix under three-dot while sitting 759 files behind its base: all three of its fixes had already landed by another route, and merging it would have regressed the base four ways. If a branch is more than a day or two behind, or you reviewed it in an earlier session, run both forms.
-- **A docs change can ship executable content, and that content is reviewable.** "Nothing runs in this PR" is a property of the diff you assumed, not one you checked. One two-file documentation change carried a self-contained HTML explainer holding a working hash-based normalizer, captioned as implementing the design's own normalization rules. Run against inputs outside its own preset list, it produced two different hashes for one logical record, which is precisely the duplicate the design's unique key existed to prevent. Reading the JavaScript would not have surfaced it, and every preset it shipped with passed. So grep a docs PR for `<script`, for a code fence claiming to be real output, and for any committed helper, then run what you find against inputs it did not choose for itself.
-- **Then read the change in context.** Check the branch out into a throwaway worktree beside your main clone and read the real files, not just the patch. The load-bearing facts are usually invisible in a diff: a default that turns a missing value into zero, an access grant the change depends on, a dependency version that quietly moved. The diff shows what changed; the working tree shows what it means in context. Keep the main clone a read-only reference; never mutate it for a review.
+## 3. Who does what
 
-## The finding lifecycle
+Essay: *On Reviewing Code*, R-essay §3.7; R-essay App. C.
 
-1. **Check each candidate in the code before it leaves triage.** Once you have candidate findings from the checklist below, verify them: a finding you haven't checked is a guess with a citation on it. If the question is whether a value is validated downstream, open the thing that receives it and read; if it validates, drop the candidate silently and say nothing. "I checked and I was wrong" is the cheapest outcome available and it costs the author nothing. This is the step that keeps a confident read from becoming a confidently wrong comment.
-2. **Reconcile the survivors against the live thread.** Re-fetch the head (the author may have pushed, even fixed the thing) and read the existing comments and reviews. Check the commit each approval and each automated finding was made against. Whether an earlier approval still counts is your gate's configuration, not a review finding: a gate that dismisses approvals on push has already handled it, and one that doesn't means the approval stands, so don't raise it as stale either way. What is worth raising is a *substantive* change landing after an approval, a rework rather than a rebase or a merge commit, because the approvers signed off on something else. A bot finding computed on an older commit may be moot, so verify it against the live diff before repeating it. Already raised and open? Add weight only if you have something new. Already fixed on a newer commit? Drop it. Already dispositioned by the author as by-design? Engage the specific reasoning or accept it; don't re-post it as if it were unanswered. **"Do nothing" is a valid verdict** when the thread already covers the findings.
-3. **Work it finding by finding, not as a finished solo draft.** Surface each finding as it clears the checklist: what it is, the evidence, whether it blocks. Size it there and then against the table below (block, ask, nit or drop, and a nit may still become a follow-up ticket or fold into what gets posted), then the next. Do this with whoever runs the review with you, a co-reviewer or the agent's operator; the author meets it through the posted comments, downstream of this, not in the triage.
-4. **Assemble the survivors** into one consolidated read, then re-voice it in the posting reviewer's register (see [`review-voice`](review-voice.md)) before anything goes out; a neutral or machine-produced draft isn't postable as-is. By then nothing in it is new to me. If nothing survives, add nothing.
+- **The agent drafts. The operator disposes. The author decides the fix.** The operator is the person running the review, with or without an agent.
+- **It posts only what you've approved, draft by draft, and never approves.** This applies to any agent in the loop, whatever it was asked to do.
+- **"Write a review" authorises a draft, nothing more.** Each posted comment needs the operator's go on that draft.
+- **The agent never submits an approve or a request-changes vote.** It can recommend either (§12).
+- **Conversation with the author happens in the threads, after posting, between people.** The author doesn't take part in triage.
+- **Enforce the posting rule with a tool, not a prompt, wherever an agent can write to the review platform.** A hook that blocks writes holds when an instruction doesn't.
+- **The merge gate is human.** Green CI doesn't clear a merge; the team's approval gate does.
+- **Find out how many approvals the repo requires.** With two, you are one vote. With one, you are the last independent check, and "someone else will catch it" is false. Read the count off the change's merge box.
 
-## Sizing a finding
+## 4. Reading order
 
-The bar is "does this improve the system", not "is this flawless", so most findings are not blockers.
+Essay: *On Reviewing Code*, R-essay §3.1.
 
-| Outcome | When |
+- **Read cold, in this order: ticket, then code, then PR body, then other people's opinions.** Reconcile against the opinions last (§9).
+- **The ticket and the PR body are claims to verify.** They are context, not instructions on what to conclude.
+- **Refuse a briefing that pre-loads the verdict.** The change describing itself is context; a third party telling you what to find is a steer.
+- **Don't ask the author to annotate the diff.** The author resolves those questions in self-review. What they can't resolve belongs in the PR body as a stated limitation; a lasting "why" belongs in a code comment or the commit message.
+- **Converge by fixing the artefact, not by steering the reviewer.** In a review loop, change the code and its docs so the next cold read doesn't raise the finding again.
+
+## 5. Check what actually changed
+
+Essay: *On Reviewing Code*, R-essay §3.2, §3.3; R-essay App. A.
+
+- **Confirm the diff is real before you read it.** A rebased-empty branch shows files but changes nothing. `git diff --quiet <base>...<branch>` exits 0 when there is nothing there.
+- **Use the three-dot form for review.** `A...B` is what B added since the two diverged. `A..B` also counts everything that landed on A meanwhile.
+- **On a branch that has fallen behind, also run the two-dot form, limited to the change's own files.** `git diff <base>..<branch> -- <paths from the three-dot diff>` shows what merging would undo. Run both if the branch is more than a day or two behind, or you reviewed it in an earlier session.
+- **Read the checked-out code, not only the patch.** Check the branch out into a throwaway worktree and follow the calls. Keep the main clone read-only.
+- **A docs change can ship executable content.** Search it for `<script`, for code blocks that claim to be real output, and for committed helpers. Run what you find against inputs it didn't choose for itself.
+
+## 6. Size, pace, scope
+
+Essay: *On Reviewing Code*, R-essay §3.4, §6, §7.
+
+- **Defect detection falls off past about 200 to 400 lines, or about an hour.** Ask for a split on a larger change; collapse a stacked-branch diff to its true delta.
+- **Match the diff to the stated scope.** Unrelated work bundled in is a split candidate, and the added scope needs a fresh review. Whether an earlier approval still counts is repository policy (§9).
+
+## 7. What to look for: the eight dimensions
+
+Essay: *On Reviewing Code*, R-essay §4, reorganised into the eight dimensions.
+
+The same eight dimensions, in the same order, as W-guide §9 (Self-review). A supplement adds house checks under these numbers. Hold the change to the principle and to your stack's form of it.
+
+### 7.1 Requirement
+
+Essay: *On Reviewing Code*, R-essay §3.1; R-essay §6 (the change doesn't do what it says).
+
+- Does the change do what the ticket asks? The ticket and PR body are claims; check them against the code.
+- Every branch the requirement named, and the ones it didn't: what a missing value means, what happens at the boundary, what is refused.
+- A decision the author made that the ticket didn't cover is stated in the PR body.
+- A value that can be missing with no stated meaning is an Ask: what a missing discount means is a decision nobody has made yet, and it isn't the reviewer's to make.
+
+### 7.2 Existing behaviour
+
+Essay: *On Reviewing Code*, R-essay §3.3.
+
+- Every caller of a changed function still gets what it expects.
+- Existing data is considered, including rows written under older rules.
+- The fix is at the shared function, not only on the path the report named.
+
+### 7.3 Tests
+
+Essay: *On Reviewing Code*, R-essay §4.1; R-essay §1, principles 2, 3 and 6.
+
+- Each test can fail. Break the line it guards and see whether it goes red ([`mutation-testing.md`](mutation-testing.md)).
+- Both branches of every permission or feature gate are tested; count new guard clauses against new tests.
+- The four edge families: zero, one, many; the boundary and both sides of it; absent versus empty versus zero; the refusal.
+- Assertions are about outcomes (returned data, records written, output, events), not calls. A call assertion is fair only when the call is the outcome: an email sent, a gateway charged once.
+- The double is named (stub, spy, mock, fake) rather than called "mock".
+- Nothing doubles a client the team doesn't own. See T-guide §4 (Name the double; verify at most one interaction) for the one-real-call rule.
+- Real shapes, not doubles that echo what the test fed them.
+- Every test carries its own assertion.
+- A test selects things by a stable, intention-revealing identifier, not a generated one.
+- Hard to test is a design signal: elaborate setup to reach one line, many collaborators to double, time, randomness or the filesystem read directly. Usually Ask or Nit, not a licence to redesign; it escalates when it leaves a risky path untested.
+- Coverage is a minimum to clear, not a goal: a high percentage over untested branches is worse than an honest gap.
+- T-guide §6 (Check the edges) and T-guide §4 (Name the double; verify at most one interaction) hold the full rules.
+
+### 7.4 Failure
+
+Essay: *On Reviewing Code*, R-essay §4.3.
+
+- Each failure point handles, propagates or refuses. Nothing swallowed.
+- Specific exceptions, not a blanket catch. A top-level boundary handler that logs and rethrows is the exception.
+- Logged once, where finally handled, through the application's logging path.
+
+### 7.5 Trust boundary
+
+Essay: *On Reviewing Code*, R-essay §4.2; R-essay §1, principle 4.
+
+- Trust is established on the side the code owns, never accepted from the caller. Identity and privilege are looked up, not read from the request.
+- Trace a value backwards through its callers until you reach something the system controls (a session, a stored row, config). Reaching the request first is the finding.
+- "The UI validates it" and "only admins see that screen" are not controls.
+- Access goes through the checked path, not an unchecked direct read that someone can forget to guard.
+- Values that reach a query, a file path or a permission grant are checked against an allowlist.
+
+### 7.6 Scale
+
+Essay: *On Reviewing Code*, R-essay §4.5; R-essay §1, principle 5.
+
+- **Who decides how much work this code does?** Follow the collection to its source.
+  - The system's own data, size unknown: **Ask** for a realistic bound.
+  - The caller decides and nothing limits it: **Block**, and cap it at the boundary.
+- No per-item call where a batch form exists.
+- Results bounded, not loaded whole into memory. Caches have a sensible lifetime.
+- The code stays inside the limits the runtime enforces. See W-guide §7 (Respect the machine).
+- The cost of one trip round the loop matters more than the loop. Memory, a local database and a network call differ by orders of magnitude each.
+- Growth: a scan of a collection inside a loop over the same data grows with the square of its size.
+- Turn a scale suspicion into evidence: run the code with a large input when you can.
+
+### 7.7 Structure (including reuse and dependencies)
+
+Essay: *On Reviewing Code*, R-essay §4.4, §4.7; R-essay §1, principles 6 and 7.
+
+- Does the change remove complexity or add it? Default to removing.
+- Deep modules: a small interface over a substantial implementation, not a shallow wrapper. See W-guide §2 (Manage complexity).
+- Collaborators come in through a substitutable seam, not a hard-wired static or singleton, where a test needs one. Raise it once as Ask or Nit (§7.3), not as a redesign.
+- Logic stays out of framework entry points and glue code.
+- A long, growing type switch becomes polymorphism. A two-case conditional is usually simpler left alone.
+- Ask four questions of each new thing, in order: does it need to exist, is it already in the codebase, does the standard library or platform do it, can it be one line.
+- Deletion is a valid outcome. Never at the cost of validation, error handling, security or the one check that proves the logic.
+- Deduplicate knowledge (two places that must change together), not code that only looks alike. See W-guide §4 (Duplication and speculation).
+- Rule of three: abstract on the third copy. Raise speculative generality once, accept the answer, and never aim it at code the change only touched.
+- Two cases earn an abstraction early: a boundary you must substitute (a test double, a replaceable vendor, an isolated platform API) and a published interface others already depend on.
+- An interface with one implementation is a nit unless it is load-bearing.
+- Dependencies point toward more stable modules, never into a cycle. A forked or patched dependency is committed as readable source.
+- Background for judging structure: F-guide §6 (Open a seam) and F-guide §7 (Sprout or wrap when adding behaviour). The finding names the structural problem; the author chooses the fix (§11.2).
+
+### 7.8 Legibility (including standards and docs)
+
+Essay: *On Reviewing Code*, R-essay §4.6, §4.8.
+
+- Names in the domain's language. No unexplained numbers. No shadowed or colliding names.
+- The easiest dimension to over-weight: one naming nit per review, not six.
+- Static-analysis findings triaged at full severity, even when CI blocks only the worst.
+- Formatting is automated so it never reaches review. If a tool can catch it, a human comment about it wastes attention.
+- The public surface is documented. A committed design doc isn't a nit for existing; wrong content in one is a finding.
+
+## 8. When you can't follow it
+
+Essay: *On Reviewing Code*, R-essay §7.
+
+- **Spend your time before the author's.** Read the code, its callers, its tests and the file's history. To build the understanding step by step, use F-guide §1 (Explain before you edit).
+- **"I couldn't tell why" is a real finding after you have genuinely tried.** Say what you traced and the point where you stopped understanding it.
+- **A preference is not a finding.** "I'd have done it differently" is a drop.
+- **Make sure the answer lands in the thread.** An answer given only on a call leaves no record. If it is non-obvious, a code comment is a fair ask.
+- **Too large to hold in your head is itself the finding.** Ask for a split.
+- **Scope a partial review honestly.** "I've read the API layer; someone who knows billing should read the rest" is a real review. Never approve to avoid looking slow.
+
+## 9. Triage
+
+Essay: *On Reviewing Code*, R-essay §3.6; R-essay App. B.
+
+- **Verify each candidate in the code before it becomes a finding.** An unverified finding is a guess. If you were wrong, drop it silently.
+- **Tool output is evidence, never a finding by itself.** That includes bot review, analyzers, code graphs and lists of neighbouring changes.
+- **Run a bot reviewer read-only.** It doesn't post and doesn't fix; you verify each thing it raises like any other candidate.
+- **Reconcile the survivors against the live thread.** Re-fetch the head and read the existing comments.
+  - Already raised and open: add weight only if you have something new.
+  - Fixed on a newer commit: drop it.
+  - Explained by the author as by design: engage that reasoning or accept it.
+  - A bot finding made against an older commit: check it against the live diff before repeating it.
+- **An approval belongs to a commit.** Whether it still counts is the repo's configuration, not a finding. A rework landing after an approval is worth raising; a rebase or merge commit isn't.
+- **"Nothing to add" is a valid outcome** when the thread already covers the findings.
+- **Work finding by finding with the operator.** For each: what it is, the evidence, its weight (§10).
+
+## 10. Weighing a finding
+
+Essay: *On Reviewing Code*, R-essay §6, and the Weight passage of each principle in R-essay §1.
+
+| Weight | When |
 | --- | --- |
-| **Block** | Data can be lost, corrupted, or exposed. A permission can be bypassed. The change doesn't do what it says it does. A test proves nothing and is being counted as proof. |
-| **Ask** | A real finding whose severity turns on information only the author or the product has. Most performance findings start here: the finding is "one query per item", the missing fact is how long the list gets. |
-| **Nit** | Correct but minor. Label it and move on. The author may decline, and that is a complete answer. |
-| **Drop** | Taste. Already raised. Already explained as by-design. A rewrite of code the change merely touched. Or you checked and you were wrong. |
+| **Block** | Data can be lost, corrupted or exposed. A permission can be bypassed. The change doesn't do what it says. A test that proves nothing is the only proof behind a permission, a money path or data integrity. A permission or validation gate has no refusal test. The caller decides how much work the code does and nothing limits it. |
+| **Ask** | A real finding whose weight turns on a fact only the author or the product has, such as how large the system's own data gets. A missing zero case in an internal helper is Ask or Nit. |
+| **Nit** | Correct but minor, including a hollow test on a low-stakes path. Label it; the author can decline, and that is a complete answer. |
+| **Drop** | Taste or preference. Already raised. Explained as by design. A rewrite of code the change only touched. Below the team's threshold. You checked and were wrong. |
 
-**Ask is the category that gets skipped**, and skipping it is what turns a reviewer into either a rubber stamp or a blocker. A finding you can't calibrate alone is still worth posting; it just goes out as the question it actually is.
+- **Ask is the weight that gets skipped.** Without it, a reviewer either approves what they can't judge or blocks it.
+- **Split a finding that carries two weights.** Post each part as its own finding with its own weight, so an answer to one can't read as settling the other. Example, one loop over a caller-supplied list:
+  - Ask: what is a realistic size for this list? The answer sets whether per-item calls are acceptable.
+  - Block: nothing caps the list at the boundary. A realistic-size answer doesn't fix this; only a cap does.
+- **Post only findings at or above the team's threshold**, analyzer findings included. The author's self-review holds a higher bar, per W-guide §9 (Self-review); code review doesn't.
+- **Cite the dimension and the weight** when you record a finding for the operator.
+- **Watch for the two failure modes in yourself.** Approving without reviewing: approving because it looks fine, or the author is senior; if you can't say what the change does, you didn't review it. Perfectionism: blocking on taste, or fourteen naming comments posted alongside the two findings that matter, which makes those two harder to find.
 
-The two failure modes to watch for in yourself: **rubber-stamping** (approving because it looks fine, or the author is senior, or you don't want to hold things up; if you can't say what the change does, you didn't review it) and **perfectionism** (blocking on taste, or leaving fourteen naming comments on a bug fix, which buries the two that mattered).
+## 11. Writing a finding
 
-## When you can't follow it
+Essay: *On Reviewing Code*, R-essay §8.
 
-- **Spend the time before you spend the author's.** Follow the functions being called, find where the code gets invoked from, read the tests, check the file's history for why it looks like this. Fifteen minutes of tracing usually converts "I don't get it" into a specific question.
-- **Then ask specifically.** Name what you traced and where you lost the thread, not "I don't follow this", which hands the work back with no direction.
-- **Too large to hold in your head is itself the finding.** Asking whether a sprawling change can be split is legitimate and more honest than an approval you don't mean.
-- **Scope a partial review honestly.** "I've read the API layer; someone who knows the billing code should look at that half" is a real review. Partial and honest beats complete and imaginary, and never approve to avoid looking slow.
+The register for anything drafted to post: review comments, questions to an author, comments on tickets, and chat replies about a review.
 
-## Verdict
+### 11.1 Findings, not the journey
 
-- **Let the finding set the verdict; default to a hold on an unaddressed gap.** Decide approve-versus-hold *from* the finding, not before it. Green CI, a passing dry-run, and prior approvals don't clear a real gap. Withholding approval is the lever that stops an unverified merge.
-- **A review is a progression, not a pass/fail gate.** There's no perfect code, only healthier code. The bar for approval is "does this improve the overall health of the system", not "is this flawless". That's what keeps default-to-hold from turning into perfectionism: hold on a genuine gap, not on polish, and let a clean change ship with its nits noted.
-- **A clean approve gets no comment.** No paragraph narrating what you verified. The verification is the reviewer's job, not review content. Full phrasing rules in [`review-voice`](review-voice.md).
+- **A review states findings.** No account of how you found them, no defence against an objection nobody made, no derivation.
+- **If a review needs a summary, it is too long.**
+- **A finding is an observation, a question, and an optional pointer.** Never a sentence that explains or argues.
+- **Anchor the finding to the code where the platform allows.** The anchor is the pointer. Give a file and line, an input or a test only when the finding can't be anchored.
+- **One finding per comment.** Several findings go out as several anchored comments.
 
-## What to look for, in your terms
+### 11.2 Name the problem, not the solution
 
-Start from the standard dimensions. Each is the local form of a portable principle (see [`code-writing`](code-writing.md), [`test-writing`](test-writing.md)) applied through your stack's rules; hold a change to both the principle and its house rule. The house form below is written generically; fill in the concrete API and convention from your own codebase.
+- **Say what is wrong. The author decides the fix.**
+- **Give a fix only when it is one obvious line.**
+- **Never offer alternatives.** A list of options leaves the author to compare designs the reviewer only sketched.
 
-| Dimension | What to hold the change to |
-| --- | --- |
-| **Correctness & test coverage** | Exercise the real shape, not just a mock that returns what you told it (a mock hides a field the data layer dropped that a consumer then fails on, so guard the shape in the test that owns it). Prove *both* branches of a permission or feature gate, the negative path included: a new `if` that guards something wants two tests, not one, so count new guard clauses against new tests. Walk the four edge families over each new function or branch, which takes about thirty seconds: zero, one and many (most loops are written for many and break on zero); the boundary and both sides of it (for "up to 10" the interesting inputs are 9, 10 and 11, not 5); absent versus empty versus zero (`if (!discount)` treats "no discount recorded" and "a discount of zero" as the same thing); and the refusal. Every test carries its own assertion. Assert observable behaviour (returned data, side effects, rendered output, emitted events) over internals; a call-count assertion is fair only when the call is the behaviour (an email sent, a gateway charged once), so a test verifying calls instead of outcomes is a finding. Ask which double it actually uses, naming the stub, spy or mock rather than writing "mock" for all three, since the loose word hides which of the two a test is doing (see the Test doubles section in [`test-writing`](test-writing.md)). Coverage is a floor, not a target: a green percentage over untested branches is worse than an honest gap. Where a test selects a thing, bind it to a stable, intention-revealing identifier, not a volatile generated one. |
-| **Security & access control** | Validate and enforce trust at the boundary you own; never assume the caller did it. A check the caller can skip or forge (a gate it can bypass, a privilege it asserts about itself) isn't a control; the trusted side re-checks before it acts. In a multi-user system that means server-side authorization; in a library or CLI it means validating inputs and privileges at your entry points rather than trusting what comes in. Route access through the checked path, not an unchecked direct read you can forget to guard, and gate a capability on the trusted side, not a flag the untrusted side can set. **Trace the value backwards** to find the boundary: take it where it's used and walk up through the callers until you reach something the system itself controls (a session, a stored row, a config value); reach the request without hitting one and you have the finding. "The UI validates it" is not an answer, and neither is "only admins can reach that screen", because screens don't stop requests. **Validate against an allowlist, not a denylist:** enumerate what is permitted and reject the rest. A denylist needs you to have thought of every bad input, and an attacker needs one you missed. |
-| **Error handling & logging** | Route errors through the application's error and logging path, not an ad-hoc print left in production. Catch the specific exception, not a blanket catch that hides the cause; a top-level boundary handler that logs and re-raises is the allowed exception. Fail loudly at the boundary, never swallow. |
-| **Design & structure** | Does the change remove complexity or add it? Default to removing. Prefer a deep module (a narrow interface over a substantial implementation) to a shallow one, and resist speculative generality (YAGNI). Inject collaborators through a substitutable seam, not a hard-wired static or singleton. Keep logic out of framework entry points and glue code. Prefer polymorphism to a long, growing type switch, though a two-case conditional is usually simpler left alone (YAGNI). |
-| **Performance & scale** | Assume inputs can be large: avoid per-element overhead when a batched form exists (a call or query per item, the N+1 trap being the database case), and don't hold an unbounded result in memory, bound it. Stay inside whatever limits the runtime enforces, and where you cache, set sensible lifetimes. The question is never "is there a loop", it's what one trip round it costs and who decides how many there are: an in-memory operation, a local database round trip and a call across the network differ by orders of magnitude each, so a thousand iterations of arithmetic is instant and a thousand network calls is an incident. Follow the collection back to its source; anything a caller supplies is unbounded until proven otherwise. |
-| **Readability & naming** | Domain-language names, no magic numbers. Watch for identifier shadowing and collisions (a variable named for the type it shadows), and respect the language's naming and scoping rules. The easiest dimension to start with and the easiest to over-weight: one naming nit per review, not six. |
-| **Reuse, dependencies & minimalism** | Run each new thing up the ladder: does it need to exist at all (YAGNI), is it already in the codebase (reuse, don't rewrite), does the standard library or platform do it, can it collapse to one line. Deletion is a valid review outcome (a `net: -N lines` result is a real one), but never cut validation, error handling, security, or the one self-check that proves the logic. DRY the knowledge, not coincidental similarity. Hold YAGNI to its own limit, though: it is the easiest principle here to over-apply and the most tiresome to receive. The rule of three is the usual heuristic (write it, notice it, then abstract), because two call sites rarely tell you what actually varies, and duplication is cheaper than the wrong abstraction since you can always merge two similar things later. Abstraction is earned early in two cases that aren't speculation: a boundary you must genuinely swap (a test double, a vendor you might replace, a platform API you're isolating) and a published interface others already depend on. Raise it once, accept the answer, and never aim it at code the change merely touched. Respect dependency direction: references point toward the more stable modules, never into a cycle. A forked or patched dependency is committed as source you can read in review, not applied opaquely by a build step. |
-| **Standards & documentation** | Triage static-analysis findings at full severity even when CI only blocks the worst; fix the rest anyway. Run the formatter in a pre-commit hook so style never reaches review. Document the public surface. Committed plan and design docs are a feature; don't nit them for existing, though wrong content in one is a real finding. |
+### 11.3 Register
 
-## Size, pace, scope
+- **Questions, not imperatives.** "Is X intended?" rather than "This needs Y". "Could we…" is fine.
+- **Make the code the subject.** "This function assumes the caller checked", not "you forgot to check".
+- **Never open with a verdict word.** No "Approving." or "Needs changes." Open with the finding.
+- **No preamble or recap.** Not even "the fix looks right, but…".
+- **End on the question.** No trailing "LGTM" or "otherwise fine".
+- **Frame the mechanics as your reading, even when you are confident.** "If these share one transaction, they roll back together", not "This rolls back as a unit". Mark inferences as yours: "if I'm reading it right". Vary the hedge; the same one on every finding is a tell.
+- **Vary the phrasing.** A stock opener on every comment reads like a form letter.
+- **Prose, not formatting.** No bold, no wall of bullets; put the evidence inline.
+- **Plain verbs.** "Use", not "leverage"; "check", not "validate the correctness of".
+- **No dashes, no metaphor, a named actor.** Use a period, comma, colon or parentheses. Hyphens in compound words are fine.
+- **Don't code-format every identifier.** Let some names sit in the prose.
+- **Label a non-blocking point only when its weight isn't obvious.** A bare `nit:` or `Optional:` (Conventional Comments, see [`references.md`](references.md)). A label is a signal, not a template.
 
-- **Hold to the minimal ask.** Defect detection falls off past roughly 200 to 400 lines or an hour of review. Split a sprawling change; collapse a stacked-branch diff to its true delta (merge the base in) so the reviewer reads the real change.
-- **Match the diff to the stated scope.** Does the change stay within its ticket, or does it bundle unrelated work? Flag bundled-beyond-scope work as a split candidate; it inflates regression risk and the review surface, and it moots any prior approval on the smaller change.
+### 11.4 A model finding
 
-## Guardrails
+Anchored on the line that reads `isOwner` from the request body:
 
-- **Drafting is not approving.** A request to "write a review" authorises a draft, nothing more. Every posted comment needs the reviewer's per-draft go, and the binding approval is always a human's to cast.
-- **The gate is human, not green CI.** A merge clears on the team's approval gate (an approval plus a required team review, for me); a passing pipeline doesn't. This read is one vote into that gate, never a substitute for it.
-- **Find out what your gate actually is, because it changes what your approval means.** Where two approvals are required you are one vote into a gate and there is a reader behind you. Where one is required you are the last independent check: you don't merge it, the author still presses the button, but after you the only thing between the change and the base is the person who wrote it, and they already think it's right. "Someone else will catch it" is then simply false, and asking for a second pair of eyes is the only way a second pair happens. Single-approval is common, usually introduced to reduce friction, and it silently doubles the weight of every approval you cast. Read the required count off the pull request's merge box; the branch-protection API generally needs admin on the repo.
+> `isOwner` comes from the request body, so a caller can send `true` and skip the 403. Am I reading that right?
 
-## End to end
+It states the observation, invites a correction, and stops. The anchor carries the location. It proposes no fix, because the fix isn't one obvious line, and it offers no alternatives.
+
+## 12. Verdict
+
+Essay: *On Reviewing Code*, R-essay §3.7, §5 (What you'd actually do), §6.
+
+| Verdict | When | What goes with it |
+| --- | --- | --- |
+| **Not approved** | The default whenever there are findings. | The findings. No verdict word, no "hold". |
+| **Request changes** | Rare: a critical blocker where someone else might approve first. It locks the merge. | The blocking finding. |
+| **Approved** | No findings at or above the threshold. | Nothing. A clean approve gets no comment. |
+| **Conditional approval** | Findings the author has agreed to address. | One line naming the agreed conditions. |
+
+- **Let the findings set the verdict.** Green CI, a passing dry run and earlier approvals don't clear a real finding.
+- **An agent recommends a verdict and never casts approve or request-changes.** Both are votes.
+- **Clean areas go unmentioned.** A paragraph on what you verified is padding; checking was the job, not the output.
+
+## 13. End to end
+
+Essay: *On Reviewing Code*, R-essay §3; R-essay App. C.
 
 ```
-branch → worktree → read cold (full context) → walk the checklist
-      → per finding: check it in the code, reconcile vs live thread,
-        then size with your co-reviewer or operator (block/ask/nit/drop)
-      → assemble survivors into one review in your voice (none survive → say nothing)
-      → a human posts, the approval gate clears, merge
+ticket → code (worktree, three-dot diff) → PR body → the eight dimensions
+  → per candidate: verify in the code → reconcile against the live thread
+  → weigh with the operator (block / ask / nit / drop; split two-weight findings)
+  → draft each survivor as an anchored finding in the §11 register
+  → the operator approves each draft; only approved drafts are posted
+  → a human casts the verdict; the approval gate clears the merge
 ```
 
-See also: [`review-voice`](review-voice.md) (the register findings are written in), [`code-writing`](code-writing.md) / [`test-writing`](test-writing.md) (the craft behind the checklist), [`mutation-testing`](mutation-testing.md) (proving a test would catch a regression), [`references.md`](references.md).
+Not in this guide:
+
+- Self-review of your own change: W-guide §9 (Self-review).
+- Building an explanation of unfamiliar code: F-guide §1 (Explain before you edit).
+- Choosing and designing tests: T-guide §2 (Choose the kind of test).
+- Spec and fidelity review: S-guide §10 (Spec review), S-guide §11 (Fidelity review).
+- Claims audit: P-guide *Claims audit* (section number pending).
+
+Sources: [`references.md`](references.md).
