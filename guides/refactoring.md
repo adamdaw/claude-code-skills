@@ -31,13 +31,13 @@ Apply this table when you discover work beyond the task's wording.
 | --- | --- | --- |
 | **Build** | Correctness requires it: a guard, a known error path, or a fix in shared code that every caller needs. | Include the necessary code and tests. Check every affected caller. |
 | **Ask** | Someone else owns the decision: unspecified behaviour, an architectural choice, or a reduction in the requirement. | State the missing decision and its consequence. Resolve it with that owner before implementing the dependent work. |
-| **Defer** | Real work unrelated to this change: a defect, or debt that matters. | Record a follow-up ticket and link it from the PR. |
+| **Defer** | Real work unrelated to this change: a defect, or debt that matters. | Record a follow-up ticket and link it from the PR. For a debt ticket's fields, see D-guide §4 (Record it: the debt ticket). |
 | **Don't** | Speculative structure, a rewrite of code you only passed, a fixture refactor for appearance alone, or a cosmetic preference. | Leave it alone. |
 
 - Debt matters when it sits in code that changes often or is business-critical,
   or when it carries a risk or a hard deadline, such as an end-of-life runtime,
   an unpatched dependency or a security exposure. Deferring it does not mean
-  fixing it now.
+  fixing it now. The weights are in D-guide §3 (Weigh it: debt that matters).
 - An unspecified failure or missing-value meaning is **Ask**. Handling a
   missing value with an already established meaning is **Build**.
 - If part of the requirement is harder than expected, ask; don't silently omit it.

@@ -27,7 +27,7 @@ Essay: *On Reviewing Code*, none. The vocabulary is decided for all guides, not 
 | **Bot review** | An automated reviewer runs on the change. Its output is input to a review, never a substitute for one. | This guide, §9 |
 | **Spec review** | Someone checks a requirement, SRS, SDD or ticket for quality before anyone builds from it. | S-guide §10 (Spec review) |
 | **Fidelity review** | Someone checks coverage (nothing dropped) and containment (nothing added) at a handoff: SRS to SDD, SDD to code. | S-guide §11 (Fidelity review) |
-| **Claims audit** | Someone checks the factual claims in any prose. | P-guide (*Claims audit*; section number pending) |
+| **Claims audit** | Someone checks the factual claims in any prose. | P-guide §1 (Writing under Adam's name) |
 | **Cold** | Modifier: the reviewer reads the artefact before the author's account of it (§4). | All review types |
 
 Refer to a review by its name, never by a gate number.
@@ -178,7 +178,7 @@ Essay: *On Reviewing Code*, R-essay §7.
 
 - **Spend your time before the author's.** Read the code, its callers, its tests and the file's history. To build the understanding step by step, use F-guide §1 (Explain before you edit).
 - **"I couldn't tell why" is a real finding after you have genuinely tried.** Say what you traced and the point where you stopped understanding it.
-- **A preference is not a finding.** "I'd have done it differently" is a drop.
+- **A preference is not a finding.** "I'd have done it differently" is a drop. For debt findings, see D-guide §2 (A finding needs evidence).
 - **Make sure the answer lands in the thread.** An answer given only on a call leaves no record. If it is non-obvious, a code comment is a fair ask.
 - **Too large to hold in your head is itself the finding.** Ask for a split.
 - **Scope a partial review honestly.** "I've read the API layer; someone who knows billing should read the rest" is a real review. Never approve to avoid looking slow.
@@ -280,7 +280,7 @@ Essay: *On Reviewing Code*, R-essay §3.7, §5 (What you'd actually do), §6.
 
 Essay: *On Reviewing Code*, R-essay §3; R-essay App. C.
 
-```
+```text
 ticket → code (worktree, three-dot diff) → PR body → the eight dimensions
   → per candidate: verify in the code → reconcile against the live thread
   → weigh with the operator (block / ask / nit / drop; split two-weight findings)
@@ -295,6 +295,6 @@ Not in this guide:
 - Building an explanation of unfamiliar code: F-guide §1 (Explain before you edit).
 - Choosing and designing tests: T-guide §2 (Choose the kind of test).
 - Spec and fidelity review: S-guide §10 (Spec review), S-guide §11 (Fidelity review).
-- Claims audit: P-guide *Claims audit* (section number pending).
+- Claims audit: P-guide §1 (Writing under Adam's name).
 
 Sources: [`references.md`](references.md).

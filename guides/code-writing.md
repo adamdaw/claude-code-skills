@@ -51,6 +51,7 @@ Essay: *On Writing Code* P6; §9 (*The Pragmatic Programmer*, DRY).
 - **Leave look-alike code alone.** Coincidental similarity isn't duplication; merging it couples things that change for different reasons.
 - **Abstract on the third copy (rule of three).** Write it, notice it the second time, abstract on the third. Two call sites rarely tell you what varies.
 - **A wrong abstraction costs more than a duplicate.** Abstract early only at a boundary you must swap or a published interface others depend on.
+- **When duplication in existing code is debt:** D-guide §2 (A finding needs evidence).
 - **Build for the requirement in front of you (YAGNI).** Every speculative abstraction is a guess about what will vary, made when you know least. Delete a dead option rather than keeping it for a someday.
 
 ## 5. Know why it's correct
@@ -134,7 +135,7 @@ Essay: *On Writing Code* P1, P7; Appendix B.3. Decision 33.
 - **Check behaviour against primary sources.** An API's contract, a library's semantics or a platform limit comes from its documentation or a real call, not from a model's summary or memory. Say in the PR body what you couldn't verify.
 - **Fluency is not authority.** Code that reads well, a green run and a confident explanation aren't evidence it's right. Don't ask the model that wrote it to confirm it.
 
-The prose version of these rules is in the P-guide (*Writing*).
+The prose version of these rules is P-guide §1 (Writing under Adam's name).
 
 ## 11. When you're stuck
 
