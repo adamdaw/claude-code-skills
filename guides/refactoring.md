@@ -36,9 +36,8 @@ Apply this table when you discover work beyond the task's wording.
 
 - Debt matters when it sits in code that changes often or is business-critical,
   or when it carries a risk or a hard deadline, such as an end-of-life runtime,
-  an unpatched dependency or a security exposure. Other debt is **Don't**.
-- Deferring debt does not mean fixing it now. Tidy only what you touch
-  (F-guide §3).
+  an unpatched dependency or a security exposure. Deferring it does not mean
+  fixing it now.
 - An unspecified failure or missing-value meaning is **Ask**. Handling a
   missing value with an already established meaning is **Build**.
 - If part of the requirement is harder than expected, ask; don't silently omit it.
