@@ -27,7 +27,7 @@ Essay: *On Reviewing Code*, none. The vocabulary is decided for all guides, not 
 | **Bot review** | An automated reviewer runs on the change. Its output is input to a review, never a substitute for one. | This guide, §9 |
 | **Spec review** | Someone checks a requirement, SRS, SDD or ticket for quality before anyone builds from it. | S-guide §10 (Spec review) |
 | **Fidelity review** | Someone checks coverage (nothing dropped) and containment (nothing added) at a handoff: SRS to SDD, SDD to code. | S-guide §11 (Fidelity review) |
-| **Claims audit** | Someone checks the factual claims in any prose. | P-guide §1 (Writing under Adam's name) |
+| **Claims audit** | Someone checks the factual claims in any prose. | Requirements: P-guide §1 (Writing under Adam's name) |
 | **Cold** | Modifier: the reviewer reads the artefact before the author's account of it (§4). | All review types |
 
 Refer to a review by its name, never by a gate number.
@@ -295,6 +295,6 @@ Not in this guide:
 - Building an explanation of unfamiliar code: F-guide §1 (Explain before you edit).
 - Choosing and designing tests: T-guide §2 (Choose the kind of test).
 - Spec and fidelity review: S-guide §10 (Spec review), S-guide §11 (Fidelity review).
-- Claims audit: P-guide §1 (Writing under Adam's name).
+- Claims audit requirements: P-guide §1 (Writing under Adam's name).
 
 Sources: [`references.md`](references.md).

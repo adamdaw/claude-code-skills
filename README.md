@@ -35,7 +35,7 @@ Each guide is a numbered checklist with a one-letter prefix, so a line can be ci
 
 Two more files sit beside them without a prefix: [`mutation-testing.md`](guides/mutation-testing.md), a five-minute explainer, and [`references.md`](guides/references.md), the outside sources behind the guides.
 
-Most of what follows is about the first one, because the review method is the part with
+Most of what follows is about the review skill, because the review method is the part with
 the most written down.
 
 ## A code review method

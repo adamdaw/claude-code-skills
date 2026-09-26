@@ -1,6 +1,6 @@
 # References
 
-The outside sources behind the guides here. Most lines note the principle taken and where it shows up; a couple are general background. Books are by title and author; confirm the current edition when buying. Links verified 2026-09-26; the Jia & Harman entry links to the ACM record and the McKinsey entry to mckinsey.com, and both refuse automated requests, so check them in a browser rather than a script.
+The outside sources behind the guides here. Most lines note the principle taken and where it shows up; a couple are general background. Books are by title and author; confirm the current edition when buying. Links verified 2026-09-26; the Jia & Harman entry links to the ACM record and the McKinsey entry to mckinsey.com, and both refused the automated link check when these were verified, so check them in a browser.
 
 ## Code quality and design
 
