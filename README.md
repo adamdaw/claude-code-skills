@@ -29,7 +29,7 @@ Each guide is a numbered checklist with a one-letter prefix, so a line can be ci
 | F | [`refactoring.md`](guides/refactoring.md) | Changing existing code: explain before you edit; build, ask, defer, don't; tidying; characterization tests, seams, sprout and wrap. |
 | T | [`test-writing.md`](guides/test-writing.md) | Writing and reviewing tests: the six kinds of test, doubles, edge families, and what hard to test means. |
 | R | [`running-a-review.md`](guides/running-a-review.md) | Code review: reading order, the eight dimensions, triage, weighing a finding, writing it, and the verdict. |
-| S | [`specifying.md`](guides/specifying.md) | Writing and reviewing an SRS, an SDD or a ticket: SHALL and EARS, the registers, spec review and fidelity review. |
+| S | [`specifying.md`](guides/specifying.md) | Writing and reviewing an SRS and an SDD: SHALL and EARS, the registers, spec review and fidelity review. |
 | P | [`writing.md`](guides/writing.md) | Professional, technical and personal writing: editing order, lexicon, registers, editorial conventions, accessibility, and the preservation check. |
 | D | [`technical-debt.md`](guides/technical-debt.md) | Technical debt: sorting it from defects and preference, evidence, weighing, the debt ticket, assessments, and accepting inherited work. |
 

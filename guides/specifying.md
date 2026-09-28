@@ -1,4 +1,4 @@
-# Specifying: writing and reviewing SRS, SDD and tickets
+# Specifying: writing and reviewing an SRS and an SDD
 
 A checklist for writing a spec and for reviewing one. It assumes you already hold the principles; the reasoning is in *On Specifying Software*. Cite a line as "S-guide §N".
 
@@ -7,7 +7,7 @@ Vocabulary used throughout:
 - **Requirement**: one thing the system must do, stated so it can be checked.
 - **SRS** (software requirements specification): the requirements for one piece of work, and what the person who asked agreed to.
 - **SDD** (software design description): the contract a build is checked against.
-- **Spec**: either of these, or a ticket that plays either role.
+- **Spec**: an SRS or an SDD.
 - **Spec review**: judges whether a spec is fit to build from. **Fidelity review**: checks one layer against the one before it (SRS→SDD, SDD→code).
 
 ## 1. Write requirements with SHALL, stated positively
@@ -41,6 +41,8 @@ Vocabulary used throughout:
 
 ## 4. The SDD is the smallest contract that makes the SRS checkable
 
+- Every piece of work that will be built gets an SRS and an SDD. Size sets how long they are, not whether they exist.
+- The SRS may live in the ticket body. That is a location, not a lighter path.
 - Every SDD line is attack surface. Write only what a fidelity review or a test will hold the code to.
 - Each line must be **traced**: it serves a named SRS requirement.
 - Each line must be **checkable**: an interface, a precondition or postcondition, an invariant, a boundary behaviour, or an error the caller can see.
