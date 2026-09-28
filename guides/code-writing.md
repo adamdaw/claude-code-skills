@@ -8,18 +8,18 @@ A checklist for someone who already holds the principles. Each line has a house 
 
 Essay: *On Writing Code* P2; §3 steps 01–05 and *Find out what happens after merge*; opening point 03; §9 (Freeman and Pryce, the walking skeleton).
 
-- **Ask before you build.** List the branches the requirement doesn't cover: what absent, empty and zero mean; what happens on failure; what to refuse; how many, realistically. Ask their owner, together and in writing. A missing value's meaning isn't yours to decide.
+- **Ask before you build.** List the branches the requirement doesn't cover: what absent, empty and zero mean; what happens on failure; what to refuse; how many, realistically. Ask their owner: live, one question at a time; asynchronously, all together and in writing. See S-guide §6 (The elicitation record and the decision register). A missing value's meaning isn't yours to decide.
 - **Sort what you find mid-change** with F-guide §2 (Build, ask, defer, don't).
 - **Find out what happens when it fails in production:** where the error goes, who learns of it, what the user sees.
 - **Find out how it reaches production and how it comes back.** When rollback is hard or a write can't be undone, ship it dormant and turn it on deliberately.
 - **Build the walking skeleton first.** The thinnest version that runs end to end through every layer, before any part is elaborated. It includes what makes the feature reachable (configuration, permissions, deployment, navigation), not only the code. Exercise it as an ordinary user, not an administrator.
 - **Its first passenger is one failing test at the outside.** See T-guide §1 (Start at the outside).
 - **Estimate before you build.** Work out the order of magnitude (rows, calls, bytes, time) before choosing the approach. When the estimate is inconclusive, assume the collection is large: the realistic worst case. Estimating chooses the design; it isn't optimising. Optimise only what you have measured.
-- **Reach for the least code that works, after you understand the problem.** Trace the real flow end to end, then take the lowest rung that holds: nothing, existing code, the standard library or platform, an installed dependency, one line, then the minimum. Deletion over addition, boring over clever, fewest files.
+- **Reach for the least code that works, after you understand the problem.** Trace the real flow end to end, then take the lowest rung that holds: nothing, existing code, the standard library or platform, an installed dependency, one line, then the minimum. Deletion over addition, boring over clever.
 
 ## 2. Manage complexity
 
-Essay: *On Writing Code* P3, P4, P6; §9 (Parnas; Brooks).
+Essay: *On Writing Code* P3, P4, P6, P8 (to be added); §9 (Parnas; Brooks).
 
 - **Every change adds or removes complexity. Default to removing the avoidable kind.** The domain's own complexity stays; deletion applies to speculative structure only.
 - **Prefer deep modules: a small interface over a substantial implementation.** A module that exposes a lot to save a little inside is shallow, and the cost reaches every caller.
@@ -50,7 +50,7 @@ Essay: *On Writing Code* P6; §9 (*The Pragmatic Programmer*, DRY).
 - **Don't repeat knowledge.** The duplication that hurts is two places that must change together. Extract those.
 - **Leave look-alike code alone.** Coincidental similarity isn't duplication; merging it couples things that change for different reasons.
 - **Abstract on the third copy (rule of three).** Write it, notice it the second time, abstract on the third. Two call sites rarely tell you what varies.
-- **A wrong abstraction costs more than a duplicate.** Abstract early only at a boundary you must swap or a published interface others depend on.
+- **A wrong abstraction costs more than a duplicate.** The rule of three governs an abstraction that emerges from duplication. An intentional abstraction is a design decision, judged on its reason: a current requirement or need, not speculation. "We might swap the database someday" doesn't count.
 - **When duplication in existing code is debt:** D-guide §2 (A finding needs evidence).
 - **Build for the requirement in front of you (YAGNI).** Every speculative abstraction is a guess about what will vary, made when you know least. Delete a dead option rather than keeping it for a someday.
 
@@ -63,16 +63,16 @@ Essay: *On Writing Code* P3, P4, P5, P6; §7.
 - **Fix the root cause, not the symptom.** Read every caller of the function you touch.
 - **A shared defect is fixed once, in the shared function. A special case one caller needs belongs to that caller.**
 - **Break it on purpose.** Where the code guards money, permissions or data integrity, break the line and confirm a test fails. The systematic form is mutation testing: T-guide §2 (Choose the kind of test).
-- **Minimalism never cuts the guardrails.** Input validation at trust boundaries, error handling that prevents data loss, security and accessibility aren't where you save lines. Non-trivial logic leaves one runnable check behind. Mark a deliberate corner-cut with a comment naming the limit and the upgrade path.
+- **Minimalism never cuts the guardrails.** Input validation at trust boundaries, error handling that prevents data loss, security and accessibility aren't where you save lines. Non-trivial logic leaves one runnable check behind. A limitation the owner has authorised and recorded on its ticket gets a comment naming the limit, the upgrade path and the ticket. See F-guide §2 (Build, ask, defer, don't) and D-guide §5 (Decide: pay it down or accept it).
 
 ## 6. Fail loudly, at the boundary
 
 Essay: *On Writing Code* P5; §4.4, §4.5.
 
 - **Never swallow an error.** No empty catch, no catch that hides the cause.
-- **Catch only to handle it, or to add context and rethrow.** Catch the specific failure you expect, not everything.
-- **Log once, where the error is finally handled,** through the application's logging path. Inner layers enrich the error with context; they don't log it on the way up.
-- **Normalize absence, surface errors.** Turn an expected-absent value into an empty collection at the edge. A failure is not an absent value: don't turn it into a default.
+- **Catch only to handle it, or to add context and rethrow.** Catch the specific failure you expect. A broad catch belongs only at the top-level boundary that finally handles the error.
+- **Log once, where the error is finally handled,** through the application's logging path. That handler doesn't rethrow. Inner layers add context and rethrow without logging.
+- **Normalise absence, surface errors.** At the edge, turn an expected-absent value into its agreed meaning (§1). Make it an empty collection only where the contract says absent and empty mean the same. A failure is not an absent value: don't turn it into a default.
 - **Validate inputs at the edge, against an allowlist.** Enumerate what is permitted and reject the rest. A denylist needs you to have thought of every bad input in advance.
 
 ## 7. Respect the machine
@@ -80,7 +80,7 @@ Essay: *On Writing Code* P5; §4.4, §4.5.
 Essay: *On Writing Code* P2; §4.6.
 
 - **Batch the work.** Do it for the set, not with a call or query per element (the N+1 trap). Keep results bounded, and stay inside the limits the runtime enforces. Realistic volume is a requirement (§1), not the speculation YAGNI warns against.
-- **What's inside the loop matters more than the loop.** An in-memory operation, a local database round trip and a network call are orders of magnitude apart. Big-O is worth one question, whether a loop is nested over the same data; for I/O the constant it discards is the whole cost.
+- **What's inside the loop matters more than the loop.** An in-memory operation, a local database round trip and a network call are orders of magnitude apart. Look for cost that grows with volume: I/O inside a loop, or a loop nested over the same data.
 
 ## 8. Writing it up
 
@@ -135,7 +135,7 @@ Essay: *On Writing Code* P1, P7; Appendix B.3. Decision 33.
 - **Check behaviour against primary sources.** An API's contract, a library's semantics or a platform limit comes from its documentation or a real call, not from a model's summary or memory. Say in the PR body what you couldn't verify.
 - **Fluency is not authority.** Code that reads well, a green run and a confident explanation aren't evidence it's right. Don't ask the model that wrote it to confirm it.
 
-The prose version of these rules is P-guide §1 (Writing under Adam's name).
+The reasoning is in [*On Agentic Tools*](https://adamdaw.com/ai/). The prose version of these rules is P-guide §1 (Writing under Adam's name).
 
 ## 11. When you're stuck
 
@@ -148,4 +148,4 @@ Essay: *On Writing Code* §7.
 - **Spend fifteen minutes before you ask.** Read the code being called, where it's called from, its tests and its history.
 - **Then ask specifically:** what you're trying to do, what you tried, what happened.
 
-See also: [`test-writing`](test-writing.md) and [`references.md`](references.md).
+See also: [`references.md`](references.md).
