@@ -1,4 +1,4 @@
-# Specifying: writing and reviewing SRS, SDD and tickets
+# Specifying: writing and reviewing an SRS and an SDD
 
 A checklist for writing a spec and for reviewing one. It assumes you already hold the principles; the reasoning is in *On Specifying Software*. Cite a line as "S-guide §N".
 
@@ -7,8 +7,10 @@ Vocabulary used throughout:
 - **Requirement**: one thing the system must do, stated so it can be checked.
 - **SRS** (software requirements specification): the requirements for one piece of work, and what the person who asked agreed to.
 - **SDD** (software design description): the contract a build is checked against.
-- **Spec**: either of these, or a ticket that plays either role.
+- **Spec**: an SRS or an SDD.
 - **Spec review**: judges whether a spec is fit to build from. **Fidelity review**: checks one layer against the one before it (SRS→SDD, SDD→code).
+
+Every piece of work that will be built gets an SRS and an SDD. Size doesn't decide whether they exist. The SRS may live in the ticket body. That is a location, not a lighter path.
 
 ## 1. Write requirements with SHALL, stated positively
 
@@ -152,3 +154,4 @@ Every finding that survives reconciliation gets exactly one disposition.
 - These formats apply to specs written or substantively revised after you adopt them.
 - An older spec isn't a finding for its format alone. Review it for content.
 - When a format is your own practice and not the team's, review other people's tickets for content, never for format.
+- The SRS-and-SDD rule above the numbered sections is your practice. A colleague's ticket with no SDD is a format difference, not a finding.

@@ -25,7 +25,7 @@ Essay: *On Reviewing Code*, none. The vocabulary is decided for all guides, not 
 | **Self-review** | The author reviews their own change before anyone else reads it. | W-guide §9 (Self-review) |
 | **Code review** | Someone reviews a change they didn't write. | This guide |
 | **Bot review** | An automated reviewer runs on the change. Its output is input to a review, never a substitute for one. | This guide, §9 |
-| **Spec review** | Someone checks a requirement, SRS, SDD or ticket for quality before anyone builds from it. | S-guide §10 (Spec review) |
+| **Spec review** | Someone checks a requirement, SRS or SDD for quality before anyone builds from it. | S-guide §10 (Spec review) |
 | **Fidelity review** | Someone checks coverage (nothing dropped) and containment (nothing added) at a handoff: SRS to SDD, SDD to code. | S-guide §11 (Fidelity review) |
 | **Claims audit** | Someone checks the factual claims in any prose. | Requirements: P-guide §1 (Writing under Adam's name) |
 | **Cold** | Modifier: the reviewer reads the artefact before the author's account of it (§4). | All review types |
