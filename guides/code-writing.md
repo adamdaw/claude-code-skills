@@ -15,11 +15,11 @@ Essay: *On Writing Code* P2; §3 steps 01–05 and *Find out what happens after 
 - **Build the walking skeleton first.** The thinnest version that runs end to end through every layer, before any part is elaborated. It includes what makes the feature reachable (configuration, permissions, deployment, navigation), not only the code. Exercise it as an ordinary user, not an administrator.
 - **Its first passenger is one failing test at the outside.** See T-guide §1 (Start at the outside).
 - **Estimate before you build.** Work out the order of magnitude (rows, calls, bytes, time) before choosing the approach. When the estimate is inconclusive, assume the collection is large: the realistic worst case. Estimating chooses the design; it isn't optimising. Optimise only what you have measured.
-- **Reach for the least code that works, after you understand the problem.** Trace the real flow end to end, then take the lowest rung that holds: nothing, existing code, the standard library or platform, an installed dependency, one line, then the minimum. Deletion over addition, boring over clever, fewest files.
+- **Reach for the least code that works, after you understand the problem.** Trace the real flow end to end, then take the lowest rung that holds: nothing, existing code, the standard library or platform, an installed dependency, one line, then the minimum. Deletion over addition, boring over clever.
 
 ## 2. Manage complexity
 
-Essay: *On Writing Code* P3, P4, P6; §9 (Parnas; Brooks).
+Essay: *On Writing Code* P3, P4, P6, P8 (to be added); §9 (Parnas; Brooks).
 
 - **Every change adds or removes complexity. Default to removing the avoidable kind.** The domain's own complexity stays; deletion applies to speculative structure only.
 - **Prefer deep modules: a small interface over a substantial implementation.** A module that exposes a lot to save a little inside is shallow, and the cost reaches every caller.
@@ -50,7 +50,7 @@ Essay: *On Writing Code* P6; §9 (*The Pragmatic Programmer*, DRY).
 - **Don't repeat knowledge.** The duplication that hurts is two places that must change together. Extract those.
 - **Leave look-alike code alone.** Coincidental similarity isn't duplication; merging it couples things that change for different reasons.
 - **Abstract on the third copy (rule of three).** Write it, notice it the second time, abstract on the third. Two call sites rarely tell you what varies.
-- **A wrong abstraction costs more than a duplicate.** Abstract early only at a boundary you must swap or a published interface others depend on.
+- **A wrong abstraction costs more than a duplicate.** The rule of three governs an abstraction that emerges from duplication. An intentional abstraction is a design decision, judged on its reason: a current requirement or need, not speculation. "We might swap the database someday" doesn't count.
 - **When duplication in existing code is debt:** D-guide §2 (A finding needs evidence).
 - **Build for the requirement in front of you (YAGNI).** Every speculative abstraction is a guess about what will vary, made when you know least. Delete a dead option rather than keeping it for a someday.
 
@@ -80,7 +80,7 @@ Essay: *On Writing Code* P5; §4.4, §4.5.
 Essay: *On Writing Code* P2; §4.6.
 
 - **Batch the work.** Do it for the set, not with a call or query per element (the N+1 trap). Keep results bounded, and stay inside the limits the runtime enforces. Realistic volume is a requirement (§1), not the speculation YAGNI warns against.
-- **What's inside the loop matters more than the loop.** An in-memory operation, a local database round trip and a network call are orders of magnitude apart. Big-O is worth one question, whether a loop is nested over the same data; for I/O the constant it discards is the whole cost.
+- **What's inside the loop matters more than the loop.** An in-memory operation, a local database round trip and a network call are orders of magnitude apart. Look for cost that grows with volume: I/O inside a loop, or a loop nested over the same data.
 
 ## 8. Writing it up
 

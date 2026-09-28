@@ -114,10 +114,12 @@ Normative documents are what reviewers see and what gets built. Non-normative do
 
 - Fidelity = **coverage** (nothing dropped) + **containment** (nothing added).
 - Run it at each handoff: SRS→SDD, then SDD→code.
-- Hand in both artefacts being compared (the SRS and the SDD, or the SDD and the code), plus the constitution and the constraints in scope. Supporting rationale stays out. Otherwise the §10 rules hold: findings returned, no files written.
+- Traceability is a chain: requirements (SRS) → design (SDD scenarios) → tests → code.
+- Hand in both artefacts being compared (the SRS and the SDD, or the SDD and the code with its tests), plus the constitution and the constraints in scope. Supporting rationale stays out. Otherwise the §10 rules hold: findings returned, no files written.
 - Start with ID matching, which is cheap and mechanical:
   - Every requirement ID in the upstream layer has at least one downstream line that traces to it. A requirement with no trace is a coverage finding.
-  - Every downstream line traces to an upstream ID. A line with no trace is a containment finding (inflation, §4).
+  - SRS→SDD: every SDD line traces to an SRS requirement ID. A line with no trace is a containment finding (inflation, §4).
+  - SDD→code: code isn't traced line by line. Each test traces to an SDD scenario, and code traces through the tests it makes pass. A test with no scenario is a containment finding.
 - Hand only what the matching can't settle to a strong model or a person: a line that traces but doesn't say what the requirement says, or code that doesn't do what the line says.
 - A script or a cheap model does the matching. Keep judgement for what matching can't settle, including a line whose ID matches but which says the wrong thing.
 

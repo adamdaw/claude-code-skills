@@ -7,6 +7,7 @@ The T-guide: a checklist for writing tests, and the rules a self-review or code 
 - Start a feature with one failing acceptance test at the outside of the system. Choose the smallest useful behaviour from the requirement or spec.
 - Run it against the walking skeleton: the thinnest path through the assembled system. Confirm it fails because the behaviour is missing.
 - Use unit tests to drive the implementation. Watch each fail for the intended reason, make it pass, then refactor against green tests.
+- Work in this order: outline the behaviour in tests, draft to green on the happy path, then widen the suite and revise. For the reasoning, see *On Testing Code* P3.
 
 ## 2. Choose the kind of test
 
@@ -90,3 +91,7 @@ Walk these four families over each new behaviour or branch.
 
 - Resolve what the skipped test leaves unanswered: fix it, delete it if the behaviour no longer applies, or link the ticket that tracks the question.
 - Treat quarantine as temporary. A flaky test needs the same explicit follow-up.
+
+## 10. Slow down after an unexpected failure
+
+- An unexpected failure means your picture of the code is wrong. Understand why before changing anything else. For the reasoning, see *On Testing Code* P11.
