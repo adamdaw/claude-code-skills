@@ -10,7 +10,7 @@ Vocabulary used throughout:
 - **Spec**: an SRS or an SDD.
 - **Spec review**: judges whether a spec is fit to build from. **Fidelity review**: checks one layer against the one before it (SRS→SDD, SDD→code).
 
-Every piece of work that will be built gets an SRS and an SDD. Size sets how long they are, not whether they exist. The SRS may live in the ticket body. That is a location, not a lighter path.
+Every piece of work that will be built gets an SRS and an SDD. Size doesn't decide whether they exist. The SRS may live in the ticket body. That is a location, not a lighter path.
 
 ## 1. Write requirements with SHALL, stated positively
 
