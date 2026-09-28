@@ -32,6 +32,7 @@ Each guide is a numbered checklist with a one-letter prefix, so a line can be ci
 | S | [`specifying.md`](guides/specifying.md) | Writing and reviewing an SRS and an SDD: SHALL and EARS, the registers, spec review and fidelity review. |
 | P | [`writing.md`](guides/writing.md) | Professional, technical and personal writing: editing order, lexicon, registers, editorial conventions, accessibility, and the preservation check. |
 | D | [`technical-debt.md`](guides/technical-debt.md) | Technical debt: sorting it from defects and preference, evidence, weighing, the debt ticket, assessments, and accepting inherited work. |
+| V | [`verifying-claims.md`](guides/verifying-claims.md) | Checking whether a claim holds: finding the claims, sources and derivations, fitting the claim to its source, flagging what wasn't checked, the independent read, and the claims audit. |
 
 Two more files sit beside them without a prefix: [`mutation-testing.md`](guides/mutation-testing.md), a five-minute explainer, and [`references.md`](guides/references.md), the outside sources behind the guides.
 
