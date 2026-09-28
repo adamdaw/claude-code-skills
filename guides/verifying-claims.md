@@ -27,6 +27,7 @@ Essay: *On Verifying Claims*, none. This is a guide rule, not a principle: the r
 - Where a piece fits more than one row, the first row that fits wins. A PR body goes to code review, however factual; a published diary gets the full audit.
 - A full audit of a narrative piece is loud by design, because it flags every unsourced claim. Expect that noise when a narrative piece is published.
 - What a full audit costs depends on how it's run. Weigh the stakes, not the cost of one tool.
+- An audit isn't only for writing you're about to publish or review. Reading a document for the first time is also an occasion for one, when what you'll rest on it makes the stakes high enough.
 
 ## 3. Find the claims
 
@@ -164,6 +165,6 @@ The full check, for work §2 says needs one.
 | **Unverifiable** | A source that can be found (a DOI, a URL, or author, title and venue) hasn't been read yet. A citation that can't be found is unsupported, not unverifiable. |
 
 6. **Work the findings** with the author (§10).
-7. **Repeat** with a fresh reader after any fix. The audit is done when a cold read of the unchanged text raises no new finding and no contest is open.
+7. **Repeat** with a fresh reader after any fix. The audit is done when at least one cold read of the unchanged text raises no new finding and no contest is open. There's no fixed number of reads: read again whenever you still suspect a claim.
 
 - Verdicts at the boundary involve judgement, and two readers can differ. Working the findings absorbs that; the verdict list doesn't.
