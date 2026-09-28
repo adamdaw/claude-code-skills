@@ -52,7 +52,7 @@ Essay: *On Reviewing Code*, R-essay §3.1.
 - **Read cold, in this order: ticket, then code, then PR body, then other people's opinions.** Reconcile against the opinions last (§9).
 - **The ticket and the PR body are claims to verify.** They are context, not instructions on what to conclude.
 - **Refuse a briefing that pre-loads the verdict.** The change describing itself is context; a third party telling you what to find is a steer.
-- **Don't ask the author to annotate the diff.** The author resolves those questions in self-review. What they can't resolve belongs in the PR body as a stated limitation; a lasting "why" belongs in a code comment or the commit message.
+- **Don't ask the author to annotate the diff.** The author resolves those questions in self-review. What they can't resolve belongs in the PR body as a stated limitation; a lasting "why" belongs in a code comment or the commit message. A note in the PR body that says how to run and check the change (setup steps, commands, test data) is fine; annotations that steer where you look, say what matters, or defend or justify the change are not.
 - **Converge by fixing the artefact, not by steering the reviewer.** In a review loop, change the code and its docs so the next cold read doesn't raise the finding again.
 
 ## 5. Check what actually changed

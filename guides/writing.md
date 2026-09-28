@@ -56,7 +56,7 @@ and shape for each register from the following table.
 | --- | --- |
 | Claude's prose to Adam | Answer, then only context that changes the next action; follow P-guide §5 (Claude to Adam). |
 | Vault notes | Outcome or state first. Name the actor and identifier every time; keep searchable lexicon. Preserve the note's required structure and metadata. |
-| Reviews | Finding first, never a verdict word or status recap. Give the observation, invite correction, then ask about a possible fix. Keep one finding per comment. See R-guide §11 (Writing a finding). |
+| Reviews | Finding first, never a verdict word or status recap. Name the problem and why it matters, and invite correction; the author chooses the fix. Keep one finding per comment. See R-guide §11 (Writing a finding). |
 | PR descriptions | Concrete problem and resulting behaviour, then scope, verification and material limits. Scale detail to the change. |
 | Technical docs | Answer or task first; prerequisites, ordered actions, expected result and recovery where needed. Separate explanation from instructions. |
 | Specs and ADRs (architecture decision records) | Requirement or decision first, with scope, constraints and checkable consequences. Separate binding text from explanation. |
