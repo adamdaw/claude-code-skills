@@ -157,7 +157,7 @@ Essay: *On Reviewing Code*, R-essay §4.4, §4.7; R-essay §1, principles 6 and 
 - Deletion is a valid outcome. Never at the cost of validation, error handling, security or the one check that proves the logic.
 - Deduplicate knowledge (two places that must change together), not code that only looks alike. See W-guide §4 (Duplication and speculation).
 - Rule of three: abstract on the third copy. Raise speculative generality once, accept the answer, and never aim it at code the change only touched.
-- The rule of three governs an abstraction that emerges from duplication. An intentional abstraction is judged on its reason, which must be a current requirement or need, not speculation. "We might swap the vendor someday" doesn't count.
+- That rule governs an abstraction that emerges from duplication. An intentional abstraction is judged on its reason, which must be a current requirement or need, not speculation. "We might swap the vendor someday" doesn't count.
 - An interface with one implementation is a nit unless it is load-bearing.
 - Dependencies point toward more stable modules, never into a cycle. A forked or patched dependency is committed as readable source.
 - Background for judging structure: F-guide §6 (Open a seam) and F-guide §7 (Sprout or wrap when adding behaviour). The finding names the structural problem; the author chooses the fix (§11.2).
