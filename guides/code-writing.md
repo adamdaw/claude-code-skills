@@ -95,7 +95,7 @@ A repo's own commit and PR conventions win over these.
 - **Say what you decided that the requirement didn't.** Each such decision is one the reviewer would otherwise re-derive.
 - **Say what you didn't do.** Silence reads as coverage. "Not tested at production volume" is honest.
 - **Link the deferred tickets.**
-- **State limitations as facts, not annotations.** A limitation you couldn't resolve goes in the PR body as state. No comments on your own diff to guide the reviewer (§9).
+- **State limitations as facts, not annotations.** A limitation you couldn't resolve goes in the PR body as state. The PR body may say how to run and check the change (setup steps, commands, test data); no notes that steer the reviewer or defend the change (§9).
 - **Leave the journey out.** How you got there lives in git history and the review thread.
 - **Describe the work, not the people.** No "as discussed with", no credit for who suggested what, no note about which tool helped. Provenance lives in commit metadata.
 - **Don't defend it pre-emptively.** Explaining why something is fine before anyone asks usually means you doubt it: act on that instead.
@@ -112,7 +112,7 @@ Your own change, before anyone else reads it. Self-review is not cold: you hold 
 - **Walk the eight dimensions.** The same eight a code reviewer checks: R-guide §7 (What to look for: the eight dimensions).
 - **List every candidate, then decide.** Write down each candidate, name the dimensions that came up clean, and decide each one yourself. When an agent runs the pass, it lists and you decide.
 - **Hold your own standard, which is higher than the team's.** Include analyzer findings below the team's threshold.
-- **Resolve what you'd have annotated.** Find out, test it, fix it, or rename it. What stays unresolved goes in the PR body as state (§8); a lasting why goes in a code comment or the commit message.
+- **Resolve what you'd have annotated.** Find out, test it, fix it, or rename it. What stays unresolved goes in the PR body as state (§8); a lasting why goes in a code comment or the commit message. Run and check instructions may go in the PR body (§8); do not add notes that steer the reviewer or defend the change.
 - **Refactor-type fixes follow the F-guide:** F-guide §8 (Verify each step).
 
 | # | Dimension | The question | Sub-checks |
