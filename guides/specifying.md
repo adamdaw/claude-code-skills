@@ -154,3 +154,4 @@ Every finding that survives reconciliation gets exactly one disposition.
 - These formats apply to specs written or substantively revised after you adopt them.
 - An older spec isn't a finding for its format alone. Review it for content.
 - When a format is your own practice and not the team's, review other people's tickets for content, never for format.
+- The SRS-and-SDD rule above the numbered sections is your practice. A colleague's ticket with no SDD is a format difference, not a finding.
