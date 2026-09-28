@@ -10,6 +10,8 @@ Vocabulary used throughout:
 - **Spec**: an SRS or an SDD.
 - **Spec review**: judges whether a spec is fit to build from. **Fidelity review**: checks one layer against the one before it (SRS→SDD, SDD→code).
 
+Every piece of work that will be built gets an SRS and an SDD. Size sets how long they are, not whether they exist. The SRS may live in the ticket body. That is a location, not a lighter path.
+
 ## 1. Write requirements with SHALL, stated positively
 
 - Use SHALL only in requirements and SDD contract lines. SHALL binds; *should*, *will* and *may* bind nothing, so don't use them to express an obligation.
@@ -41,8 +43,6 @@ Vocabulary used throughout:
 
 ## 4. The SDD is the smallest contract that makes the SRS checkable
 
-- Every piece of work that will be built gets an SRS and an SDD. Size sets how long they are, not whether they exist.
-- The SRS may live in the ticket body. That is a location, not a lighter path.
 - Every SDD line is attack surface. Write only what a fidelity review or a test will hold the code to.
 - Each line must be **traced**: it serves a named SRS requirement.
 - Each line must be **checkable**: an interface, a precondition or postcondition, an invariant, a boundary behaviour, or an error the caller can see.
