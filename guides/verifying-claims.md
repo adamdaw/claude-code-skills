@@ -19,12 +19,12 @@ Essay: *On Verifying Claims*, none. This is a guide rule, not a principle: the r
 
 | The work | The check |
 | --- | --- |
+| Code, and the claims in a ticket or PR body | Code review, which treats the ticket and the PR body as claims to verify: R-guide §4 (Reading order). For code you write, W-guide §10 (Code that goes out under your name). |
 | Published writing, or anything high-stakes, that carries facts, figures or an argument | The full claims audit (§11). |
 | Writing that makes claims but isn't published or high-stakes, including narrative pieces such as a retrospective or a diary | The lighter check: check your own sources (§4, §5) and flag what you couldn't check (§8), then have someone else read the claims the piece depends on (§9). |
-| Code, and the claims in a PR body | Code review, which treats the ticket and the PR body as claims to verify: R-guide §4 (Reading order). For code you write, W-guide §10 (Code that goes out under your name). |
 | Pure opinion, preference or a value judgement that asserts nothing checkable | No check; there is no claim to verify (§3). |
 
-- Where a piece fits more than one row, the first row that fits wins. A published diary gets the full audit.
+- Where a piece fits more than one row, the first row that fits wins. A PR body goes to code review, however factual; a published diary gets the full audit.
 - A full audit of a narrative piece is loud by design, because it flags every unsourced claim. Expect that noise when a narrative piece is published.
 - What a full audit costs depends on how it's run. Weigh the stakes, not the cost of one tool.
 
@@ -94,7 +94,10 @@ Essay: *On Verifying Claims* P4.
 - A source supports a claim only as far as it goes. Where it supports a weaker or narrower claim, the claim shrinks to fit; never stretch the source.
 - Match the kind of evidence before its strength. Correlation doesn't carry a causal claim. In one of the examples below, a simulation was cited as evidence about how people behave: the wrong kind of evidence for that claim. Hedging a causal claim ("the data suggest the cache caused it") doesn't change its kind.
 - Tell the two kinds of hedge apart. "I believe" or "I suspect" states the writer's attitude: check the claim underneath. "Suggests", "probably" or "almost certainly" states the strength of the evidence: the source must carry that strength and no less.
-- Read a figure at the precision it's written. "47%" isn't carried by 42%; "20 engineers" means 20. A loosened figure ("about 50%") still has limits, and "never" or "all" is a figure too.
+- Read an unqualified point figure at the precision it's written. "47%" is carried by 47.4% but not by 42%; "20 engineers" means 20.
+- A figure marked as approximate is looser, but only by a little: "about 50%" is carried by 53%, not by 30%. Wider looseness has to be written as a range.
+- Against a range in the source, a point figure is carried only when the whole range rounds to it. If the range and the figure don't meet, the figure is contradicted; if they partly overlap, the figure is more precise than the source allows and is overclaimed. When the writing gives a range, a source figure or range inside it carries it, one outside it contradicts it, and one that only partly overlaps it leaves the writing's range overclaimed.
+- "Never", "all" and "eliminated" are figures too: zero or everything.
 - Where the source supports a weaker claim, the author writes the weaker claim. A reviewer quotes what the source does say and stops there.
 - Examples of the drift this catches, from real cases with the details removed:
   - An early survey of an idea was cited as its origin.
@@ -156,8 +159,8 @@ The full check, for work §2 says needs one.
 | --- | --- |
 | **Supported** | The evidence carries the claim at its stated strength, and every source cited for it was read. |
 | **Unsupported** | Evidence is needed and none holds: no source, a source that reports nothing, a missing premise, or a citation too vague to find. |
-| **Overclaimed** | The source supports a weaker or narrower claim of the same kind (§7). If the kind differs, the claim is unsupported. A stated figure the source's figure doesn't round to, at the precision written, is contradicted, not overclaimed (§7). |
-| **Contradicted** | Counter-evidence in the writing or a source, a contradiction between claims, an argument that doesn't follow, or a figure out of tolerance: "47%" against a source's 42%. |
+| **Overclaimed** | The source supports a weaker or narrower claim of the same kind (§7). If the kind differs, the claim is unsupported. A figure more precise than the source's range allows is overclaimed; a figure outside the source's value is contradicted (§7). |
+| **Contradicted** | Counter-evidence in the writing or a source, a contradiction between claims, an argument that doesn't follow, or a figure outside what the source reports, at the precision or looseness it's written (§7): an unqualified "47%" against a source's 42%. |
 | **Unverifiable** | A source that can be found (a DOI, a URL, or author, title and venue) hasn't been read yet. A citation that can't be found is unsupported, not unverifiable. |
 
 6. **Work the findings** with the author (§10).
