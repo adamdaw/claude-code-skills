@@ -16,6 +16,7 @@ and the future essay *On Writing*.
 - Flag unsourced claims explicitly. Keep observations, inferences and unknowns distinct.
 - Fluency is not authority. A polished sentence and a model's agreement are not evidence.
   Use an independent claims audit when checking claims; author judgement remains necessary.
+  See V-guide §9 (Someone else confirms the claim) and V-guide §11 (Run a claims audit).
 
 ## 2. Edit in order: content → comprehension → voice
 
@@ -39,8 +40,10 @@ and the future essay *On Writing*.
 - Skip the gloss when the audience already knows the term, the text has already defined
   it, or its meaning is clear enough here for the reader to act. Reintroduce it in a
   section that readers use independently.
-- Use one term per thing and one meaning per word. Repeat the term instead of changing
-  synonyms for variety. Preserve search terms in durable writing.
+- Use one term per thing and one meaning per word. In technical and instructional
+  writing, hold to this strictly: repeat the term instead of changing synonyms for
+  variety. In essays and personal writing, different words can carry the same term
+  when the reader can tell the meaning. Preserve search terms in durable writing.
 - Keep requirement, spec, SRS (software requirements specification) and SDD (software
   design description) distinct. Don't turn descriptive prose into a requirement by editing.
 - Name the review type: self-review, code review, bot review, spec review, fidelity review
@@ -60,7 +63,7 @@ and shape for each register from the following table.
 | PR descriptions | Concrete problem and resulting behaviour, then scope, verification and material limits. Scale detail to the change. |
 | Technical docs | Answer or task first; prerequisites, ordered actions, expected result and recovery where needed. Separate explanation from instructions. |
 | Specs and ADRs (architecture decision records) | Requirement or decision first, with scope, constraints and checkable consequences. Separate binding text from explanation. |
-| Correspondence | For email and sensitive messages, put the purpose, request or acknowledgement first, with enough context for this recipient. For apologies, name the act and responsibility; for condolences, acknowledge the loss without inventing feelings or memories. Deliver hard news plainly and state a request with its timing. |
+| Correspondence | For email and sensitive messages, put the purpose, request or acknowledgement first, with enough context for this recipient. For apologies, name the act and responsibility; whether to name yourself depends on the audience. For condolences, acknowledge the loss without inventing feelings or memories. Deliver hard news plainly and state a request with its timing. |
 | Personal essays | A true scene first; never manufacture one. Develop Adam's argument from his material; follow P-guide §9 (Personal essays and fiction). |
 | Fiction | Follow only the project's `bible/` for voice. |
 
@@ -72,11 +75,13 @@ choice unless it blocks comprehension.
 | “We” | Never; use “I” or “you” | “Could we…” is allowed | — | Inclusive “we” is allowed |
 | Hedges | Cut | Deliberate, to invite correction | Cut | Adam's |
 | Metaphor | None | None | None | Adam's |
-| Passive | Name the actor | Name the actor | Allowed; preserve responsibility | Adam's |
+| Passive | Name the actor | Stay neutral; make the code the subject | Allowed; preserve responsibility | Adam's |
 | Em and en dashes | Allowed | None | Allowed | Adam's |
 
-- In vault notes, PR descriptions and technical docs, use literal language and name the
-  actor. Correspondence can retain courtesy and warmth suited to the recipient.
+- In vault notes, PR descriptions and technical docs, use literal language. Vault notes
+  are notes to yourself: name who acted. PR descriptions and technical docs face outward:
+  stay neutral about people. Correspondence can retain courtesy and warmth suited to the
+  recipient.
 - In reviews, a hedge must not weaken the finding's severity. End on the real question;
   don't append a reassurance or invent a question when there is no finding.
 - Use plain writing for nonfiction; apply the register's specific conventions where
@@ -93,8 +98,11 @@ choice unless it blocks comprehension.
 ## 6. Write plain sentences
 
 - Give each sentence one idea and each paragraph one job. Keep subject and verb close.
-- Name who acted. Use “I” for the agent's actions and “you” for Adam's; don't hide a
-  mistake in passive voice. Passive is valid when the actor is unknown or immaterial.
+- Naming who acted depends on the audience. In notes to yourself, name who acted. In
+  outward-facing writing, stay neutral and don't attack people; whether to name yourself
+  for your own mistake also depends on the audience. In Claude's prose to Adam, use “I”
+  for the agent's actions and “you” for Adam's, and don't hide a mistake in passive voice.
+  Passive is valid when the actor is unknown or immaterial.
 - Put a condition before the instruction it limits. Use the imperative for instructions.
 - Use present tense for how something works and past tense for what happened. Keep
   other tenses when the meaning needs them; replace vague timing with a date or version.
@@ -104,7 +112,8 @@ choice unless it blocks comprehension.
   “must” for a requirement. Avoid “should” and “may” in ordinary prose; never soften
   or reinterpret a contractual keyword.
 - Avoid mannered contrasts, personified documents, decorative closers and emphasis for
-  rhythm. Vary sentence openings without changing terms for the same thing.
+  rhythm. Vary sentence openings without changing terms for the same thing; the register
+  sets how strictly, per P-guide §3 (Keep the lexicon; explain it).
 - Keep helper words and deliberate repetition when they prevent a reread or a wrong
   inference. Break a style rule when following it would make the writing less clear.
 

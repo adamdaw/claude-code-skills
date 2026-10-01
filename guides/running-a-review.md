@@ -27,7 +27,7 @@ Essay: *On Reviewing Code*, none. The vocabulary is decided for all guides, not 
 | **Bot review** | An automated reviewer runs on the change. Its output is input to a review, never a substitute for one. | This guide, §9 |
 | **Spec review** | Someone checks a requirement, SRS or SDD for quality before anyone builds from it. | S-guide §10 (Spec review) |
 | **Fidelity review** | Someone checks coverage (nothing dropped) and containment (nothing added) at a handoff: SRS to SDD, SDD to code. | S-guide §11 (Fidelity review) |
-| **Claims audit** | Someone checks the factual claims in any prose. | Requirements: P-guide §1 (Writing under Adam's name) |
+| **Claims audit** | Someone checks the factual claims in any prose. | V-guide §11 (Run a claims audit) |
 | **Cold** | Modifier: the reviewer reads the artefact before the author's account of it (§4). | All review types |
 
 Refer to a review by its name, never by a gate number.
@@ -97,7 +97,7 @@ Essay: *On Reviewing Code*, R-essay §3.3.
 
 ### 7.3 Tests
 
-Essay: *On Reviewing Code*, R-essay §4.1; R-essay §1, principles 2, 3 and 6.
+Essay: *On Reviewing Code*, R-essay §4.1; R-essay §1, principles 2, 3 and 6. Stable identifiers: *On Being Understood* R2.
 
 - Each test would detect a break in what it guards. For a doubtful assertion or a high-stakes path, break the guarded logic and confirm the test goes red. Follow [`mutation-testing.md`](mutation-testing.md), including when not to bother.
 - Both branches of every permission or feature gate are tested; count new guard clauses against new tests.
@@ -114,7 +114,7 @@ Essay: *On Reviewing Code*, R-essay §4.1; R-essay §1, principles 2, 3 and 6.
 
 ### 7.4 Failure
 
-Essay: *On Reviewing Code*, R-essay §4.3.
+Essay: *On Reviewing Code*, principle 8 (Errors should be loud); R-essay §4.3.
 
 - Each failure point handles, propagates or refuses. Nothing swallowed.
 - Specific exceptions, not a blanket catch. A broad catch belongs only at the top-level boundary that finally handles the error.
@@ -164,7 +164,7 @@ Essay: *On Reviewing Code*, R-essay §4.4, §4.7; R-essay §1, principles 6 and 
 
 ### 7.8 Legibility (including standards and docs)
 
-Essay: *On Reviewing Code*, R-essay §4.6, §4.8.
+Essay: *On Reviewing Code*, R-essay §4.6, §4.8. Design docs: *On Specifying Software* (What a design doc is for).
 
 - Names in the domain's language. No unexplained numbers. No shadowed or colliding names.
 - The easiest dimension to over-weight: one naming nit per review, not six.
@@ -220,7 +220,7 @@ Essay: *On Reviewing Code*, R-essay §6, and the Weight passage of each principl
 
 ## 11. Writing a finding
 
-Essay: *On Reviewing Code*, R-essay §8.
+Essay: *On Reviewing Code*, R-essay §8. The bold, bullet and code-formatting rules in §11.3 apply the precision principle in *On Writing* P1.
 
 The register for anything drafted to post: review comments, questions to an author, comments on tickets, and chat replies about a review.
 
@@ -295,6 +295,6 @@ Not in this guide:
 - Building an explanation of unfamiliar code: F-guide §1 (Explain before you edit).
 - Choosing and designing tests: T-guide §2 (Choose the kind of test).
 - Spec and fidelity review: S-guide §10 (Spec review), S-guide §11 (Fidelity review).
-- Claims audit requirements: P-guide §1 (Writing under Adam's name).
+- Claims audit: V-guide §11 (Run a claims audit).
 
 Sources: [`references.md`](references.md).

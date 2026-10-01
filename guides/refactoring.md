@@ -49,6 +49,11 @@ Apply this table when you discover work beyond the task's wording.
 - **“Leave it cleaner” means tidy the code you are already changing.** Improve a
   name, extract a coherent operation, or remove local duplication when that makes
   this change easier to understand. It does not authorise a surrounding rewrite.
+- **Subtract speculation and repeated knowledge; keep the safeguards.** In the code
+  you are changing, remove duplicated knowledge and dead speculation; don't abstract
+  on the second copy. Never cut validation, error handling, a security check or the
+  test that proves the logic. The detailed rules are in
+  W-guide §4 (Duplication and speculation) and W-guide §5 (Know why it's correct).
 - **Keep tidying in a separate commit from the behaviour change.** Each commit
   must build and pass its relevant tests. Put preparatory tidying first when the
   behaviour change depends on it.
@@ -109,6 +114,13 @@ Apply this table when you discover work beyond the task's wording.
 
 ## 7. Sprout or wrap when adding behaviour
 
+- **If you can't change it, work with it.** The most common case is code owned
+  elsewhere: another team's, a vendor's or a library's. Others are code with no
+  tests yet, code others depend on as it is, and code where now isn't the moment.
+  Sprout and wrap add the behaviour beside or around that code instead of inside it.
+- Being unable to change code is not the same as being unable to understand it, and
+  understanding it doesn't put you in a position to alter it. Understanding is its
+  own step: F-guide §1 (Explain before you edit).
 - **Sprout Method / Sprout Class:** put new behaviour in a tested method or class,
   then make the small change that calls it from the existing code.
 - **Wrap Method / Wrap Class:** retain the existing operation and add behaviour
@@ -121,6 +133,8 @@ Apply this table when you discover work beyond the task's wording.
 
 ## 8. Verify each step
 
+- **Take steps small enough to see what each one does.** A step is small enough
+  when its effect on the whole is immediately visible.
 - Establish the baseline before editing. Run the focused tests after each small
   transformation; when one fails unexpectedly, undo or diagnose that step before
   adding another.
