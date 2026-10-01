@@ -19,7 +19,7 @@ Essay: *On Writing Code* P2; §3 steps 01–05 and *Find out what happens after 
 
 ## 2. Manage complexity
 
-Essay: *On Writing Code* P3, P4, P6, P8 (to be added); §9 (Parnas; Brooks).
+Essay: *On Writing Code* P3, P4, P6, P8; §9 (Parnas; Brooks).
 
 - **Every change adds or removes complexity. Default to removing the avoidable kind.** The domain's own complexity stays; deletion applies to speculative structure only.
 - **Prefer deep modules: a small interface over a substantial implementation.** A module that exposes a lot to save a little inside is shallow, and the cost reaches every caller.

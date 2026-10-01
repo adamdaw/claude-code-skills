@@ -8,6 +8,7 @@ The T-guide: a checklist for writing tests, and the rules a self-review or code 
 - Run it against the walking skeleton: the thinnest path through the assembled system. Confirm it fails because the behaviour is missing.
 - Use unit tests to drive the implementation. Watch each fail for the intended reason, make it pass, then refactor against green tests.
 - Work in this order: outline the behaviour in tests, draft to green on the happy path, then widen the suite and revise. For the reasoning, see *On Testing Code* P3.
+- Coding isn't done until all the tests run. Before calling a change done, run the repository's relevant checks (the tests for what you changed, the broader suite, and its build, lint and type checks) and see them pass. If no test framework exists, say so in the PR.
 
 ## 2. Choose the kind of test
 
