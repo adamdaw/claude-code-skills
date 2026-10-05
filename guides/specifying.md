@@ -1,14 +1,14 @@
 # Specifying: writing and reviewing an SRS and an SDD
 
-A checklist for writing a spec and for reviewing one. It assumes you already hold the principles; the reasoning is in *On Specifying Software*. Cite a line as "S-guide §N".
+A checklist for writing an SRS or an SDD and for reviewing one. It assumes you already hold the principles; the reasoning is in *On Specifying Software*. Cite a line as "S-guide §N".
 
 Vocabulary used throughout:
 
 - **Requirement**: one thing the system must do, stated so it can be checked.
 - **SRS** (software requirements specification): the requirements for one piece of work, and what the person who asked agreed to.
 - **SDD** (software design description): the contract a build is checked against.
-- **Spec**: an SRS or an SDD.
-- **Spec review**: judges whether a spec is fit to build from. **Fidelity review**: checks one layer against the one before it (SRS→SDD, SDD→code).
+- **Spec**: the SRS. **Design**: the SDD. **Docs**: the SRS and the SDD together; a **doc** is either one.
+- **SRS review** / **SDD review**: judges whether that doc is fit to build from. **Fidelity review**: checks one layer against the one before it (SRS→SDD, SDD→code).
 
 Every piece of work that will be built gets an SRS and an SDD. Size doesn't decide whether they exist. The SRS may live in the ticket body. That is a location, not a lighter path.
 
@@ -18,7 +18,7 @@ Every piece of work that will be built gets an SRS and an SDD. Size doesn't deci
 - State each requirement positively. Turn a prohibition into an allowlist: "The system shall log only the request ID and status", not "shall not log personal data".
 - Use "shall not" only when no positive form exists.
 - One requirement per sentence, one reading per requirement.
-- State the need, not the design. How it is built belongs in the code; the SDD holds only traced, checkable commitments (§4).
+- State the need, not the implementation. How it is built belongs in the code; the SDD holds only traced, checkable commitments (§4).
 - Write acceptance criteria as observed outcomes in the plain present tense: "The export contains one row per active account."
 - Two requirements that contradict each other are a finding, however far apart they sit.
 
@@ -36,7 +36,7 @@ Every piece of work that will be built gets an SRS and an SDD. Size doesn't deci
 
 ## 3. Say what a missing value means
 
-- For every value that can be missing, the spec states what missing means. A spec that doesn't is a spec-review finding.
+- For every value that can be missing, the spec states what missing means. A spec that doesn't is an SRS-review finding.
 - Keep absent, empty and zero apart. They are three states, and each needs its own stated meaning.
 - If you don't know what a missing value is supposed to mean, ask. It's a decision nobody made yet, and it isn't yours to make.
 - Ask the other questions the requirement doesn't answer: what it refuses, how many it handles realistically, and what happens when it fails. (*On Writing Code* has the reasoning.)
@@ -46,10 +46,10 @@ Every piece of work that will be built gets an SRS and an SDD. Size doesn't deci
 - Every SDD line is attack surface. Write only what a fidelity review or a test will hold the code to.
 - Each line must be **traced**: it serves a named SRS requirement.
 - Each line must be **checkable**: an interface, a precondition or postcondition, an invariant, a boundary behaviour, or an error the caller can see.
-- A line that fails either test is a finding. A checkable line with no trace is still inflation; a traced line that can't be checked is either a vague commitment to restate so it can be checked, or exposition or design to cut:
+- A line that fails either test is a finding. A checkable line with no trace is still inflation; a traced line that can't be checked is either a vague commitment to restate so it can be checked, or exposition or implementation detail to cut:
   - **Inflation** (untraced: a new commitment the SRS doesn't make): cut it, or take it back to the SRS through its owner and SRS review. Never keep it in place.
   - **Derivation, justification or exposition**: cut it. The reason goes in the decision register (§6).
-  - **Design or implementation** (the how): cut it. It belongs in the code.
+  - **Implementation detail** (the how): cut it. It belongs in the code.
 - Don't restate the SRS in the SDD. Trace to it by ID.
 
 ## 5. Normative and non-normative documents
@@ -63,7 +63,7 @@ Normative documents are what reviewers see and what gets built. Non-normative do
 | SRS | Decision register: D-n entries |
 | SDD | |
 
-- A cold spec review or fidelity review gets the normative column only. Filter the constraints register by scope; that is a lookup, not a judgement.
+- A cold SRS review, SDD review or fidelity review gets the normative column only. Filter the constraints register by scope; that is a lookup, not a judgement.
 - Nobody reviews a non-normative document as contract, and nobody builds from one.
 - Keep ADRs for cross-cutting, long-lived decisions. Other rationale goes in the decision register, in a commit body (a rejected alternative only when it prevents someone undoing the change), or nowhere.
 
@@ -71,7 +71,7 @@ Normative documents are what reviewers see and what gets built. Non-normative do
 
 - **Elicitation record** (sits beside the SRS): facts. Each F-entry has an ID, the fact, its source and a date. A stakeholder's decision is recorded as a fact: who decided what, and when.
 - **Decision register** (sits beside the SDD): choices. Each D-entry has an ID, the choice, an owner and a one-line reason.
-- Link the specs to the registers by ID (F-n, D-n). A stale fact flags every line that cites it.
+- Link the docs to the registers by ID (F-n, D-n). A stale fact flags every line that cites it.
 - Record a term change as a D-entry.
 - Elicit live one question at a time. Asynchronously, ask all the questions at once, in writing, where the answers stay.
 - Every answer becomes an F-entry.
@@ -79,12 +79,12 @@ Normative documents are what reviewers see and what gets built. Non-normative do
 ## 7. The constraints register
 
 - Each C-entry has an ID, a scope, one positive SHALL line, and a link to the ADR that holds its reason.
-- A constraint binds every spec in its scope. Reviewers receive the entries whose scope covers the spec.
+- A constraint binds every doc in its scope. Reviewers receive the entries whose scope covers the doc.
 - Change a constraint through an ADR decision, never through a workaround in the SDD.
 
-## 8. A spec never contains a deviation
+## 8. A doc never contains a deviation
 
-- If a spec conflicts with the constitution or a constraint, don't write the deviation into the spec.
+- If a doc conflicts with the constitution or a constraint, don't write the deviation into the doc.
 - Resolve it one of two ways: amend the constitution, or add a scoped exception to the constraints register with its ADR.
 - Until one of those happens, the conflict is an open finding.
 - If the rule belongs to someone else (a team's constitution, say), the conflict is a question to them, with a D-entry while it stays open.
@@ -97,11 +97,11 @@ Normative documents are what reviewers see and what gets built. Non-normative do
 - Don't add the case to the SDD without the requester's decision, and don't hold the SDD indefinitely waiting for it.
 - Going back to SRS review is costly. Do it anyway, and count it.
 
-## 10. Spec review
+## 10. SRS review and SDD review
 
-- A spec review is cold: the reviewer is not the author and has not seen the author's reasoning.
-- Hand the reviewer its inputs: the spec under review, the spec it must encode (the SRS, for an SDD), the constitution, and the constraints in scope. The reviewer fetches nothing and has no tracker or repository-hosting access.
-- Never hand in the non-normative documents, earlier findings or your own opinion of the spec.
+- An SRS review or SDD review is cold: the reviewer is not the author and has not seen the author's reasoning.
+- Hand the reviewer its inputs: the doc under review, the doc it must encode (the SRS, for an SDD), the constitution, and the constraints in scope. The reviewer fetches nothing and has no tracker or repository-hosting access.
+- Never hand in the non-normative documents, earlier findings or your own opinion of the doc.
 - The reviewer returns findings and writes no files. Recording happens at reconciliation (§12).
 - It checks:
   - Each requirement against §1–§3: SHALL, positive, one reading, EARS, missing values stated.
@@ -109,8 +109,8 @@ Normative documents are what reviewers see and what gets built. Non-normative do
   - No deviation from the constitution or a constraint in scope (§8).
   - Each acceptance criterion observable without reading the code.
   - Outside behaviour (a vendor API, a platform quirk) that has been verified records its source and date. Outside behaviour that is assumed is marked as an assumption to verify, not stated as settled.
-- It judges whether the spec is fit to build from. It doesn't propose a design.
-- Spec review is judgement work. Give it a strong model or an experienced reader.
+- It judges whether the doc is fit to build from. It doesn't propose an implementation.
+- SRS review and SDD review are judgement work. Give it a strong model or an experienced reader.
 
 ## 11. Fidelity review
 
@@ -129,9 +129,9 @@ Normative documents are what reviewers see and what gets built. Non-normative do
 
 - Reconcile the candidate findings from a cold pass against the decision register and the glossary before anyone acts on them.
 - Drop re-raises of settled decisions and reversions of settled choices. Log each drop against its D-entry: "re-raised ×12; stands".
-- A candidate that keeps coming back gets one look. Either the decision stands, or you fix it by editing or removing a line. Never fix it by adding spec text.
+- A candidate that keeps coming back gets one look. Either the decision stands, or you fix it by editing or removing a line. Never fix it by adding text to the doc.
 - Reconciliation is mostly matching, so a script or a cheap model can do most of it.
-- **Done** = a cold pass whose candidates, after reconciliation, leave no new finding, on a spec body unchanged since that pass.
+- **Done** = a cold pass whose candidates, after reconciliation, leave no new finding, on a doc body unchanged since that pass.
 - If passes stop converging on genuinely new findings, escalate to the person who asked.
 
 ## 13. The four dispositions
@@ -140,8 +140,8 @@ Every finding that survives reconciliation gets exactly one disposition.
 
 - **Fix**: change or remove a line. A cut idea can be parked as a follow-up.
 - **Reject**: not a real finding. Record a D-entry; reconciliation drops it from then on.
-- **Escalate**: real, and this spec's problem, but the decision belongs to someone else. Their answer becomes an F-entry.
-- **Route**: real, but not this spec's responsibility. Send it where it belongs, with an owner there. If this spec depends on it, escalate instead.
+- **Escalate**: real, and this doc's problem, but the decision belongs to someone else. Their answer becomes an F-entry.
+- **Route**: real, but not this doc's responsibility. Send it where it belongs, with an owner there. If this doc depends on it, escalate instead.
 - No waivers. A finding nobody fixes is rejected with a reason, escalated or routed.
 
 ## 14. Names, not numbers
@@ -151,7 +151,7 @@ Every finding that survives reconciliation gets exactly one disposition.
 
 ## 15. Formats apply forward
 
-- These formats apply to specs written or substantively revised after you adopt them.
-- An older spec isn't a finding for its format alone. Review it for content.
+- These formats apply to docs written or substantively revised after you adopt them.
+- An older doc isn't a finding for its format alone. Review it for content.
 - When a format is your own practice and not the team's, review other people's tickets for content, never for format.
 - The SRS-and-SDD rule above the numbered sections is your practice. A colleague's ticket with no SDD is a format difference, not a finding.
