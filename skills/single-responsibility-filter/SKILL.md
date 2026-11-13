@@ -104,18 +104,18 @@ badly worded outcome. Report a rewording, not a split.
 Report, in this order:
 
 1. **Verdict**: *one ticket* or *split proposed*.
-2. **Findings**: for each one, quote the sentence or criterion verbatim, name the test it fails, and say why in a
-   sentence.
+2. **Findings**: for each one, quote the sentence or criterion verbatim, name the test it fails, and
+   write the finding: an observation and a question.
 3. **Proposed shape**: one line per resulting ticket, giving its one-sentence outcome, its
    acceptor and its work type. Mark which piece is the original ask, and say what each other
    piece needs before it is worth filing.
 4. **Questions for the owner**: anything the filter couldn't decide, such as who accepts a
    part or whether a part is wanted at all.
 
-The output headings above are the report's structure, and the proposals they ask for are
-this filter's job. The register of [R-guide §11 (Writing a finding)](../../guides/running-a-review.md#11-writing-a-finding) governs only how each finding's
-"why" is worded: an observation and a question, collaborative and terse. It doesn't
-remove the headings or the proposals.
+The labelled fields above (the quote, the test or pair, the outcome, the proposals) are this
+filter's report structure. The finding itself is written the way [R-guide §11 (Writing a finding)](../../guides/running-a-review.md#11-writing-a-finding)
+shapes one: an observation and a question, with the quote as the pointer. It doesn't explain
+or argue. §11's rules govern that text, not the headings or the proposals.
 
 On a clean draft, give the verdict and write "None." under every other heading, so a
 reader can tell each section was checked rather than skipped.

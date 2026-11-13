@@ -75,24 +75,28 @@ Give each finding exactly one outcome:
   depends on it.
 - **Defer to design**: the content is a how, and it belongs in the SDD or the code, not the
   ticket.
-- **Ask**: you can't tell which side of the pair the content is on, usually a design detail
-  that might be an owner's constraint. Put the question to the owner under *Questions for the
-  owner*. Don't defer it or keep it until they answer.
+- **Ask**: only the owner can settle it. Either it's unclear which side of a pair the content
+  is on (usually a design detail that might be an owner's constraint), or the draft leaves
+  operational work implied (pair 5) and nobody has said whether it's in scope. Put the question
+  under *Questions for the owner*, and don't defer, keep or add the content until they answer.
 
 ## Output
 
 1. **Verdict**: *separated* or *findings*.
 2. **Findings**: for each, quote the sentence or criterion verbatim, name the pair it crosses,
-   give the outcome, say where the content goes, and say why in a sentence.
+   give the outcome, say where the content goes, and write the finding: an observation and a
+   question. For content the draft leaves out (usually operational work under pair 5), write
+   *Missing:* and name what's missing instead of a quote.
 3. **Dependencies**: every piece of another owner's work the ticket relies on, with that
    owner named.
 4. **Questions for the owner**: open questions pulled out of the criteria, each with who
-   should answer it.
+   should answer it. If you can't tell who owns a question or a dependency, say so and ask
+   "who owns this?". Don't name a guess.
 
-The output headings above are the report's structure, and the proposals they ask for are
-this filter's job. The register of [R-guide §11 (Writing a finding)](../../guides/running-a-review.md#11-writing-a-finding) governs only how each finding's
-"why" is worded: an observation and a question, collaborative and terse. It doesn't
-remove the headings or the proposals.
+The labelled fields above (the quote, the test or pair, the outcome, the proposals) are this
+filter's report structure. The finding itself is written the way [R-guide §11 (Writing a finding)](../../guides/running-a-review.md#11-writing-a-finding)
+shapes one: an observation and a question, with the quote as the pointer. It doesn't explain
+or argue. §11's rules govern that text, not the headings or the proposals.
 
 On a clean draft, give the verdict and write "None." under every other heading, so a
 reader can tell each section was checked rather than skipped.

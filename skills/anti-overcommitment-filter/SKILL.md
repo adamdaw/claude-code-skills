@@ -30,7 +30,8 @@ It's the third of three refinement filters, run on each piece after the
 
 ## The tests
 
-Apply them to every acceptance criterion and every scope statement, in this order:
+Apply them to every commitment in the draft (acceptance criteria, scope statements and the
+implicit commitments described below), in this order:
 Needed, Ours, Knowable, Bounded. Report a line under the first test it fails, and give the
 outcome that test leads to. A line that isn't needed doesn't need bounding. If it fails a
 later test too, say so in the why.
@@ -60,8 +61,9 @@ separation of concerns finding, not a Knowable one. See *Which filter owns what*
    supported-browsers list" can be checked.
 
 Also check what the draft commits to *implicitly*. A date, an estimate, a performance number
-or a compatibility promise in the description binds just as much as one in the criteria, and
-often nobody has agreed to it.
+or a compatibility promise in the title or description binds just as much as one in the
+criteria, and often nobody has agreed to it. Test it like any other commitment: it's a finding
+with an outcome, and it counts toward the verdict.
 
 ## Outcomes
 
@@ -82,17 +84,18 @@ Give each finding exactly one outcome:
 
 1. **Verdict**: *committable* or *findings*.
 2. **Findings**: for each, quote the sentence or criterion verbatim, name the test it fails,
-   give the outcome and the proposed replacement wording if there is one, and say why in a
-   sentence. Name any later test it also fails in that sentence.
-3. **Implicit commitments**: dates, numbers and promises found outside the criteria, each
-   with who appears to have made it.
+   give the outcome and the proposed replacement wording if there is one, and write the
+   finding: an observation and a question. Name any later test it also fails in the
+   observation.
+3. **Implicit commitments**: the findings above that sit outside the criteria, listed again
+   with who appears to have made each one.
 4. **Proposed spikes and parked items**: one line each, unfiled.
 5. **Questions for the owner**: every bound or cut that is a business decision.
 
-The output headings above are the report's structure, and the proposals they ask for are
-this filter's job. The register of [R-guide §11 (Writing a finding)](../../guides/running-a-review.md#11-writing-a-finding) governs only how each finding's
-"why" is worded: an observation and a question, collaborative and terse. It doesn't
-remove the headings or the proposals.
+The labelled fields above (the quote, the test or pair, the outcome, the proposals) are this
+filter's report structure. The finding itself is written the way [R-guide §11 (Writing a finding)](../../guides/running-a-review.md#11-writing-a-finding)
+shapes one: an observation and a question, with the quote as the pointer. It doesn't explain
+or argue. §11's rules govern that text, not the headings or the proposals.
 
 On a clean draft, give the verdict and write "None." under every other heading, so a
 reader can tell each section was checked rather than skipped.
@@ -102,6 +105,8 @@ reader can tell each section was checked rather than skipped.
 - Report; don't act. Never edit or approve a ticket in the tracker, or commit to a date on anyone's behalf.
 - Cutting scope is a proposal, not a decision. The owner decides what's needed; the filter
   shows them what each line costs in commitment.
+- Don't invent work. Replacement wording, spikes and parked items may only use what the draft
+  and its source contain. A new idea goes under questions.
 - Don't replace an overcommitment with a different one. A narrowed criterion must still be
   something the team can check and deliver.
 - Doing less is a legitimate result. A draft that comes out of this filter as a smaller ticket
