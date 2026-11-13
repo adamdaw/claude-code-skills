@@ -34,7 +34,7 @@ Apply them to every commitment in the draft (acceptance criteria, scope statemen
 implicit commitments described below), in this order:
 Needed, Ours, Knowable, Bounded. Report a line under the first test it fails, and give the
 outcome that test leads to. A line that isn't needed doesn't need bounding. If it fails a
-later test too, say so in the why.
+later test too, name that test in the finding's observation.
 
 Some content belongs to another filter. An open question written as a criterion is a
 separation of concerns finding, not a Knowable one. See *Which filter owns what* in the
