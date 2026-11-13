@@ -26,6 +26,22 @@ way, approval is the gate these filters feed. It is the first of three filters:
    only what is known, needed and deliverable?
 
 Run them in that order. Splitting first means the later filters judge each piece on its own.
+
+### Which filter owns what
+
+Some content could be caught by more than one filter. Report it under the one that owns it:
+
+- **Another owner's work that delivers value on its own** (a report another team accepts, a
+  vendor review with its own timing) is a split here.
+- **Another owner's work this outcome needs** (a production rollout, a vendor action, a
+  stakeholder's decision) isn't a split, because it fails the over-split check below. The
+  separation of concerns filter routes it. If the draft states it as a commitment, the
+  anti-overcommitment filter also marks it as a dependency.
+- **An open question written as a criterion** belongs to the separation of concerns filter,
+  not to anti-overcommitment's Knowable test.
+- **A draft that replaces the ask instead of adding to it** passes this filter, because it
+  is still one outcome. The anti-overcommitment filter's Needed test catches it.
+
 None of them replaces [`spec-review`](../spec-review/SKILL.md), which comes later and judges
 whether a finished spec is fit to build from.
 
@@ -47,7 +63,9 @@ Apply each test to the draft. Any one that fails is a finding.
 2. **Independent value.** If one part were dropped or delayed, would the rest still deliver
    something the owner wants? If yes, the parts are separate tickets.
 3. **One acceptor.** Who says it's done? Two different people, teams or roles accepting
-   different parts means two tickets.
+   different parts means two tickets. *Different parts* means outcomes that could each be
+   delivered alone. Several people signing off on aspects of one outcome (Design accepts the
+   look, the product owner accepts the whole) is one outcome with a sign-off list, not a split.
 4. **One work type.** A defect fix and a new capability are different work, judged
    differently. A bug ticket fixes the observed defect. A second defect it reveals, or the
    feature it suggests, is its own ticket.
@@ -90,8 +108,13 @@ Report, in this order:
 4. **Questions for the owner**: anything the filter couldn't decide, such as who accepts a
    part or whether a part is wanted at all.
 
-Write findings in the register of [R-guide §11 (Writing a finding)](../../guides/running-a-review.md#11-writing-a-finding):
-collaborative, inquisitive, terse.
+The output headings above are the report's structure, and the proposals they ask for are
+this filter's job. The register of [R-guide §11 (Writing a finding)](../../guides/running-a-review.md#11-writing-a-finding) governs only how each finding's
+"why" is worded: an observation and a question, collaborative and terse. It doesn't
+remove the headings or the proposals.
+
+On a clean draft, give the verdict and write "None." under every other heading, so a
+reader can tell each section was checked rather than skipped.
 
 ## Rules
 

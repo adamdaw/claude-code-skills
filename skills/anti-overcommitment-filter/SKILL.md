@@ -30,24 +30,31 @@ It's the third of three refinement filters, run on each piece after the
 
 ## The tests
 
-Apply all four to every acceptance criterion and every scope statement.
+Apply them to every acceptance criterion and every scope statement, in this order:
+Needed, Ours, Knowable, Bounded. Report a line under the first test it fails, and give the
+outcome that test leads to. A line that isn't needed doesn't need bounding. If it fails a
+later test too, say so in the why.
+
+Some content belongs to another filter. An open question written as a criterion is a
+separation of concerns finding, not a Knowable one. See *Which filter owns what* in the
+[single responsibility filter](../single-responsibility-filter/SKILL.md).
 
 1. **Needed.** Does it trace to something the source asked for? Extra polish, extra options,
    configurability "for later", future-proofing and "while we're at it" fail this test.
    A bug ticket commits to fixing the observed defect. A wider rewrite is a separate request
    that somebody has to make.
-2. **Knowable.** Could someone tell today whether it's achievable, and roughly what it costs?
+2. **Ours.** Can the team that owns this ticket deliver it alone? A criterion that's met only
+   if another team ships, a vendor responds or a stakeholder approves is a dependency, not a
+   commitment. Name it as one.
+3. **Knowable.** Could someone tell today whether it's achievable, and roughly what it costs?
    If the answer depends on an investigation nobody has done (an unknown root cause, an
    untested integration, an unmeasured baseline), the investigation is the work. Commit to
    that, not to its result.
-3. **Bounded.** Is there a stated edge? Look for unbounded words: *all*, *any*, *every*,
+4. **Bounded.** Is there a stated edge? Look for unbounded words: *all*, *any*, *every*,
    *always*, *never*, *fully*, *seamless*, *real-time*, *robust*, *support*, *handle*,
    *integrate with*, *improve*. Each needs a named set, a number or an observable outcome.
    "Support all browsers" commits to nothing checkable. "Works in the browsers on the
    supported-browsers list" can be checked.
-4. **Ours.** Can the team that owns this ticket deliver it alone? A criterion that's met only
-   if another team ships, a vendor responds or a stakeholder approves is a dependency, not a
-   commitment. Name it as one.
 
 Also check what the draft commits to *implicitly*. A date, an estimate, a performance number
 or a compatibility promise in the description binds just as much as one in the criteria, and
@@ -57,13 +64,15 @@ often nobody has agreed to it.
 
 Give each finding exactly one outcome:
 
-- **Cut**: not needed. Remove it. If it's a real idea, park it.
-- **Narrow**: needed but unbounded. Propose the bound, phrased as a question to the owner
+- **Cut** (from Needed): not needed, and nothing in it is worth keeping. Remove it.
+- **Narrow** (from Bounded): needed but unbounded. Propose the bound, phrased as a question to the owner
   if the bound is a business decision.
-- **Spike**: not knowable yet. Propose a separate, time-boxed discovery ticket that answers a
+- **Spike** (from Knowable): not knowable yet. Propose a separate, time-boxed discovery ticket that answers a
   named question. This ticket waits on the answer or commits only to what doesn't depend on it.
-- **Depend**: not ours. Restate it as a named dependency with an owner.
-- **Park**: a good idea that isn't part of this need. Propose a follow-up ticket, unfiled,
+- **Depend** (from Ours): not ours. Restate it as a named dependency with an owner.
+- **Park** (from Needed): not needed for this ask, but a real idea someone may want. Use
+  *Park*, not *Cut*, whenever the line describes something a user or owner could plausibly ask
+  for on its own. Propose a follow-up ticket, unfiled,
   for the owner to decide on.
 
 ## Output
@@ -76,7 +85,13 @@ Give each finding exactly one outcome:
 4. **Proposed spikes and parked items**: one line each, unfiled.
 5. **Questions for the owner**: every bound or cut that is a business decision.
 
-Use the register of [R-guide §11 (Writing a finding)](../../guides/running-a-review.md#11-writing-a-finding).
+The output headings above are the report's structure, and the proposals they ask for are
+this filter's job. The register of [R-guide §11 (Writing a finding)](../../guides/running-a-review.md#11-writing-a-finding) governs only how each finding's
+"why" is worded: an observation and a question, collaborative and terse. It doesn't
+remove the headings or the proposals.
+
+On a clean draft, give the verdict and write "None." under every other heading, so a
+reader can tell each section was checked rather than skipped.
 
 ## Rules
 

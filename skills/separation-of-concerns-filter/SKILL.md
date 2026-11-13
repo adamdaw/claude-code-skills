@@ -22,6 +22,9 @@ on each piece separately, and before the
 [anti-overcommitment filter](../anti-overcommitment-filter/SKILL.md). All three run before the ticket is
 approved, and before [`spec-review`](../spec-review/SKILL.md).
 
+When content could belong to more than one filter, see *Which filter owns what* in the
+[single responsibility filter](../single-responsibility-filter/SKILL.md).
+
 ## Input
 
 - The draft work item, already through the single responsibility filter.
@@ -33,8 +36,9 @@ Check each pair. Content on the wrong side of a pair is a finding.
 
 1. **Need vs design.** The ticket states what must be true, not how to build it. "Users can
    export their invoices" is a need. "Add a CSV button that calls the reports API" is a design.
-   A design detail is fine only if it's a real constraint the owner imposed; if so, say so and
-   name who imposed it. Otherwise it goes to design. ([S-guide §1](../../guides/specifying.md#1-write-requirements-with-shall-stated-positively):
+   A design detail is fine if it's a real constraint the owner imposed. A constraint that
+   already names who imposed it is not a finding. One that doesn't is a finding with the
+   outcome *Ask*. Otherwise it goes to design. ([S-guide §1](../../guides/specifying.md#1-write-requirements-with-shall-stated-positively):
    state the need, not the design.)
 2. **Requirement vs rationale.** Why the work matters, how the problem was found and what was
    tried before are useful, but they don't bind anything. Keep them in a clearly non-binding
@@ -69,8 +73,9 @@ Give each finding exactly one outcome:
   depends on it.
 - **Defer to design**: the content is a how, and it belongs in the SDD or the code, not the
   ticket.
-- **Keep, labelled**: it's a genuine constraint or a deliberate choice. Keep it, and record who
-  made it.
+- **Ask**: you can't tell which side of the pair the content is on, usually a design detail
+  that might be an owner's constraint. Put the question to the owner under *Questions for the
+  owner*. Don't defer it or keep it until they answer.
 
 ## Output
 
@@ -82,12 +87,18 @@ Give each finding exactly one outcome:
 4. **Questions for the owner**: open questions pulled out of the criteria, each with who
    should answer it.
 
-Use the register of [R-guide §11 (Writing a finding)](../../guides/running-a-review.md#11-writing-a-finding).
+The output headings above are the report's structure, and the proposals they ask for are
+this filter's job. The register of [R-guide §11 (Writing a finding)](../../guides/running-a-review.md#11-writing-a-finding) governs only how each finding's
+"why" is worded: an observation and a question, collaborative and terse. It doesn't
+remove the headings or the proposals.
+
+On a clean draft, give the verdict and write "None." under every other heading, so a
+reader can tell each section was checked rather than skipped.
 
 ## Rules
 
 - Report; don't act. Never edit or approve a ticket in the tracker.
 - Moving content must not change its meaning. If separating a line would change what it
   commits to, ask the owner rather than rewording it.
-- A design choice the owner made deliberately isn't a finding just because it's a how. Ask
-  whether it's a constraint before you defer it.
+- A design choice the owner made deliberately isn't a finding just because it's a how. If
+  the draft doesn't say whether it's a constraint, the outcome is *Ask*, not *Defer to design*.
