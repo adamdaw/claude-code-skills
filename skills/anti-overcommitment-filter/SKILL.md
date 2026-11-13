@@ -1,6 +1,6 @@
 ---
 name: anti-overcommitment-filter
-description: Use when refining a business request, a bug report, or derived work into a ticket, before it's committed to (triggers "anti-overcommitment filter", "overcommitment filter", "are we promising too much", "scope check", "gold-plating"). Checks that each commitment in the draft is needed, knowable now, bounded, and within the owner's control, and proposes cutting, narrowing, spiking or parking the rest. Reports; never edits the tracker.
+description: Use when refining a business request, a bug report, or derived work into an actionable ticket, before the ticket is approved (triggers "anti-overcommitment filter", "overcommitment filter", "are we promising too much", "scope check", "gold-plating"). Checks that each commitment in the draft is needed, knowable now, bounded, and within the owner's control, and proposes cutting, narrowing, spiking or parking the rest. Reports; never edits the tracker.
 license: MIT
 ---
 
@@ -20,8 +20,7 @@ surface.)
 
 It's the third of three refinement filters, run on each piece after the
 [single responsibility](../single-responsibility-filter/SKILL.md) and
-[separation of concerns](../separation-of-concerns-filter/SKILL.md) filters, and before
-[`spec-review`](../spec-review/SKILL.md).
+[separation of concerns](../separation-of-concerns-filter/SKILL.md) filters, before the ticket is approved and before [`spec-review`](../spec-review/SKILL.md).
 
 ## Input
 
@@ -81,7 +80,7 @@ Use the register of [R-guide §11 (Writing a finding)](../../guides/running-a-re
 
 ## Rules
 
-- Report; don't file. Never edit the tracker or commit to a date on anyone's behalf.
+- Report; don't act. Never edit or approve a ticket in the tracker, or commit to a date on anyone's behalf.
 - Cutting scope is a proposal, not a decision. The owner decides what's needed; the filter
   shows them what each line costs in commitment.
 - Don't replace an overcommitment with a different one. A narrowed criterion must still be

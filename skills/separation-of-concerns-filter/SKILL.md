@@ -1,6 +1,6 @@
 ---
 name: separation-of-concerns-filter
-description: Use when refining a business request, a bug report, or derived work into a ticket, and the draft mixes kinds of content (triggers "separation of concerns filter", "SoC filter", "this ticket is tangled", "need vs design"). Checks that need is kept apart from design, requirement from rationale, commitment from open question, and one owner's work from another's. Proposes where each misplaced piece belongs. Reports; never edits the tracker.
+description: Use when refining a business request, a bug report, or derived work into an actionable ticket, before the ticket is approved, and the draft mixes kinds of content (triggers "separation of concerns filter", "SoC filter", "this ticket is tangled", "need vs design"). Checks that need is kept apart from design, requirement from rationale, commitment from open question, and one owner's work from another's. Proposes where each misplaced piece belongs. Reports; never edits the tracker.
 license: MIT
 ---
 
@@ -19,8 +19,8 @@ times. If they're mixed, a reviewer can't tell which lines are binding.
 
 It's the second of three refinement filters. Run it after the single responsibility filter,
 on each piece separately, and before the
-[anti-overcommitment filter](../anti-overcommitment-filter/SKILL.md). All three run before
-[`spec-review`](../spec-review/SKILL.md).
+[anti-overcommitment filter](../anti-overcommitment-filter/SKILL.md). All three run before the ticket is
+approved, and before [`spec-review`](../spec-review/SKILL.md).
 
 ## Input
 
@@ -86,7 +86,7 @@ Use the register of [R-guide §11 (Writing a finding)](../../guides/running-a-re
 
 ## Rules
 
-- Report; don't file. Never edit the tracker.
+- Report; don't act. Never edit or approve a ticket in the tracker.
 - Moving content must not change its meaning. If separating a line would change what it
   commits to, ask the owner rather than rewording it.
 - A design choice the owner made deliberately isn't a finding just because it's a how. Ask

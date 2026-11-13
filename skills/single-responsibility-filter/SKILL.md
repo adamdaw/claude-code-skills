@@ -1,6 +1,6 @@
 ---
 name: single-responsibility-filter
-description: Use when refining a business request, a bug report, or derived work into a ticket, and the draft may be carrying more than one piece of work (triggers "single responsibility filter", "is this one ticket", "should this be split", "SRP filter"). Checks that the draft has one outcome, accepted by one owner, and proposes splits where it doesn't. Reports; never edits the tracker.
+description: Use when refining a business request, a bug report, or derived work into an actionable ticket, before the ticket is approved, and the draft may be carrying more than one piece of work (triggers "single responsibility filter", "is this one ticket", "should this be split", "SRP filter"). Checks that the draft has one outcome, accepted by one owner, and proposes splits where it doesn't. Reports; never edits the tracker.
 license: MIT
 ---
 
@@ -15,8 +15,9 @@ one reason to change. A ticket should have one reason to be done.
 
 ## Where it sits
 
-Run it while a request is being refined into a ticket, before the SRS is reviewed. It is the
-first of three filters:
+Run it while a request is being refined, before the ticket is approved. The draft may be text
+that hasn't been filed yet or a ticket already in the tracker in a pre-approval state; either
+way, approval is the gate these filters feed. It is the first of three filters:
 
 1. **Single responsibility** (this one): how many pieces of work are here?
 2. [**Separation of concerns**](../separation-of-concerns-filter/SKILL.md): within each piece,
@@ -94,7 +95,8 @@ collaborative, inquisitive, terse.
 
 ## Rules
 
-- Report; don't file. Never create, edit or close a ticket in the tracker. The human does that.
+- Report; don't act. Never create, edit, close or approve a ticket in the tracker. The human
+  does that.
 - Don't invent work. A split may only redistribute what the draft and its source already
   contain. A new idea goes under questions, not into a proposed ticket.
 - Whether a split piece is wanted at all is the owner's call. Ask; don't decide.
