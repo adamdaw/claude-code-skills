@@ -37,8 +37,10 @@ Check each pair. Content on the wrong side of a pair is a finding.
 1. **Need vs design.** The ticket states what must be true, not how to build it. "Users can
    export their invoices" is a need. "Add a CSV button that calls the reports API" is a design.
    A design detail is fine if it's a real constraint the owner imposed. A constraint that
-   already names who imposed it is not a finding. One that doesn't is a finding with the
-   outcome *Ask*. Otherwise it goes to design. ([S-guide §1](../../guides/specifying.md#1-write-requirements-with-shall-stated-positively):
+   already names who imposed it is not a finding. A detail that could plausibly be an owner's
+   constraint (a named vendor, a mandated method, a regulatory form) but doesn't say who imposed
+   it is a finding with the outcome *Ask*. Pure internal mechanics (a table, a field, a
+   library call) go to design. ([S-guide §1](../../guides/specifying.md#1-write-requirements-with-shall-stated-positively):
    state the need, not the design.)
 2. **Requirement vs rationale.** Why the work matters, how the problem was found and what was
    tried before are useful, but they don't bind anything. Keep them in a clearly non-binding
@@ -80,8 +82,8 @@ Give each finding exactly one outcome:
 ## Output
 
 1. **Verdict**: *separated* or *findings*.
-2. **Findings**: for each, quote the line, name the pair it crosses, give the outcome, and say
-   where the content goes.
+2. **Findings**: for each, quote the sentence or criterion verbatim, name the pair it crosses,
+   give the outcome, say where the content goes, and say why in a sentence.
 3. **Dependencies**: every piece of another owner's work the ticket relies on, with that
    owner named.
 4. **Questions for the owner**: open questions pulled out of the criteria, each with who
@@ -101,4 +103,5 @@ reader can tell each section was checked rather than skipped.
 - Moving content must not change its meaning. If separating a line would change what it
   commits to, ask the owner rather than rewording it.
 - A design choice the owner made deliberately isn't a finding just because it's a how. If
-  the draft doesn't say whether it's a constraint, the outcome is *Ask*, not *Defer to design*.
+  the detail could plausibly be a constraint and the draft doesn't say, the outcome is *Ask*,
+  not *Defer to design*.

@@ -41,6 +41,9 @@ separation of concerns finding, not a Knowable one. See *Which filter owns what*
 
 1. **Needed.** Does it trace to something the source asked for? Extra polish, extra options,
    configurability "for later", future-proofing and "while we're at it" fail this test.
+   Trace each criterion, not just its topic. A criterion that serves a traced need but adds a
+   capability the source didn't ask for (a new format, a new access path, a new audience) is
+   untraced for that addition.
    A bug ticket commits to fixing the observed defect. A wider rewrite is a separate request
    that somebody has to make.
 2. **Ours.** Can the team that owns this ticket deliver it alone? A criterion that's met only
@@ -78,8 +81,9 @@ Give each finding exactly one outcome:
 ## Output
 
 1. **Verdict**: *committable* or *findings*.
-2. **Findings**: for each, quote the line, name the test it fails, give the outcome and the
-   proposed replacement wording, if there is one.
+2. **Findings**: for each, quote the sentence or criterion verbatim, name the test it fails,
+   give the outcome and the proposed replacement wording if there is one, and say why in a
+   sentence. Name any later test it also fails in that sentence.
 3. **Implicit commitments**: dates, numbers and promises found outside the criteria, each
    with who appears to have made it.
 4. **Proposed spikes and parked items**: one line each, unfiled.

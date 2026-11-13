@@ -31,16 +31,20 @@ Run them in that order. Splitting first means the later filters judge each piece
 
 Some content could be caught by more than one filter. Report it under the one that owns it:
 
-- **Another owner's work that delivers value on its own** (a report another team accepts, a
-  vendor review with its own timing) is a split here.
+- **Another internal owner's work that delivers value on its own** (a report another team
+  accepts) is a split here.
 - **Another owner's work this outcome needs** (a production rollout, a vendor action, a
-  stakeholder's decision) isn't a split, because it fails the over-split check below. The
+  stakeholder's decision) isn't a split, because it fails the over-split check below. Nor is work an outside vendor
+  or customer must do, even when it has its own timing: nobody outside can accept a ticket. The
   separation of concerns filter routes it. If the draft states it as a commitment, the
   anti-overcommitment filter also marks it as a dependency.
 - **An open question written as a criterion** belongs to the separation of concerns filter,
   not to anti-overcommitment's Knowable test.
 - **A draft that replaces the ask instead of adding to it** passes this filter, because it
   is still one outcome. The anti-overcommitment filter's Needed test catches it.
+- **A second outcome added to the ask** is a split here. If the anti-overcommitment filter
+  runs on the unsplit draft, its Needed test will also flag the added part. That overlap is
+  expected; in the normal order the split has already happened.
 
 None of them replaces [`spec-review`](../spec-review/SKILL.md), which comes later and judges
 whether a finished spec is fit to build from.
@@ -100,7 +104,7 @@ badly worded outcome. Report a rewording, not a split.
 Report, in this order:
 
 1. **Verdict**: *one ticket* or *split proposed*.
-2. **Findings**: for each one, quote the line, name the test it fails, and say why in a
+2. **Findings**: for each one, quote the sentence or criterion verbatim, name the test it fails, and say why in a
    sentence.
 3. **Proposed shape**: one line per resulting ticket, giving its one-sentence outcome, its
    acceptor and its work type. Mark which piece is the original ask, and say what each other
