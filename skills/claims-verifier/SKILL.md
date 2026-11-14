@@ -1,7 +1,7 @@
 ---
 name: claims-verifier
 description: Run a cold adversarial pass over a document's claims. Use when a piece of writing needs its assertions torn at before it ships — "verify the claims", "claims check", "try to refute this", "adversarial claims review" — and before publishing anything that carries facts, statistics, or an argument chain. Spawns a fresh subagent that attempts to refute every factual and logical claim against the document's own evidence, verdicts each, and never edits. Not for code (senior-code-review's job), not for a work-item issue reviewed as a spec (spec-review's job), and not for opinion pieces that assert nothing.
-allowed-tools: Bash, Read, Grep, Edit, Write, Agent
+allowed-tools: Bash Read Grep Edit Write Agent
 license: MIT
 ---
 

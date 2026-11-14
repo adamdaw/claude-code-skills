@@ -1,7 +1,7 @@
 ---
 name: spec-review
 description: Run a cold Gate-1 spec review against a GitHub work-item issue. Use when a GH issue body needs reviewing AS A SPEC (not as code, not as a build request) — "spec review", "Gate 1", "review the issue as a spec", "/spec-review <issue>". Spawns a fresh subagent that reads only the published issue, reports findings, and never implements.
-allowed-tools: Bash, Read, Grep, Glob, Write, Agent
+allowed-tools: Bash Read Grep Glob Write Agent
 license: MIT
 ---
 
