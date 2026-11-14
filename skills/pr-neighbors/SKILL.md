@@ -1,7 +1,7 @@
 ---
 name: pr-neighbors
 description: Use when opening, reviewing, or rebasing a pull request and you want to know what else is in flight against the same code — "what else touches this", "what PRs relate to this one", "will anything conflict", "am I stale". Finds the PRs that impact or are impacted by one PR, including PRs that share no files with it, via a code graph. Splits merged hits into ones your branch lacks and ones that are context. Reports only; changes nothing.
-allowed-tools: Bash, Read, Grep, Glob
+allowed-tools: Bash Read Grep Glob
 license: MIT
 ---
 

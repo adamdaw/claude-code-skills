@@ -1,7 +1,7 @@
 ---
 name: brevity-enforcer
 description: Use when someone points at a named durable doc (ADR, spec, plan, design doc, runbook, GH issue body) and says it is too long, over the page cap, bloated, or asks to cut it down, trim it, or fit it in 12 pages — and before publishing any ADR, so the length check happens ahead of review. Enforces the 12-page ceiling and per-section targets without softening an RFC 2119 keyword or flipping the register. Not for PR review comments or chat replies, and not for docs nobody asked about.
-allowed-tools: Bash, Read, Edit, Grep, Glob
+allowed-tools: Bash Read Edit Grep Glob
 license: MIT
 ---
 
